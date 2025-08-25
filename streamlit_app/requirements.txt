@@ -1,0 +1,41 @@
+# Requirements for REINVENT4 Streamlit Web Application
+
+# Core web framework
+streamlit>=1.28.0
+
+# Data manipulation and analysis
+pandas>=2.0.0
+numpy>=1.21.0
+
+# Visualization
+plotly>=5.15.0
+matplotlib>=3.7.0
+
+# Chemistry and molecules
+rdkit>=2021.0
+molvs>=0.1.1
+
+# Scientific computing
+scipy>=1.9.0
+
+# Configuration and serialization
+toml>=0.10.2
+pyyaml>=6.0
+python-dotenv>=1.0.0
+
+# Machine learning (optional - already in REINVENT4)
+torch>=2.0.0
+tensorboard>=2.0.0
+
+# Utilities
+tqdm>=4.64.0
+requests>=2.28.0
+
+# Development and testing
+pytest>=7.0.0
+
+# Image processing (for molecular structure display)
+pillow>=10.0.0
+
+# Additional chemistry tools
+descriptastorus>=2.6.1

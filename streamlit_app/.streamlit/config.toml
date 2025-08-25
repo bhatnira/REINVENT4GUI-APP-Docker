@@ -1,0 +1,81 @@
+[global]
+
+# If false, will attempt to open a browser window on start.
+developmentMode = false
+
+[logger]
+
+# Level of logging: 'error', 'warning', 'info', or 'debug'.
+level = "info"
+
+[client]
+
+# Whether to enable telemetry.
+gatherUsageStats = false
+
+# Configure the ability to share apps to the cloud.
+showErrorDetails = true
+
+[server]
+
+# List of folders that should not be watched for changes.
+folderWatchBlacklist = ['*.pyc', '.git', '__pycache__', '.streamlit']
+
+# Change the type of file watcher used by Streamlit, or turn it off completely.
+fileWatcherType = "auto"
+
+# Symmetric key used to produce signed cookies. If deploying on multiple replicas, this should be set to the same value across all replicas to ensure they all share the same secret.
+# cookieSecret = "your-secret-key"
+
+# If false, will attempt to open a browser window on start.
+headless = false
+
+# Automatically rerun script when the file is modified.
+runOnSave = true
+
+# The address where the server will listen for client and browser connections.
+address = "localhost"
+
+# The port where the server will listen for client and browser connections.
+port = 8502
+
+# Enables support for Cross-Origin requests
+enableCORS = false
+
+# Enables support for Cross-Origin Resource Sharing (CORS) for WebSocket connections.
+enableWebsocketCompression = false
+
+[browser]
+
+# Internet address where users should point their browsers in order to connect to the app.
+serverAddress = "localhost"
+
+# Whether to send usage statistics to Streamlit.
+gatherUsageStats = false
+
+[mapbox]
+
+# Configure Mapbox token for map displays
+# token = "your-mapbox-token"
+
+[deprecation]
+
+# Set to false to disable the deprecation warning for st.pyplot().
+showPyplotGlobalUse = false
+
+[theme]
+
+# Primary accent color for interactive elements.
+primaryColor = "#1f77b4"
+
+# Background color for the main content area.
+backgroundColor = "#ffffff"
+
+# Background color used for the sidebar and most interactive widgets.
+secondaryBackgroundColor = "#f0f2f6"
+
+# Color used for almost all text.
+textColor = "#262730"
+
+# Font family for all text in the app.
+font = "sans serif"
