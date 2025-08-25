@@ -183,16 +183,6 @@ If you use GenChem in your research, please cite both this GUI and the original 
 }
 ```
 
-### GenChem GUI (Optional)
-```bibtex
-@software{genchem_gui,
-  title={GenChem: A GUI Interface for REINVENT4 Molecular Design},
-  author={[Your Name]},
-  year={2025},
-  url={https://github.com/your-username/genchem-gui},
-  note={Built on REINVENT4 by MolecularAI}
-}
-```
 
 ## Support
 
