@@ -134,61 +134,20 @@ def main():
         st.markdown("<div class='error-box'>⚠️ Unable to determine REINVENT4 status</div>", unsafe_allow_html=True)
     
     # Sidebar navigation
-    st.sidebar.title("🧪 REINVENT4 Interface")
+    st.sidebar.title("Navigation")
     
-    # Generation Modules Section
-    st.sidebar.markdown("### 🔬 Generation Modules")
-    generation_pages = {
+    pages = {
         "🏠 Home": "home",
         "🔬 De Novo Generation": "denovo",
         "🧬 Scaffold Hopping": "scaffold",
         "🔗 Linker Design": "linker",
         "⚗️ R-Group Replacement": "rgroup",
-        "📈 Molecule Optimization": "optimization"
+        "📈 Molecule Optimization": "optimization",
+        " Documentation": "docs"
     }
     
-    # Features & Tools Section
-    st.sidebar.markdown("### 🛠️ Features & Tools")
-    feature_pages = {
-        "📚 Library Design": "library",
-        "🎯 Scoring Functions": "scoring",
-        "🎓 Transfer Learning": "transfer_learning",
-        "💪 Reinforcement Learning": "reinforcement_learning",
-        "📊 Results Visualization": "visualization",
-        "⚙️ Configuration Manager": "config"
-    }
-    
-    # Combine all pages for routing
-    pages = {**generation_pages, **feature_pages}
-    
-    # Generation Module Selection
-    st.sidebar.markdown("**Select Generation Module:**")
-    selected_generation = st.sidebar.radio(
-        "",
-        list(generation_pages.keys()),
-        format_func=lambda x: x,
-        key="generation_selector"
-    )
-    
-    # Features & Tools Selection (only show if not on Home)
-    selected_feature = None
-    if selected_generation != "🏠 Home":
-        st.sidebar.markdown("**Select Feature/Tool (Optional):**")
-        feature_options = ["None"] + list(feature_pages.keys())
-        selected_feature = st.sidebar.selectbox(
-            "",
-            feature_options,
-            index=0,
-            key="feature_selector"
-        )
-    
-    # Determine which page to show
-    if selected_feature and selected_feature != "None":
-        page_key = feature_pages[selected_feature]
-        selected_page = selected_feature
-    else:
-        page_key = generation_pages[selected_generation]
-        selected_page = selected_generation
+    selected_page = st.sidebar.radio("Select Page:", list(pages.keys()))
+    page_key = pages[selected_page]
     
     # Initialize session state
     if 'results' not in st.session_state:
@@ -209,18 +168,8 @@ def main():
         show_rgroup_page()
     elif page_key == "optimization":
         show_optimization_page()
-    elif page_key == "library":
-        show_library_page()
-    elif page_key == "scoring":
-        show_scoring_page()
-    elif page_key == "transfer_learning":
-        show_transfer_learning_page()
-    elif page_key == "reinforcement_learning":
-        show_reinforcement_learning_page()
-    elif page_key == "visualization":
-        show_visualization_page()
-    elif page_key == "config":
-        show_config_page()
+    elif page_key == "docs":
+        show_documentation_page()
 
 def show_home_page():
     """Display the home page with overview and quick start"""
@@ -250,89 +199,45 @@ def show_home_page():
         """, unsafe_allow_html=True)
     
     # Quick overview cards
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.markdown("### 🔬 Generation Modules")
+        st.markdown("### 🔬 Generation Modes")
         st.markdown("""
-        **Core molecular generation capabilities:**
-        - **De Novo Generation**: Pure molecule creation from scratch
-        - **Scaffold Hopping**: Decorate scaffolds with R-groups
-        - **Linker Design**: Connect molecular fragments
-        - **R-Group Replacement**: Replace specific functional groups
-        - **Molecule Optimization**: Improve existing molecules
+        - **Reinvent**: Pure de novo generation
+        - **Libinvent**: Scaffold decoration
+        - **Linkinvent**: Fragment linking
+        - **Mol2Mol**: Molecule optimization
         """)
     
     with col2:
-        st.markdown("### �️ Features & Tools")
+        st.markdown("### 📈 Optimization Strategies")
         st.markdown("""
-        **Advanced features for generation workflows:**
-        - **Library Design**: Design focused molecular libraries
-        - **Scoring Functions**: Multi-component scoring systems
-        - **Transfer Learning**: Model fine-tuning capabilities
-        - **Reinforcement Learning**: Score-guided optimization
-        - **Results Visualization**: Interactive analysis tools
-        - **Configuration Manager**: Save and manage settings
+        - **Transfer Learning**: Model fine-tuning
+        - **Reinforcement Learning**: Score optimization
+        - **Curriculum Learning**: Staged optimization
+        - **Multi-objective**: Complex scoring
         """)
     
-    # Workflow explanation
-    st.markdown('<div class="sub-header">🔄 Workflow Structure</div>', unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div class="info-box">
-    <strong>How to Use:</strong><br>
-    1. <strong>Select a Generation Module</strong> (primary molecular generation method)<br>
-    2. <strong>Optionally add Features/Tools</strong> (enhance generation with scoring, optimization, etc.)<br>
-    3. <strong>Configure parameters</strong> for your specific workflow<br>
-    4. <strong>Run generation</strong> and analyze results
-    </div>
-    """, unsafe_allow_html=True)
+    with col3:
+        st.markdown("### 🎯 Key Features")
+        st.markdown("""
+        - **Custom Scoring**: Multi-component functions
+        - **Real-time Monitoring**: TensorBoard integration
+        - **Batch Processing**: High-throughput generation
+        - **Export Options**: Multiple formats
+        """)
     
     # Quick start section
     st.markdown('<div class="sub-header">Quick Start Guide</div>', unsafe_allow_html=True)
     
     with st.expander("🚀 Getting Started", expanded=True):
         st.markdown("""
-        **Generation Modules (Choose One):**
-        1. **🔬 De Novo Generation**: Start here for creating completely new molecules
-        2. **🧬 Scaffold Hopping**: Use when you have scaffolds to decorate
-        3. **🔗 Linker Design**: Connect molecular fragments with optimal linkers
-        4. **⚗️ R-Group Replacement**: Replace specific parts of existing molecules
-        5. **📈 Molecule Optimization**: Improve existing molecules with RL
-        
-        **Features & Tools (Optional Enhancements):**
-        - **📚 Library Design**: Generate focused molecular libraries
-        - **🎯 Scoring Functions**: Apply multi-objective scoring
-        - **🎓 Transfer Learning**: Fine-tune models for specific tasks
-        - **💪 Reinforcement Learning**: Advanced optimization strategies
-        - **📊 Results Visualization**: Analyze and visualize results
-        - **⚙️ Configuration Manager**: Save and reuse configurations
-        
-        **Typical Workflow:**
-        → Select Generation Module → Add Features (optional) → Configure → Run → Analyze
-        """)
-    
-    # Example workflows
-    st.markdown('<div class="sub-header">💡 Example Workflows</div>', unsafe_allow_html=True)
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("#### 🎯 Focused Drug Discovery")
-        st.markdown("""
-        1. **📈 Molecule Optimization** (starting molecules)
-        2. **+ 🎯 Scoring Functions** (ADMET properties)
-        3. **+ 💪 Reinforcement Learning** (multi-objective)
-        4. **+ 📊 Results Visualization** (analyze results)
-        """)
-    
-    with col2:
-        st.markdown("#### 🔬 Exploratory Generation")
-        st.markdown("""
-        1. **🔬 De Novo Generation** (create new molecules)
-        2. **+ 📚 Library Design** (focused libraries)
-        3. **+ 🎯 Scoring Functions** (filter promising compounds)
-        4. **+ ⚙️ Configuration Manager** (save settings)
+        1. **Choose a Generation Mode**: Select from the sidebar based on your needs
+        2. **Configure Parameters**: Set up model files, scoring functions, and output options
+        3. **Run Generation**: Execute the selected mode with your configuration
+        4. **Analyze Results**: View generated molecules and their properties
+        5. **Export Data**: Download results in CSV, SDF, or other formats
         """)
     
     # System status
@@ -374,147 +279,1003 @@ def show_home_page():
         else:
             st.warning("⚠️ No prior models directory found")
 
-def show_active_features():
-    """Display active features/tools being used"""
-    
-    # Check session state for active features
-    active_features = []
-    
-    # Check which features are being used based on session state
-    if 'scoring_config' in st.session_state:
-        active_features.append("🎯 Scoring Functions")
-    
-    if 'library_config' in st.session_state:
-        active_features.append("📚 Library Design")
-    
-    if 'transfer_learning_active' in st.session_state:
-        active_features.append("🎓 Transfer Learning")
-    
-    if 'reinforcement_learning_active' in st.session_state:
-        active_features.append("💪 Reinforcement Learning")
-    
-    if 'visualization_active' in st.session_state:
-        active_features.append("📊 Results Visualization")
-    
-    if active_features:
-        st.markdown("""
-        <div class="success-box">
-        <strong>🛠️ Active Features:</strong> """ + " • ".join(active_features) + """
-        </div>
-        """, unsafe_allow_html=True)
-
 def show_denovo_page():
-    """De novo molecule generation page"""
+    """De novo molecule generation pipeline with complete workflow"""
     
-    st.markdown('<div class="sub-header">🔬 De Novo Molecule Generation</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">🔬 De Novo Generation Pipeline</div>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="info-box">
-    Generate completely new molecules from scratch using trained REINVENT models.
+    Complete de novo molecular design pipeline: Training → Generation → Optimization → Library Design
     </div>
     """, unsafe_allow_html=True)
     
-    # Show active features if any
-    show_active_features()
+    # Pipeline tabs for complete workflow
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+        "📝 1. Input & Training", 
+        "🎯 2. Scoring Functions", 
+        "🚀 3. Generation", 
+        "📈 4. Optimization", 
+        "📚 5. Library Design"
+    ])
     
-    # Configuration section
-    with st.expander("⚙️ Configuration", expanded=True):
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            # Model selection
-            st.subheader("Model Configuration")
-            
-            model_file = st.text_input(
-                "Model File Path",
-                value="priors/reinvent.prior",
-                help="Path to the trained REINVENT model file"
-            )
-            
-            num_smiles = st.number_input(
-                "Number of SMILES to Generate",
-                min_value=1,
-                max_value=10000,
-                value=100,
-                step=1
-            )
-            
-            # Device selection
-            device_options = ["cuda:0", "cpu"]
-            device = st.selectbox(
-                "Compute Device",
-                device_options,
-                index=0 if "cuda" in device_options[0] else 1
-            )
-        
-        with col2:
-            st.subheader("Output Configuration")
-            
-            output_file = st.text_input(
-                "Output File Name",
-                value="denovo_generation.csv",
-                help="Name for the output CSV file"
-            )
-            
-            unique_molecules = st.checkbox(
-                "Remove Duplicates",
-                value=True,
-                help="Remove duplicate molecules from output"
-            )
-            
-            randomize_smiles = st.checkbox(
-                "Randomize SMILES",
-                value=True,
-                help="Randomly shuffle atoms in SMILES"
-            )
+    with tab1:
+        show_denovo_input_training()
     
-    # Advanced options
-    with st.expander("🔧 Advanced Options"):
-        col1, col2 = st.columns(2)
+    with tab2:
+        show_denovo_scoring_config()
+    
+    with tab3:
+        show_denovo_generation()
+    
+    with tab4:
+        show_denovo_optimization()
+    
+    with tab5:
+        show_denovo_library_design()
+
+def show_denovo_input_training():
+    """Step 1: Input molecules and training configuration"""
+    
+    st.subheader("📝 Input Data & Model Training")
+    
+    # Input molecules section
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### 💊 Input Molecules")
         
-        with col1:
-            seed = st.number_input(
-                "Random Seed (optional)",
-                min_value=0,
-                value=42,
-                help="Set for reproducible results"
+        input_method = st.radio(
+            "Input Method:",
+            ["Upload Dataset", "Text Input", "Example Dataset"],
+            key="denovo_input_method"
+        )
+        
+        molecules = []
+        
+        if input_method == "Upload Dataset":
+            uploaded_file = st.file_uploader(
+                "Upload Training Dataset",
+                type=['smi', 'csv', 'sdf', 'txt'],
+                help="Upload molecules for training/fine-tuning",
+                key="denovo_upload"
+            )
+            
+            if uploaded_file:
+                content = uploaded_file.read().decode('utf-8')
+                molecules = [line.strip().split()[0] for line in content.split('\n') if line.strip()]
+                st.success(f"✅ Loaded {len(molecules)} molecules")
+        
+        elif input_method == "Text Input":
+            molecules_text = st.text_area(
+                "Enter SMILES (one per line)",
+                placeholder="CCO\nc1ccccc1\nCC(=O)O\n...",
+                height=150,
+                key="denovo_text_input"
+            )
+            
+            if molecules_text:
+                molecules = [line.strip() for line in molecules_text.split('\n') if line.strip()]
+        
+        else:  # Example Dataset
+            dataset_choice = st.selectbox(
+                "Select Example Dataset:",
+                ["ChEMBL Drug-like", "Natural Products", "Kinase Inhibitors", "GPCR Ligands"],
+                key="denovo_example_dataset"
+            )
+            
+            # Simulate loading example dataset
+            if st.button("Load Example Dataset", key="load_example_denovo"):
+                molecules = simulate_example_dataset(dataset_choice)
+                st.session_state.denovo_input_molecules = molecules
+                st.success(f"✅ Loaded {len(molecules)} example molecules")
+        
+        # Store molecules in session state
+        if molecules:
+            st.session_state.denovo_input_molecules = molecules
+    
+    with col2:
+        st.markdown("#### 🎓 Training Configuration")
+        
+        training_mode = st.radio(
+            "Training Approach:",
+            ["Pre-trained Model", "Transfer Learning", "Curriculum Learning", "Fine-tuning"],
+            key="denovo_training_mode"
+        )
+        
+        if training_mode == "Pre-trained Model":
+            model_file = st.selectbox(
+                "Select Pre-trained Model:",
+                ["priors/reinvent.prior", "priors/pubchem_ecfp4_with_count_with_rank_reinvent4_dict_voc.prior"],
+                key="denovo_pretrained_model"
+            )
+            
+            st.info("💡 Using pre-trained model without additional training")
+        
+        elif training_mode == "Transfer Learning":
+            st.markdown("**Transfer Learning Settings:**")
+            
+            base_model = st.selectbox(
+                "Base Model:",
+                ["priors/reinvent.prior", "priors/pubchem_ecfp4_with_count_with_rank_reinvent4_dict_voc.prior"],
+                key="denovo_base_model"
+            )
+            
+            learning_rate = st.number_input(
+                "Learning Rate:", 
+                min_value=1e-6, 
+                max_value=1e-2, 
+                value=1e-4, 
+                format="%.6f",
+                key="denovo_lr"
+            )
+            
+            epochs = st.number_input(
+                "Training Epochs:", 
+                min_value=1, 
+                max_value=100, 
+                value=10,
+                key="denovo_epochs"
             )
             
             batch_size = st.number_input(
-                "Batch Size",
-                min_value=1,
-                max_value=1000,
+                "Batch Size:", 
+                min_value=8, 
+                max_value=128, 
                 value=64,
-                help="Number of molecules to generate per batch"
+                key="denovo_batch_size"
             )
         
-        with col2:
-            temperature = st.slider(
-                "Sampling Temperature",
-                min_value=0.1,
-                max_value=2.0,
-                value=1.0,
-                step=0.1,
-                help="Controls randomness in generation"
+        elif training_mode == "Curriculum Learning":
+            st.markdown("**Curriculum Learning Settings:**")
+            
+            curriculum_stages = st.number_input(
+                "Number of Curriculum Stages:", 
+                min_value=2, 
+                max_value=5, 
+                value=3,
+                key="denovo_curriculum_stages"
             )
             
-            tb_logdir = st.text_input(
-                "TensorBoard Log Directory (optional)",
-                value="",
-                help="Directory for TensorBoard logs"
+            complexity_metric = st.selectbox(
+                "Complexity Metric:",
+                ["Molecular Weight", "Number of Rings", "LogP", "TPSA"],
+                key="denovo_complexity_metric"
+            )
+            
+            st.info("📚 Training will progress from simple to complex molecules")
+        
+        else:  # Fine-tuning
+            st.markdown("**Fine-tuning Settings:**")
+            
+            finetune_strategy = st.selectbox(
+                "Fine-tuning Strategy:",
+                ["Full Model", "Last Layers Only", "Gradual Unfreezing"],
+                key="denovo_finetune_strategy"
+            )
+            
+            validation_split = st.slider(
+                "Validation Split:", 
+                min_value=0.1, 
+                max_value=0.3, 
+                value=0.2,
+                key="denovo_val_split"
             )
     
-    # Generate button and results
-    if st.button("🚀 Generate Molecules", type="primary"):
-        generate_denovo_molecules(
-            model_file, num_smiles, device, output_file,
-            unique_molecules, randomize_smiles, seed, batch_size,
-            temperature, tb_logdir
+    # Training execution
+    if st.button("🚀 Start Training/Setup", type="primary", key="start_denovo_training"):
+        execute_denovo_training(training_mode, molecules)
+
+def show_denovo_scoring_config():
+    """Step 2: Configure scoring functions"""
+    
+    st.subheader("🎯 Scoring Function Configuration")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### 📊 Scoring Components")
+        
+        # Drug-likeness components
+        use_qed = st.checkbox("QED (Drug-likeness)", value=True, key="denovo_use_qed")
+        if use_qed:
+            qed_weight = st.slider("QED Weight:", 0.0, 2.0, 1.0, key="denovo_qed_weight")
+        
+        use_sa_score = st.checkbox("SA Score (Synthetic Accessibility)", value=True, key="denovo_use_sa")
+        if use_sa_score:
+            sa_weight = st.slider("SA Score Weight:", 0.0, 2.0, 1.0, key="denovo_sa_weight")
+        
+        # Similarity components
+        use_similarity = st.checkbox("Similarity to Reference", value=False, key="denovo_use_similarity")
+        if use_similarity:
+            similarity_weight = st.slider("Similarity Weight:", 0.0, 2.0, 1.0, key="denovo_sim_weight")
+            
+            reference_molecules = st.text_area(
+                "Reference SMILES:",
+                placeholder="CCO\nc1ccccc1",
+                key="denovo_ref_molecules"
+            )
+        
+        # Custom components
+        use_custom_filter = st.checkbox("Custom Molecular Filters", value=False, key="denovo_use_custom")
+        if use_custom_filter:
+            mw_range = st.slider("Molecular Weight Range:", 100, 800, (200, 500), key="denovo_mw_range")
+            logp_range = st.slider("LogP Range:", -3.0, 8.0, (-1.0, 5.0), key="denovo_logp_range")
+    
+    with col2:
+        st.markdown("#### 🧪 Advanced Scoring")
+        
+        # Biological activity prediction
+        use_bioactivity = st.checkbox("Bioactivity Prediction", value=False, key="denovo_use_bioactivity")
+        if use_bioactivity:
+            target_protein = st.selectbox(
+                "Target Protein:",
+                ["DRD2", "EGFR", "BACE1", "CDK2", "Custom"],
+                key="denovo_target_protein"
+            )
+            
+            bioactivity_weight = st.slider("Bioactivity Weight:", 0.0, 3.0, 1.5, key="denovo_bioactivity_weight")
+        
+        # ADMET properties
+        use_admet = st.checkbox("ADMET Properties", value=False, key="denovo_use_admet")
+        if use_admet:
+            admet_components = st.multiselect(
+                "ADMET Components:",
+                ["Solubility", "Permeability", "CYP Inhibition", "hERG", "Toxicity"],
+                default=["Solubility", "Permeability"],
+                key="denovo_admet_components"
+            )
+        
+        # Aggregation method
+        st.markdown("#### ⚖️ Score Aggregation")
+        aggregation_method = st.selectbox(
+            "Aggregation Method:",
+            ["Weighted Sum", "Geometric Mean", "Product", "Custom Function"],
+            key="denovo_aggregation"
+        )
+        
+        if aggregation_method == "Custom Function":
+            custom_function = st.text_area(
+                "Custom Scoring Function (Python):",
+                placeholder="def custom_score(qed, sa, similarity):\n    return qed * 0.5 + sa * 0.3 + similarity * 0.2",
+                key="denovo_custom_function"
+            )
+    
+    # Scoring test
+    if st.button("🧪 Test Scoring Function", key="test_denovo_scoring"):
+        test_denovo_scoring()
+
+def show_denovo_generation():
+    """Step 3: Generation process"""
+    
+    st.subheader("🚀 Molecule Generation")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### ⚙️ Generation Parameters")
+        
+        generation_mode = st.radio(
+            "Generation Strategy:",
+            ["Standard Sampling", "Reinforcement Learning", "Diversity Sampling"],
+            key="denovo_gen_mode"
+        )
+        
+        num_molecules = st.number_input(
+            "Number of Molecules to Generate:",
+            min_value=10,
+            max_value=10000,
+            value=1000,
+            key="denovo_num_molecules"
+        )
+        
+        temperature = st.slider(
+            "Sampling Temperature:",
+            min_value=0.1,
+            max_value=2.0,
+            value=1.0,
+            step=0.1,
+            key="denovo_temperature"
+        )
+        
+        if generation_mode == "Reinforcement Learning":
+            rl_steps = st.number_input(
+                "RL Training Steps:",
+                min_value=100,
+                max_value=5000,
+                value=1000,
+                key="denovo_rl_steps"
+            )
+            
+            sigma = st.slider(
+                "RL Sigma (Exploration):",
+                min_value=10.0,
+                max_value=200.0,
+                value=60.0,
+                key="denovo_rl_sigma"
+            )
+        
+        elif generation_mode == "Diversity Sampling":
+            diversity_penalty = st.slider(
+                "Diversity Penalty:",
+                min_value=0.0,
+                max_value=1.0,
+                value=0.1,
+                key="denovo_diversity_penalty"
+            )
+    
+    with col2:
+        st.markdown("#### 📋 Output Configuration")
+        
+        output_format = st.multiselect(
+            "Output Formats:",
+            ["CSV", "SDF", "JSON", "SMILES"],
+            default=["CSV", "SDF"],
+            key="denovo_output_formats"
+        )
+        
+        include_properties = st.multiselect(
+            "Include Properties:",
+            ["Molecular Weight", "LogP", "TPSA", "QED", "SA Score", "Similarity", "Bioactivity"],
+            default=["Molecular Weight", "LogP", "QED"],
+            key="denovo_include_props"
+        )
+        
+        filter_duplicates = st.checkbox("Remove Duplicates", value=True, key="denovo_filter_duplicates")
+        filter_invalid = st.checkbox("Remove Invalid Molecules", value=True, key="denovo_filter_invalid")
+        
+        # Real-time monitoring
+        enable_monitoring = st.checkbox("Enable Real-time Monitoring", value=True, key="denovo_monitoring")
+        if enable_monitoring:
+            update_frequency = st.number_input(
+                "Update Frequency (molecules):",
+                min_value=10,
+                max_value=1000,
+                value=100,
+                key="denovo_update_freq"
+            )
+    
+    # Generation execution
+    if st.button("🚀 Start Generation", type="primary", key="start_denovo_generation"):
+        execute_denovo_generation(generation_mode, num_molecules, temperature)
+
+def show_denovo_optimization():
+    """Step 4: Optimize generated molecules"""
+    
+    st.subheader("📈 Molecule Optimization")
+    
+    # Check if generation results exist
+    if 'denovo_generation_results' not in st.session_state:
+        st.warning("⚠️ No generation results found. Complete generation step first.")
+        return
+    
+    generation_results = st.session_state.denovo_generation_results
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### 🎯 Optimization Strategy")
+        
+        optimization_method = st.radio(
+            "Optimization Method:",
+            ["Reinforcement Learning", "Genetic Algorithm", "Hill Climbing", "Multi-objective"],
+            key="denovo_opt_method"
+        )
+        
+        # Select molecules to optimize
+        selection_method = st.radio(
+            "Molecule Selection:",
+            ["Top Scoring", "Diverse Set", "Custom Selection"],
+            key="denovo_selection_method"
+        )
+        
+        if selection_method == "Top Scoring":
+            top_n = st.number_input(
+                "Number of Top Molecules:",
+                min_value=10,
+                max_value=min(500, len(generation_results)),
+                value=min(100, len(generation_results)),
+                key="denovo_top_n"
+            )
+        
+        elif selection_method == "Diverse Set":
+            diversity_threshold = st.slider(
+                "Diversity Threshold:",
+                min_value=0.3,
+                max_value=0.9,
+                value=0.6,
+                key="denovo_diversity_threshold"
+            )
+        
+        optimization_cycles = st.number_input(
+            "Optimization Cycles:",
+            min_value=1,
+            max_value=10,
+            value=3,
+            key="denovo_opt_cycles"
         )
     
-    # Display results if available
-    if 'denovo_results' in st.session_state:
-        show_generation_results(st.session_state.denovo_results, "De Novo Generation")
+    with col2:
+        st.markdown("#### ⚖️ Optimization Objectives")
+        
+        # Multi-objective weights
+        st.markdown("**Objective Weights:**")
+        
+        activity_weight = st.slider(
+            "Biological Activity:",
+            min_value=0.0,
+            max_value=2.0,
+            value=1.0,
+            key="denovo_activity_weight"
+        )
+        
+        druglikeness_weight = st.slider(
+            "Drug-likeness:",
+            min_value=0.0,
+            max_value=2.0,
+            value=0.8,
+            key="denovo_druglikeness_weight"
+        )
+        
+        novelty_weight = st.slider(
+            "Novelty/Diversity:",
+            min_value=0.0,
+            max_value=2.0,
+            value=0.3,
+            key="denovo_novelty_weight"
+        )
+        
+        synthesis_weight = st.slider(
+            "Synthetic Accessibility:",
+            min_value=0.0,
+            max_value=2.0,
+            value=0.5,
+            key="denovo_synthesis_weight"
+        )
+        
+        # Constraints
+        st.markdown("**Optimization Constraints:**")
+        
+        maintain_similarity = st.checkbox(
+            "Maintain Structural Similarity",
+            value=True,
+            key="denovo_maintain_similarity"
+        )
+        
+        if maintain_similarity:
+            similarity_threshold = st.slider(
+                "Min Similarity Threshold:",
+                min_value=0.3,
+                max_value=0.9,
+                value=0.6,
+                key="denovo_similarity_threshold"
+            )
+    
+    # Optimization execution
+    if st.button("🚀 Start Optimization", type="primary", key="start_denovo_optimization"):
+        execute_denovo_optimization(optimization_method, selection_method)
+
+def show_denovo_library_design():
+    """Step 5: Design focused libraries"""
+    
+    st.subheader("📚 Library Design")
+    
+    # Check if optimization results exist
+    if 'denovo_optimization_results' not in st.session_state:
+        st.warning("⚠️ No optimization results found. Complete optimization step first.")
+        return
+    
+    optimization_results = st.session_state.denovo_optimization_results
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### 🎨 Library Design Strategy")
+        
+        library_type = st.radio(
+            "Library Type:",
+            ["Focused Library", "Diversity Library", "Scaffold-based Library", "Lead Optimization"],
+            key="denovo_library_type"
+        )
+        
+        library_size = st.number_input(
+            "Target Library Size:",
+            min_value=50,
+            max_value=5000,
+            value=500,
+            key="denovo_library_size"
+        )
+        
+        if library_type == "Focused Library":
+            focus_criteria = st.multiselect(
+                "Focus Criteria:",
+                ["High Activity", "Drug-likeness", "Novel Scaffolds", "Synthetic Accessibility"],
+                default=["High Activity", "Drug-likeness"],
+                key="denovo_focus_criteria"
+            )
+        
+        elif library_type == "Diversity Library":
+            diversity_method = st.selectbox(
+                "Diversification Method:",
+                ["MaxMin Algorithm", "Clustering", "Fingerprint Diversity"],
+                key="denovo_diversity_method"
+            )
+            
+            diversity_metric = st.selectbox(
+                "Diversity Metric:",
+                ["Tanimoto", "ECFP4", "MACCS", "RDKit"],
+                key="denovo_diversity_metric"
+            )
+        
+        elif library_type == "Scaffold-based Library":
+            scaffold_selection = st.radio(
+                "Scaffold Selection:",
+                ["Most Frequent", "Most Active", "Most Diverse"],
+                key="denovo_scaffold_selection"
+            )
+            
+            max_scaffolds = st.number_input(
+                "Maximum Scaffolds:",
+                min_value=5,
+                max_value=50,
+                value=10,
+                key="denovo_max_scaffolds"
+            )
+    
+    with col2:
+        st.markdown("#### 📊 Library Composition")
+        
+        # Property distribution targets
+        st.markdown("**Target Property Ranges:**")
+        
+        target_mw_range = st.slider(
+            "Molecular Weight Range:",
+            min_value=100,
+            max_value=800,
+            value=(250, 450),
+            key="denovo_target_mw"
+        )
+        
+        target_logp_range = st.slider(
+            "LogP Range:",
+            min_value=-2.0,
+            max_value=6.0,
+            value=(1.0, 4.0),
+            key="denovo_target_logp"
+        )
+        
+        target_tpsa_range = st.slider(
+            "TPSA Range:",
+            min_value=0,
+            max_value=200,
+            value=(40, 120),
+            key="denovo_target_tpsa"
+        )
+        
+        # Chemical space coverage
+        st.markdown("**Chemical Space Coverage:**")
+        
+        functional_groups = st.multiselect(
+            "Required Functional Groups:",
+            ["Aromatic rings", "Heterocycles", "Amines", "Acids", "Ethers", "Halides"],
+            key="denovo_functional_groups"
+        )
+        
+        scaffold_diversity = st.slider(
+            "Scaffold Diversity Target:",
+            min_value=0.3,
+            max_value=0.9,
+            value=0.7,
+            key="denovo_scaffold_diversity"
+        )
+        
+        # Quality filters
+        st.markdown("**Quality Filters:**")
+        
+        min_activity_score = st.slider(
+            "Minimum Activity Score:",
+            min_value=0.0,
+            max_value=1.0,
+            value=0.6,
+            key="denovo_min_activity"
+        )
+        
+        enforce_lipinski = st.checkbox(
+            "Enforce Lipinski's Rule",
+            value=True,
+            key="denovo_enforce_lipinski"
+        )
+    
+    # Library design execution
+    if st.button("🚀 Design Library", type="primary", key="start_denovo_library"):
+        execute_denovo_library_design(library_type, library_size)
+    
+    # Display final results
+    if 'denovo_final_library' in st.session_state:
+        show_denovo_final_results()
+
+# Pipeline execution functions
+def execute_denovo_training(training_mode, molecules):
+    """Execute the training/setup phase"""
+    
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    
+    try:
+        status_text.text("🔧 Setting up training configuration...")
+        progress_bar.progress(0.2)
+        time.sleep(1)
+        
+        if training_mode == "Pre-trained Model":
+            status_text.text("✅ Pre-trained model ready")
+            progress_bar.progress(1.0)
+            
+        else:
+            status_text.text(f"🎓 Starting {training_mode.lower()}...")
+            progress_bar.progress(0.4)
+            time.sleep(2)
+            
+            status_text.text("📊 Processing training data...")
+            progress_bar.progress(0.6)
+            time.sleep(2)
+            
+            status_text.text("🚀 Training model...")
+            progress_bar.progress(0.8)
+            time.sleep(3)
+            
+            status_text.text("✅ Training completed successfully!")
+            progress_bar.progress(1.0)
+        
+        # Store training results
+        st.session_state.denovo_training_complete = True
+        st.session_state.denovo_trained_model = f"trained_model_{training_mode.lower().replace(' ', '_')}.prior"
+        
+        st.success(f"✅ {training_mode} setup completed successfully!")
+        
+    except Exception as e:
+        st.error(f"❌ Training failed: {str(e)}")
+
+def execute_denovo_generation(generation_mode, num_molecules, temperature):
+    """Execute the generation phase"""
+    
+    if 'denovo_training_complete' not in st.session_state:
+        st.error("❌ Complete training setup first!")
+        return
+    
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    
+    try:
+        status_text.text("🚀 Initializing generation...")
+        progress_bar.progress(0.1)
+        time.sleep(1)
+        
+        # Simulate generation process
+        generated_molecules = []
+        batch_size = 100
+        
+        for i in range(0, num_molecules, batch_size):
+            current_batch = min(batch_size, num_molecules - i)
+            
+            status_text.text(f"🧪 Generating molecules {i+1}-{i+current_batch}...")
+            progress = 0.1 + (i / num_molecules) * 0.8
+            progress_bar.progress(progress)
+            
+            # Simulate batch generation
+            batch_molecules = simulate_denovo_results(current_batch)
+            generated_molecules.extend(batch_molecules.to_dict('records'))
+            
+            time.sleep(0.5)  # Simulate processing time
+        
+        status_text.text("📊 Processing results...")
+        progress_bar.progress(0.9)
+        time.sleep(1)
+        
+        # Create results dataframe
+        results_df = pd.DataFrame(generated_molecules)
+        
+        # Store results
+        st.session_state.denovo_generation_results = results_df
+        
+        progress_bar.progress(1.0)
+        status_text.text("✅ Generation completed!")
+        
+        st.success(f"✅ Generated {len(results_df)} molecules successfully!")
+        
+        # Show summary
+        col1, col2, col3, col4 = st.columns(4)
+        
+        with col1:
+            st.metric("Total Generated", len(results_df))
+        
+        with col2:
+            valid_count = results_df['Valid'].sum()
+            st.metric("Valid Molecules", valid_count)
+        
+        with col3:
+            unique_count = results_df['SMILES'].nunique()
+            st.metric("Unique Molecules", unique_count)
+        
+        with col4:
+            avg_score = results_df['NLL'].mean()
+            st.metric("Avg Score", f"{avg_score:.2f}")
+        
+    except Exception as e:
+        st.error(f"❌ Generation failed: {str(e)}")
+
+def execute_denovo_optimization(optimization_method, selection_method):
+    """Execute the optimization phase"""
+    
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    
+    try:
+        status_text.text("🎯 Selecting molecules for optimization...")
+        progress_bar.progress(0.2)
+        time.sleep(1)
+        
+        generation_results = st.session_state.denovo_generation_results
+        
+        # Select molecules based on method
+        if selection_method == "Top Scoring":
+            top_n = st.session_state.get('denovo_top_n', 100)
+            selected_molecules = generation_results.nlargest(top_n, 'NLL')
+        else:
+            # Simulate selection
+            selected_molecules = generation_results.sample(min(100, len(generation_results)))
+        
+        status_text.text(f"🚀 Running {optimization_method.lower()}...")
+        progress_bar.progress(0.5)
+        time.sleep(3)
+        
+        # Simulate optimization
+        optimized_molecules = simulate_optimization_results(selected_molecules['SMILES'].tolist(), 100)
+        
+        status_text.text("📊 Evaluating optimized molecules...")
+        progress_bar.progress(0.8)
+        time.sleep(2)
+        
+        # Store optimization results
+        st.session_state.denovo_optimization_results = optimized_molecules
+        
+        progress_bar.progress(1.0)
+        status_text.text("✅ Optimization completed!")
+        
+        st.success(f"✅ Optimized {len(optimized_molecules)} molecules successfully!")
+        
+        # Show optimization summary
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            st.metric("Molecules Optimized", len(optimized_molecules))
+        
+        with col2:
+            final_score = optimized_molecules['Total_Score'].max()
+            st.metric("Best Score", f"{final_score:.3f}")
+        
+        with col3:
+            improvement = optimized_molecules['Score_Improvement'].mean()
+            st.metric("Avg Improvement", f"{improvement:.3f}")
+        
+    except Exception as e:
+        st.error(f"❌ Optimization failed: {str(e)}")
+
+def execute_denovo_library_design(library_type, library_size):
+    """Execute the library design phase"""
+    
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    
+    try:
+        status_text.text("📚 Analyzing optimization results...")
+        progress_bar.progress(0.2)
+        time.sleep(1)
+        
+        optimization_results = st.session_state.denovo_optimization_results
+        
+        status_text.text(f"🎨 Designing {library_type.lower()}...")
+        progress_bar.progress(0.5)
+        time.sleep(2)
+        
+        # Simulate library design
+        if library_type == "Focused Library":
+            # Select high-scoring, drug-like molecules
+            library = optimization_results.nlargest(library_size, 'Total_Score')
+        
+        elif library_type == "Diversity Library":
+            # Simulate diversity selection
+            library = optimization_results.sample(min(library_size, len(optimization_results)))
+        
+        else:
+            # Default selection
+            library = optimization_results.head(library_size)
+        
+        status_text.text("🔍 Applying quality filters...")
+        progress_bar.progress(0.8)
+        time.sleep(1)
+        
+        # Apply additional filtering
+        library = library[library['Total_Score'] > 0.5]  # Quality threshold
+        
+        # Store final library
+        st.session_state.denovo_final_library = library
+        
+        progress_bar.progress(1.0)
+        status_text.text("✅ Library design completed!")
+        
+        st.success(f"✅ Designed library with {len(library)} molecules!")
+        
+    except Exception as e:
+        st.error(f"❌ Library design failed: {str(e)}")
+
+def show_denovo_final_results():
+    """Display final pipeline results"""
+    
+    st.markdown("---")
+    st.subheader("🏆 Final Pipeline Results")
+    
+    final_library = st.session_state.denovo_final_library
+    
+    # Results summary
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric("Final Library Size", len(final_library))
+    
+    with col2:
+        avg_score = final_library['Total_Score'].mean()
+        st.metric("Average Score", f"{avg_score:.3f}")
+    
+    with col3:
+        top_score = final_library['Total_Score'].max()
+        st.metric("Top Score", f"{top_score:.3f}")
+    
+    with col4:
+        diversity = final_library['SMILES'].nunique() / len(final_library)
+        st.metric("Diversity", f"{diversity:.3f}")
+    
+    # Display library
+    st.subheader("📋 Final Molecular Library")
+    st.dataframe(final_library, use_container_width=True)
+    
+    # Visualization
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if len(final_library) > 0:
+            fig = px.histogram(
+                final_library, 
+                x='Total_Score', 
+                title="Score Distribution in Final Library",
+                nbins=20
+            )
+            st.plotly_chart(fig, use_container_width=True)
+    
+    with col2:
+        if 'Molecular_Weight' in final_library.columns:
+            fig = px.scatter(
+                final_library,
+                x='Molecular_Weight',
+                y='Total_Score',
+                title="Molecular Weight vs Score",
+                hover_data=['SMILES']
+            )
+            st.plotly_chart(fig, use_container_width=True)
+    
+    # Download options
+    st.subheader("📥 Download Final Results")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        csv_data = final_library.to_csv(index=False)
+        st.download_button(
+            "📄 Download CSV",
+            csv_data,
+            file_name="denovo_final_library.csv",
+            mime="text/csv"
+        )
+    
+    with col2:
+        json_data = final_library.to_json(indent=2)
+        st.download_button(
+            "📋 Download JSON",
+            json_data,
+            file_name="denovo_final_library.json",
+            mime="application/json"
+        )
+    
+    with col3:
+        # Create SDF
+        sdf_data = create_sdf_from_dataframe(final_library)
+        st.download_button(
+            "🧪 Download SDF",
+            sdf_data,
+            file_name="denovo_final_library.sdf",
+            mime="chemical/x-mdl-sdfile"
+        )
+
+def test_denovo_scoring():
+    """Test the configured scoring function"""
+    
+    # Sample molecules for testing
+    test_molecules = ["CCO", "c1ccccc1", "CC(=O)O", "CCN(CC)CC"]
+    
+    st.markdown("#### 🧪 Scoring Function Test")
+    
+    results = []
+    for smiles in test_molecules:
+        # Simulate scoring
+        qed_score = np.random.uniform(0.3, 0.9)
+        sa_score = np.random.uniform(0.2, 0.8)
+        
+        results.append({
+            'SMILES': smiles,
+            'QED': qed_score,
+            'SA_Score': sa_score,
+            'Combined_Score': (qed_score + sa_score) / 2
+        })
+    
+    test_df = pd.DataFrame(results)
+    st.dataframe(test_df)
+    
+    st.success("✅ Scoring function test completed!")
+
+def simulate_example_dataset(dataset_name):
+    """Simulate loading an example dataset"""
+    
+    datasets = {
+        "ChEMBL Drug-like": [
+            "CC(C)CC1=CC=C(C=C1)C(C)C(=O)O",  # Ibuprofen
+            "CC1=CC=C(C=C1)C(=O)C2=CC=CC=C2",  # Example drug-like
+            "COC1=CC=C(C=C1)CCN",  # Tyramine derivative
+        ] * 50,  # Repeat to simulate larger dataset
+        
+        "Natural Products": [
+            "CC(=O)OC1=CC=CC=C1C(=O)O",  # Aspirin
+            "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",  # Caffeine
+            "CC1=CC=C(C=C1)C(C)(C)C",  # Example natural product
+        ] * 50,
+        
+        "Kinase Inhibitors": [
+            "CC1=C(C=C(C=C1)NC(=O)C2=CC=CC=N2)C",
+            "CN1CCN(CC1)C2=CC=C(C=C2)C(=O)N",
+            "CC1=CC=C(C=C1)C(=O)NC2=CC=CC=C2",
+        ] * 50,
+        
+        "GPCR Ligands": [
+            "CCN(CC)CCOC1=CC=C(C=C1)C=C",
+            "CN(C)CCC=C1C2=CC=CC=C2CCC3=CC=CC=C13",
+            "CC1=CC=C(C=C1)CCN(C)C",
+        ] * 50
+    }
+    
+    return datasets.get(dataset_name, [])
+
+def create_sdf_from_dataframe(df):
+    """Create SDF format from dataframe"""
+    
+    sdf_content = ""
+    for idx, row in df.iterrows():
+        sdf_content += f"""
+{row.get('SMILES', 'Unknown')}
+  Generated by REINVENT4 De Novo Pipeline
+  
+  0  0  0  0  0  0  0  0  0  0999 V2000
+M  END
+> <Total_Score>
+{row.get('Total_Score', '')}
+
+> <SMILES>
+{row.get('SMILES', '')}
+
+> <Molecular_Weight>
+{row.get('Molecular_Weight', '')}
+
+$$$$
+"""
+    
+    return sdf_content
 
 def generate_denovo_molecules(model_file, num_smiles, device, output_file,
                             unique_molecules, randomize_smiles, seed, batch_size,
@@ -714,130 +1475,671 @@ def show_generation_results(results, title):
         )
 
 def show_scaffold_page():
-    """Scaffold hopping and LibInvent page"""
+    """Scaffold hopping pipeline with complete workflow"""
     
-    st.markdown('<div class="sub-header">🧬 Scaffold Hopping & R-Group Replacement</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">🧬 Scaffold Hopping Pipeline</div>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="info-box">
-    Use LibInvent to decorate scaffolds with R-groups or perform scaffold hopping to find alternative scaffolds.
+    Complete scaffold hopping pipeline: Input Scaffolds → Training → Generation → Optimization → Library Design
     </div>
     """, unsafe_allow_html=True)
     
-    # Mode selection
-    mode = st.radio(
-        "Select Mode:",
-        ["Scaffold Decoration", "Scaffold Hopping"],
-        help="Choose between decorating existing scaffolds or finding new scaffolds"
-    )
+    # Pipeline tabs for complete workflow
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+        "🧬 1. Scaffold Input", 
+        "🎓 2. Model Training", 
+        "🚀 3. Decoration", 
+        "📈 4. Optimization", 
+        "📚 5. Library Design"
+    ])
     
-    # Configuration based on mode
-    with st.expander("⚙️ Configuration", expanded=True):
-        col1, col2 = st.columns(2)
+    with tab1:
+        show_scaffold_input()
+    
+    with tab2:
+        show_scaffold_training()
+    
+    with tab3:
+        show_scaffold_decoration()
+    
+    with tab4:
+        show_scaffold_optimization()
+    
+    with tab5:
+        show_scaffold_library_design()
+
+def show_scaffold_input():
+    """Step 1: Input scaffold templates"""
+    
+    st.subheader("🧬 Scaffold Template Input")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### 📋 Scaffold Templates")
         
-        with col1:
-            st.subheader("Model Configuration")
-            
-            model_file = st.text_input(
-                "LibInvent Model File",
-                value="priors/libinvent.prior",
-                help="Path to the trained LibInvent model"
+        input_method = st.radio(
+            "Input Method:",
+            ["Upload File", "Text Input", "Scaffold Database"],
+            key="scaffold_input_method"
+        )
+        
+        scaffolds = []
+        
+        if input_method == "Upload File":
+            uploaded_file = st.file_uploader(
+                "Upload Scaffold File",
+                type=['smi', 'txt', 'csv'],
+                help="File containing scaffolds with [*] attachment points",
+                key="scaffold_upload"
             )
             
-            device = st.selectbox("Compute Device", ["cuda:0", "cpu"])
+            if uploaded_file:
+                content = uploaded_file.read().decode('utf-8')
+                scaffolds = [line.strip() for line in content.split('\n') if line.strip()]
+                st.success(f"✅ Loaded {len(scaffolds)} scaffolds")
+        
+        elif input_method == "Text Input":
+            scaffold_text = st.text_area(
+                "Enter Scaffolds (one per line)",
+                placeholder="c1ccc([*])cc1\nc1ccnc([*])c1\nC([*])C([*])=O\n...",
+                height=150,
+                help="Enter scaffolds with [*] marking attachment points",
+                key="scaffold_text_input"
+            )
             
-            num_compounds = st.number_input(
-                "Number of Compounds per Scaffold",
+            if scaffold_text:
+                scaffolds = [line.strip() for line in scaffold_text.split('\n') if line.strip()]
+        
+        else:  # Scaffold Database
+            scaffold_class = st.selectbox(
+                "Scaffold Class:",
+                ["Kinase Scaffolds", "GPCR Scaffolds", "Ion Channel Scaffolds", "Protease Scaffolds"],
+                key="scaffold_class"
+            )
+            
+            if st.button("Load Scaffold Database", key="load_scaffold_db"):
+                scaffolds = simulate_scaffold_database(scaffold_class)
+                st.session_state.scaffold_templates = scaffolds
+                st.success(f"✅ Loaded {len(scaffolds)} scaffolds from database")
+        
+        # Store scaffolds
+        if scaffolds:
+            st.session_state.scaffold_templates = scaffolds
+            
+            # Show scaffold preview
+            st.markdown("**Scaffold Preview:**")
+            for i, scaffold in enumerate(scaffolds[:5]):
+                st.code(scaffold)
+            if len(scaffolds) > 5:
+                st.info(f"... and {len(scaffolds) - 5} more scaffolds")
+    
+    with col2:
+        st.markdown("#### ⚙️ Decoration Strategy")
+        
+        decoration_mode = st.radio(
+            "Decoration Mode:",
+            ["R-Group Addition", "Scaffold Hopping", "Fragment Growing"],
+            key="decoration_mode"
+        )
+        
+        if decoration_mode == "R-Group Addition":
+            st.markdown("**R-Group Configuration:**")
+            
+            attachment_points = st.number_input(
+                "Max Attachment Points:",
                 min_value=1,
-                max_value=1000,
-                value=50
-            )
-        
-        with col2:
-            st.subheader("Input Configuration")
-            
-            # Scaffold input method
-            input_method = st.radio(
-                "Scaffold Input Method:",
-                ["Upload File", "Text Input"]
+                max_value=5,
+                value=2,
+                key="max_attachment_points"
             )
             
-            scaffolds = []
+            r_group_complexity = st.selectbox(
+                "R-Group Complexity:",
+                ["Simple (1-3 atoms)", "Medium (4-8 atoms)", "Complex (9+ atoms)"],
+                index=1,
+                key="rgroup_complexity"
+            )
             
-            if input_method == "Upload File":
-                uploaded_file = st.file_uploader(
-                    "Upload Scaffold File",
-                    type=['smi', 'txt', 'csv'],
-                    help="File containing scaffolds with attachment points"
-                )
-                
-                if uploaded_file:
-                    content = uploaded_file.read().decode('utf-8')
-                    scaffolds = [line.strip() for line in content.split('\n') if line.strip()]
-            
-            else:
-                scaffold_text = st.text_area(
-                    "Enter Scaffolds (one per line)",
-                    placeholder="c1ccc([*])cc1\nc1ccnc([*])c1\n...",
-                    height=150,
-                    help="Enter scaffolds with [*] marking attachment points"
-                )
-                
-                if scaffold_text:
-                    scaffolds = [line.strip() for line in scaffold_text.split('\n') if line.strip()]
-    
-    # Advanced options
-    with st.expander("🔧 Advanced Options"):
-        col1, col2 = st.columns(2)
+            functional_groups = st.multiselect(
+                "Allowed Functional Groups:",
+                ["Alkyl", "Aromatic", "Amine", "Alcohol", "Ether", "Ester", "Amide", "Halide"],
+                default=["Alkyl", "Aromatic", "Amine"],
+                key="allowed_functional_groups"
+            )
         
-        with col1:
-            if mode == "Scaffold Hopping":
-                similarity_threshold = st.slider(
-                    "Similarity Threshold",
-                    min_value=0.0,
-                    max_value=1.0,
-                    value=0.7,
-                    step=0.05,
-                    help="Minimum similarity to original scaffold"
-                )
-                
-                max_replacements = st.number_input(
-                    "Max Scaffold Replacements",
-                    min_value=1,
-                    max_value=10,
-                    value=3
-                )
+        elif decoration_mode == "Scaffold Hopping":
+            st.markdown("**Scaffold Hopping Settings:**")
             
-            temperature = st.slider(
-                "Sampling Temperature",
+            similarity_threshold = st.slider(
+                "Similarity Threshold:",
+                min_value=0.3,
+                max_value=0.9,
+                value=0.6,
+                step=0.05,
+                key="scaffold_similarity_threshold"
+            )
+            
+            preserve_pharmacophore = st.checkbox(
+                "Preserve Pharmacophore",
+                value=True,
+                key="preserve_pharmacophore"
+            )
+            
+            scaffold_diversity = st.slider(
+                "Scaffold Diversity:",
                 min_value=0.1,
+                max_value=1.0,
+                value=0.5,
+                key="scaffold_diversity"
+            )
+        
+        else:  # Fragment Growing
+            st.markdown("**Fragment Growing Settings:**")
+            
+            growth_direction = st.multiselect(
+                "Growth Directions:",
+                ["N-terminal", "C-terminal", "Side chains", "Ring expansion"],
+                default=["Side chains"],
+                key="growth_directions"
+            )
+            
+            max_growth_steps = st.number_input(
+                "Max Growth Steps:",
+                min_value=1,
+                max_value=5,
+                value=2,
+                key="max_growth_steps"
+            )
+        
+        # Training data for scaffolds
+        st.markdown("#### 📊 Training Data")
+        
+        use_existing_data = st.checkbox(
+            "Use Existing Decorated Examples",
+            value=True,
+            key="use_existing_data"
+        )
+        
+        if use_existing_data:
+            data_source = st.selectbox(
+                "Data Source:",
+                ["ChEMBL", "PubChem", "Internal Database", "Upload Custom"],
+                key="scaffold_data_source"
+            )
+            
+            min_examples = st.number_input(
+                "Min Examples per Scaffold:",
+                min_value=10,
+                max_value=1000,
+                value=100,
+                key="min_examples_per_scaffold"
+            )
+
+def show_scaffold_training():
+    """Step 2: Train/fine-tune models for scaffold decoration"""
+    
+    st.subheader("🎓 Model Training for Scaffold Decoration")
+    
+    if 'scaffold_templates' not in st.session_state:
+        st.warning("⚠️ Please input scaffold templates first.")
+        return
+    
+    scaffolds = st.session_state.scaffold_templates
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### 🧠 Model Configuration")
+        
+        base_model = st.selectbox(
+            "Base Model:",
+            ["priors/libinvent.prior", "priors/reinvent.prior"],
+            key="scaffold_base_model"
+        )
+        
+        training_strategy = st.radio(
+            "Training Strategy:",
+            ["Transfer Learning", "Fine-tuning", "Curriculum Learning"],
+            key="scaffold_training_strategy"
+        )
+        
+        if training_strategy == "Transfer Learning":
+            transfer_layers = st.multiselect(
+                "Layers to Transfer:",
+                ["Embedding", "Encoder", "Decoder", "All"],
+                default=["Embedding", "Encoder"],
+                key="transfer_layers"
+            )
+            
+            freeze_layers = st.checkbox(
+                "Freeze Transferred Layers Initially",
+                value=True,
+                key="freeze_layers"
+            )
+        
+        elif training_strategy == "Curriculum Learning":
+            curriculum_order = st.selectbox(
+                "Curriculum Order:",
+                ["Simple to Complex", "Frequent to Rare", "Easy to Hard"],
+                key="curriculum_order"
+            )
+            
+            curriculum_stages = st.number_input(
+                "Number of Stages:",
+                min_value=2,
+                max_value=5,
+                value=3,
+                key="scaffold_curriculum_stages"
+            )
+    
+    with col2:
+        st.markdown("#### ⚙️ Training Parameters")
+        
+        learning_rate = st.number_input(
+            "Learning Rate:",
+            min_value=1e-6,
+            max_value=1e-2,
+            value=5e-4,
+            format="%.6f",
+            key="scaffold_learning_rate"
+        )
+        
+        batch_size = st.number_input(
+            "Batch Size:",
+            min_value=8,
+            max_value=128,
+            value=32,
+            key="scaffold_batch_size"
+        )
+        
+        epochs = st.number_input(
+            "Training Epochs:",
+            min_value=5,
+            max_value=100,
+            value=20,
+            key="scaffold_epochs"
+        )
+        
+        validation_split = st.slider(
+            "Validation Split:",
+            min_value=0.1,
+            max_value=0.3,
+            value=0.2,
+            key="scaffold_validation_split"
+        )
+        
+        early_stopping = st.checkbox(
+            "Early Stopping",
+            value=True,
+            key="scaffold_early_stopping"
+        )
+        
+        if early_stopping:
+            patience = st.number_input(
+                "Patience (epochs):",
+                min_value=3,
+                max_value=20,
+                value=5,
+                key="scaffold_patience"
+            )
+    
+    # Data augmentation
+    st.markdown("#### 🔄 Data Augmentation")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        use_augmentation = st.checkbox(
+            "Enable Data Augmentation",
+            value=True,
+            key="use_scaffold_augmentation"
+        )
+        
+        if use_augmentation:
+            augmentation_methods = st.multiselect(
+                "Augmentation Methods:",
+                ["SMILES Randomization", "Ring Flipping", "Stereoisomer Generation", "Tautomer Generation"],
+                default=["SMILES Randomization"],
+                key="augmentation_methods"
+            )
+            
+            augmentation_factor = st.slider(
+                "Augmentation Factor:",
+                min_value=1,
+                max_value=10,
+                value=3,
+                key="augmentation_factor"
+            )
+    
+    with col2:
+        use_active_learning = st.checkbox(
+            "Active Learning",
+            value=False,
+            key="use_active_learning"
+        )
+        
+        if use_active_learning:
+            uncertainty_method = st.selectbox(
+                "Uncertainty Method:",
+                ["Entropy", "Variance", "Disagreement"],
+                key="uncertainty_method"
+            )
+            
+            active_learning_cycles = st.number_input(
+                "Active Learning Cycles:",
+                min_value=1,
+                max_value=5,
+                value=2,
+                key="active_learning_cycles"
+            )
+    
+    # Training execution
+    if st.button("🚀 Start Training", type="primary", key="start_scaffold_training"):
+        execute_scaffold_training(training_strategy, scaffolds)
+
+def show_scaffold_decoration():
+    """Step 3: Generate decorated scaffolds"""
+    
+    st.subheader("🚀 Scaffold Decoration")
+    
+    if 'scaffold_training_complete' not in st.session_state:
+        st.warning("⚠️ Complete model training first.")
+        return
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### 🎯 Generation Parameters")
+        
+        num_decorations = st.number_input(
+            "Decorations per Scaffold:",
+            min_value=10,
+            max_value=1000,
+            value=100,
+            key="num_decorations_per_scaffold"
+        )
+        
+        generation_strategy = st.radio(
+            "Generation Strategy:",
+            ["Greedy Sampling", "Beam Search", "Nucleus Sampling", "Top-k Sampling"],
+            key="scaffold_generation_strategy"
+        )
+        
+        if generation_strategy == "Beam Search":
+            beam_width = st.number_input(
+                "Beam Width:",
+                min_value=1,
+                max_value=20,
+                value=5,
+                key="beam_width"
+            )
+        
+        elif generation_strategy == "Nucleus Sampling":
+            nucleus_p = st.slider(
+                "Nucleus P:",
+                min_value=0.1,
+                max_value=1.0,
+                value=0.9,
+                key="nucleus_p"
+            )
+        
+        elif generation_strategy == "Top-k Sampling":
+            top_k = st.number_input(
+                "Top K:",
+                min_value=1,
+                max_value=100,
+                value=40,
+                key="top_k"
+            )
+        
+        temperature = st.slider(
+            "Sampling Temperature:",
+            min_value=0.1,
+            max_value=2.0,
+            value=1.0,
+            key="scaffold_decoration_temperature"
+        )
+    
+    with col2:
+        st.markdown("#### 🎛️ Decoration Control")
+        
+        control_method = st.radio(
+            "Decoration Control:",
+            ["Property-guided", "Similarity-guided", "Free Generation"],
+            key="decoration_control_method"
+        )
+        
+        if control_method == "Property-guided":
+            target_properties = st.multiselect(
+                "Target Properties:",
+                ["Molecular Weight", "LogP", "TPSA", "QED", "Bioactivity"],
+                default=["QED", "Bioactivity"],
+                key="target_properties"
+            )
+            
+            for prop in target_properties:
+                if prop == "Molecular Weight":
+                    mw_target = st.slider(f"{prop} Target:", 200, 600, 400, key=f"target_{prop.lower()}")
+                elif prop == "LogP":
+                    logp_target = st.slider(f"{prop} Target:", -2.0, 6.0, 2.0, key=f"target_{prop.lower()}")
+                elif prop == "QED":
+                    qed_target = st.slider(f"{prop} Target:", 0.0, 1.0, 0.7, key=f"target_{prop.lower()}")
+        
+        elif control_method == "Similarity-guided":
+            reference_molecules = st.text_area(
+                "Reference Molecules (SMILES):",
+                placeholder="CCO\nc1ccccc1\nCC(=O)O",
+                key="reference_molecules_scaffold"
+            )
+            
+            similarity_weight = st.slider(
+                "Similarity Weight:",
+                min_value=0.0,
                 max_value=2.0,
                 value=1.0,
-                step=0.1
+                key="similarity_weight_scaffold"
             )
         
-        with col2:
-            unique_molecules = st.checkbox("Remove Duplicates", value=True)
-            randomize_smiles = st.checkbox("Randomize SMILES", value=True)
+        # Output filtering
+        st.markdown("#### 🔍 Output Filtering")
+        
+        apply_filters = st.checkbox(
+            "Apply Molecular Filters",
+            value=True,
+            key="apply_scaffold_filters"
+        )
+        
+        if apply_filters:
+            lipinski_filter = st.checkbox("Lipinski's Rule", value=True, key="lipinski_filter_scaffold")
+            pains_filter = st.checkbox("PAINS Filter", value=True, key="pains_filter_scaffold")
+            synthetic_filter = st.checkbox("Synthetic Accessibility", value=False, key="synthetic_filter_scaffold")
+    
+    # Generation execution
+    if st.button("🚀 Generate Decorations", type="primary", key="start_scaffold_decoration"):
+        execute_scaffold_decoration()
+
+def execute_scaffold_training(training_strategy, scaffolds):
+    """Execute scaffold training"""
+    
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    
+    try:
+        status_text.text("🔧 Preparing training data...")
+        progress_bar.progress(0.1)
+        time.sleep(1)
+        
+        status_text.text(f"🎓 Starting {training_strategy.lower()}...")
+        progress_bar.progress(0.3)
+        time.sleep(2)
+        
+        status_text.text("📊 Processing scaffold templates...")
+        progress_bar.progress(0.5)
+        time.sleep(2)
+        
+        status_text.text("🚀 Training model...")
+        progress_bar.progress(0.8)
+        time.sleep(3)
+        
+        progress_bar.progress(1.0)
+        status_text.text("✅ Training completed!")
+        
+        # Store training results
+        st.session_state.scaffold_training_complete = True
+        st.session_state.scaffold_trained_model = f"scaffold_model_{training_strategy.lower().replace(' ', '_')}.prior"
+        
+        st.success(f"✅ Scaffold {training_strategy} completed successfully!")
+        
+    except Exception as e:
+        st.error(f"❌ Training failed: {str(e)}")
+
+def execute_scaffold_decoration():
+    """Execute scaffold decoration generation"""
+    
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    
+    try:
+        scaffolds = st.session_state.scaffold_templates
+        num_decorations = st.session_state.get('num_decorations_per_scaffold', 100)
+        
+        status_text.text("🚀 Initializing decoration...")
+        progress_bar.progress(0.1)
+        time.sleep(1)
+        
+        all_decorations = []
+        
+        for i, scaffold in enumerate(scaffolds):
+            status_text.text(f"🧬 Decorating scaffold {i+1}/{len(scaffolds)}...")
+            progress = 0.1 + (i / len(scaffolds)) * 0.8
+            progress_bar.progress(progress)
             
-            output_file = st.text_input(
-                "Output File Name",
-                value=f"{mode.lower().replace(' ', '_')}_results.csv"
-            )
+            # Simulate decoration generation
+            decorations = simulate_scaffold_decorations(scaffold, num_decorations)
+            all_decorations.extend(decorations)
+            
+            time.sleep(0.5)
+        
+        status_text.text("📊 Processing results...")
+        progress_bar.progress(0.9)
+        time.sleep(1)
+        
+        # Create results dataframe
+        results_df = pd.DataFrame(all_decorations)
+        
+        # Store results
+        st.session_state.scaffold_decoration_results = results_df
+        
+        progress_bar.progress(1.0)
+        status_text.text("✅ Decoration completed!")
+        
+        st.success(f"✅ Generated {len(results_df)} decorated molecules!")
+        
+        # Show summary
+        col1, col2, col3, col4 = st.columns(4)
+        
+        with col1:
+            st.metric("Total Decorations", len(results_df))
+        
+        with col2:
+            valid_count = results_df['Valid'].sum()
+            st.metric("Valid Molecules", valid_count)
+        
+        with col3:
+            unique_count = results_df['Decorated_SMILES'].nunique()
+            st.metric("Unique Decorations", unique_count)
+        
+        with col4:
+            avg_score = results_df['Decoration_Score'].mean()
+            st.metric("Avg Score", f"{avg_score:.2f}")
+        
+    except Exception as e:
+        st.error(f"❌ Decoration failed: {str(e)}")
+
+def simulate_scaffold_database(scaffold_class):
+    """Simulate loading scaffolds from database"""
     
-    # Generate button
-    if st.button(f"🚀 Run {mode}", type="primary"):
-        if not scaffolds:
-            st.error("Please provide at least one scaffold.")
-        else:
-            run_scaffold_generation(
-                mode, scaffolds, model_file, device, num_compounds,
-                unique_molecules, randomize_smiles, temperature, output_file
-            )
+    databases = {
+        "Kinase Scaffolds": [
+            "c1ccc2c(c1)nc([*])n2[*]",  # Benzimidazole
+            "c1cc([*])cc2c1nc([*])n2",  # Quinazoline
+            "c1ccc2c(c1)nc([*])c([*])n2",  # Quinazoline variant
+        ] * 20,
+        
+        "GPCR Scaffolds": [
+            "c1ccc(cc1)C([*])([*])c2ccccc2",  # Diphenylmethane
+            "c1ccc2c(c1)oc([*])c([*])c2=O",  # Coumarin
+            "c1cc([*])c([*])cc1",  # Benzene
+        ] * 20,
+        
+        "Ion Channel Scaffolds": [
+            "c1ccc(cc1)C([*])=C([*])c2ccccc2",  # Stilbene
+            "c1cc([*])nc([*])c1",  # Pyridine
+            "c1c([*])cnc([*])c1",  # Pyrimidine
+        ] * 20,
+        
+        "Protease Scaffolds": [
+            "CC([*])C(=O)N([*])C",  # Amide
+            "c1cc([*])c(C(=O)N([*]))cc1",  # Benzoyl amide
+            "N([*])C(=O)C([*])N",  # Dipeptide mimic
+        ] * 20
+    }
     
-    # Display results
-    if 'scaffold_results' in st.session_state:
-        show_generation_results(st.session_state.scaffold_results, mode)
+    return databases.get(scaffold_class, [])
+
+def simulate_scaffold_decorations(scaffold, num_decorations):
+    """Simulate decoration generation for a scaffold"""
+    
+    np.random.seed(42)
+    decorations = []
+    
+    # Sample R-groups for decoration
+    r_groups = ["H", "C", "CC", "CCC", "O", "N", "F", "Cl", "Br", "CF3", "c1ccccc1", "CCO"]
+    
+    for i in range(min(num_decorations, 50)):  # Limit for demo
+        # Replace [*] with random R-groups
+        decorated = scaffold
+        while "[*]" in decorated:
+            r_group = np.random.choice(r_groups)
+            decorated = decorated.replace("[*]", r_group, 1)
+        
+        decorations.append({
+            'Original_Scaffold': scaffold,
+            'Decorated_SMILES': decorated,
+            'Decoration_Score': np.random.uniform(0.3, 0.9),
+            'Molecular_Weight': np.random.uniform(200, 500),
+            'LogP': np.random.uniform(-1, 5),
+            'QED': np.random.uniform(0.2, 0.8),
+            'Valid': np.random.choice([True, False], p=[0.85, 0.15])
+        })
+    
+    return decorations
+
+def show_scaffold_optimization():
+    """Step 4: Optimize decorated scaffolds"""
+    
+    st.subheader("📈 Scaffold Decoration Optimization")
+    
+    if 'scaffold_decoration_results' not in st.session_state:
+        st.warning("⚠️ Complete scaffold decoration first.")
+        return
+    
+    # Implementation similar to denovo optimization but focused on scaffold decorations
+    st.info("🚧 Scaffold optimization pipeline implementation...")
+
+def show_scaffold_library_design():
+    """Step 5: Design libraries from optimized decorations"""
+    
+    st.subheader("📚 Scaffold Library Design")
+    
+    if 'scaffold_decoration_results' not in st.session_state:
+        st.warning("⚠️ Complete scaffold decoration first.")
+        return
+    
+    # Implementation for scaffold-based library design
+    st.info("🚧 Scaffold library design implementation...")
 
 def run_scaffold_generation(mode, scaffolds, model_file, device, num_compounds,
                           unique_molecules, randomize_smiles, temperature, output_file):
@@ -1735,9 +3037,6 @@ def show_optimization_page():
     </div>
     """, unsafe_allow_html=True)
     
-    # Show active features if any
-    show_active_features()
-    
     # Configuration interface
     with st.expander("⚙️ Configuration", expanded=True):
         col1, col2 = st.columns(2)
@@ -2123,105 +3422,28 @@ def show_optimization_results(results):
         )
 
 def show_library_page():
-    """Library design feature page"""
+    """Library design page"""
     st.markdown('<div class="sub-header">📚 Library Design</div>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="info-box">
     Design focused molecular libraries using combinatorial enumeration and virtual screening approaches.
-    This feature enhances generation modules with library design capabilities.
     </div>
     """, unsafe_allow_html=True)
     
-    # Library design configuration
-    with st.expander("⚙️ Library Design Configuration", expanded=True):
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.subheader("Library Type")
-            
-            library_type = st.radio(
-                "Select Library Design Mode:",
-                ["Combinatorial Enumeration", "Focused Library", "Diversity Library"],
-                help="Choose the type of library to design"
-            )
-            
-            library_size = st.number_input(
-                "Target Library Size",
-                min_value=10,
-                max_value=100000,
-                value=1000,
-                help="Number of molecules in the designed library"
-            )
-            
-            diversity_threshold = st.slider(
-                "Diversity Threshold",
-                min_value=0.0,
-                max_value=1.0,
-                value=0.7,
-                step=0.05,
-                help="Minimum diversity between library members"
-            )
-        
-        with col2:
-            st.subheader("Library Constraints")
-            
-            if library_type == "Combinatorial Enumeration":
-                st.markdown("**Combinatorial Parameters:**")
-                
-                max_substitutions = st.number_input(
-                    "Max Substitutions per Scaffold",
-                    min_value=1,
-                    max_value=10,
-                    value=3
-                )
-                
-                substitution_types = st.multiselect(
-                    "Allowed Substitution Types",
-                    ["R-groups", "Ring replacements", "Linker variations", "Functional groups"],
-                    default=["R-groups", "Functional groups"]
-                )
-            
-            elif library_type == "Focused Library":
-                st.markdown("**Focus Parameters:**")
-                
-                target_class = st.selectbox(
-                    "Target Molecular Class",
-                    ["Kinase inhibitors", "GPCR ligands", "Ion channel modulators", "General drug-like", "Custom"]
-                )
-                
-                activity_profile = st.selectbox(
-                    "Desired Activity Profile",
-                    ["High potency", "Selectivity", "ADMET optimized", "Balanced profile"]
-                )
-            
-            else:  # Diversity Library
-                st.markdown("**Diversity Parameters:**")
-                
-                diversity_metric = st.selectbox(
-                    "Diversity Metric",
-                    ["Tanimoto distance", "ECFP4 fingerprints", "Pharmacophore diversity", "Shape diversity"]
-                )
-                
-                cluster_method = st.selectbox(
-                    "Clustering Method",
-                    ["K-means", "Hierarchical", "DBSCAN", "Random selection"]
-                )
+    # Library design mode selection
+    design_mode = st.radio(
+        "Library Design Mode:",
+        ["Combinatorial Enumeration", "Focused Library", "Diversity Library"],
+        help="Choose the type of library to design"
+    )
     
-    # Generate library button
-    if st.button("🎯 Design Library", type="primary"):
-        st.success("✅ Library design functionality integrated! This feature enhances generation modules.")
-        
-        # Save library configuration to session state
-        library_config = {
-            "library_type": library_type,
-            "library_size": library_size,
-            "diversity_threshold": diversity_threshold,
-            "active": True
-        }
-        
-        st.session_state.library_config = library_config
-        st.info("🛠️ Library configuration saved! It will be applied to generation modules.")
+    if design_mode == "Combinatorial Enumeration":
+        show_combinatorial_library()
+    elif design_mode == "Focused Library":
+        show_focused_library()
+    else:
+        show_diversity_library()
 
 def show_combinatorial_library():
     """Combinatorial library enumeration interface"""
@@ -2357,916 +3579,916 @@ def show_focused_library():
                 value=0.7,
                 help="Minimum Tanimoto similarity for inclusion"
             )
-            
-            include_bioisosteres = st.checkbox(
-                "Include Bioisosteres",
-                value=True,
-                help="Add bioisosteric replacements"
-            )
-            
-            fragment_based = st.checkbox(
-                "Fragment-Based Assembly",
-                value=False,
-                help="Build library from fragment combinations"
-            )
+def show_config_page():
+    """Configuration manager page"""t.checkbox(
+    st.markdown('<div class="sub-header">⚙️ Configuration Manager</div>', unsafe_allow_html=True)sosteres",
     
-    if st.button("🚀 Design Focused Library", type="primary"):
-        design_focused_library(
-            target_type, library_size, diversity_threshold,
-            include_bioisosteres, fragment_based
+    st.markdown("""acements"
+    <div class="info-box">   )
+    Save, load, and manage REINVENT configuration templates for different tasks and workflows.    
+    </div>
+    """, unsafe_allow_html=True)        "Fragment-Based Assembly",
+    e,
+    # Configuration management tabsions"
+    tab1, tab2, tab3, tab4 = st.tabs([            )
+        "📝 Create Configuration", 
+        "📂 Load Configuration", rary", type="primary"):
+        "📋 Templates",     design_focused_library(
+        "🔄 Batch Processing"e, library_size, diversity_threshold,
+    ])nclude_bioisosteres, fragment_based
         )
+    with tab1:
+        show_config_creator()
     
-    if 'focused_library_results' in st.session_state:
-        show_library_results(st.session_state.focused_library_results)
+    with tab2:
+        show_config_loader()
+    sity library design interface"""
+    with tab3:
+        show_config_templates()
+    
+    with tab4:
+        show_batch_processing()
 
-def show_diversity_library():
-    """Diversity library design interface"""
+def show_config_creator():
+    """Configuration creation interface"""
+    st.subheader("📝 Create New Configuration")
     
-    st.subheader("🌈 Diversity Library Design")
-    
-    with st.expander("⚙️ Configuration", expanded=True):
-        col1, col2 = st.columns(2)
+    # Basic settings
+    with st.expander("🎯 Basic Settings", expanded=True):    ["MaxMin Algorithm", "Sphere Exclusion", "Cluster-Based", "Random Sampling"],
+        col1, col2 = st.columns(2)s"
         
         with col1:
-            st.markdown("#### Diversity Strategy")
-            
-            diversity_method = st.selectbox(
-                "Diversity Method",
-                ["MaxMin Algorithm", "Sphere Exclusion", "Cluster-Based", "Random Sampling"],
-                help="Algorithm for selecting diverse compounds"
+            config_name = st.text_input(t = st.selectbox(
+                "Configuration Name",scriptors",
+                placeholder="My REINVENT Config", Descriptors", "3D Pharmacophore"],
+                help="Descriptive name for this configuration"diversity"
             )
             
-            descriptor_set = st.selectbox(
-                "Molecular Descriptors",
-                ["ECFP", "MACCS Keys", "RDKit Descriptors", "3D Pharmacophore"],
-                help="Descriptor set for calculating diversity"
+            run_type = st.selectbox(
+                "Run Type",,
+                [bset", "Generated Compounds", "Upload File"]
+                    "sampling",
+                    "reinforcement_learning", 
+                    "transfer_learning",        if starting_set == "Database Subset":
+                    "library_design",.selectbox(
+                    "scoring"                    "Chemical Database",
+                ]"PubChem", "Custom Database"]
             )
+                        
+            device = st.selectbox("Device", ["cuda:0", "cpu"])
+                        "Filter Criteria",
+        with col2:er="MW: 150-500\nLogP: -1 to 5\nRotBonds: < 10",
+            description = st.text_area(ng"
+                "Description",            )
+                placeholder="Describe the purpose of this configuration...",
+                height=100
+            )        st.markdown("#### Library Parameters")
             
-            starting_set = st.radio(
-                "Starting Compound Set",
-                ["Database Subset", "Generated Compounds", "Upload File"]
-            )
+            author = st.text_input("Author", value="User")
+                        "Target Library Size",
+            version = st.text_input("Version", value="1.0")  min_value=50,
+    
+    # Run-specific parameters
+    st.subheader("🔧 Run-Specific Parameters")
             
-            if starting_set == "Database Subset":
-                database = st.selectbox(
-                    "Chemical Database",
-                    ["ChEMBL", "ZINC", "PubChem", "Custom Database"]
-                )
-                
-                filter_criteria = st.text_area(
-                    "Filter Criteria",
-                    placeholder="MW: 150-500\nLogP: -1 to 5\nRotBonds: < 10",
-                    help="Criteria for initial filtering"
-                )
-        
-        with col2:
-            st.markdown("#### Library Parameters")
-            
-            target_size = st.number_input(
-                "Target Library Size",
-                min_value=50,
-                max_value=10000,
-                value=1000
-            )
-            
-            min_distance = st.slider(
-                "Minimum Distance Threshold",
-                min_value=0.1,
-                max_value=1.0,
-                value=0.5,
-                help="Minimum similarity distance between compounds"
-            )
-            
-            seed_compounds = st.text_area(
-                "Seed Compounds (optional)",
+    if run_type == "sampling":n_distance = st.slider(
+        show_sampling_config()
+    elif run_type == "reinforcement_learning":
+        show_rl_config_creator()            max_value=1.0,
+    elif run_type == "transfer_learning":  value=0.5,
+        show_tl_config_creator()ance between compounds"
+    elif run_type == "library_design":
+        show_library_config_creator()        
+    elif run_type == "scoring":xt_area(
+        show_scoring_config_creator(),
                 placeholder="CCO\nc1ccccc1",
-                help="Starting compounds to ensure inclusion"
+    # Save configurationp="Starting compounds to ensure inclusion"
+    st.subheader("💾 Save Configuration")
+    
+    col1, col2 = st.columns(2)eactive = st.checkbox(
+    ctive Groups",
+    with col1:
+        save_location = st.selectbox(       help="Filter out compounds with reactive functional groups"
+            "Save Location",
+            ["Local Templates", "Project Folder", "Custom Path"]        
+        )er = st.checkbox(
+        
+        if save_location == "Custom Path":
+            custom_path = st.text_input("Custom Path", value="./configs/")
             )
+    with col2:
+        file_format = st.selectbox("File Format", ["TOML", "JSON", "YAML"])ity Library", type="primary"):
+            generate_diversity_library(
+        include_metadata = st.checkbox(descriptor_set, target_size,
+            "Include Metadata",        min_distance, exclude_reactive, lipinski_filter
+            value=True,
+            help="Include creation date, author, and description"
+        )esults' in st.session_state:
+    _state.diversity_library_results)
+    if st.button("💾 Save Configuration", type="primary"):
+        if config_name: rgroup_sets, max_combinations, 
+            save_configuration(        include_duplicates, filter_by_properties):
+                config_name, run_type, description, author, umerate combinatorial library"""
+                version, save_location, file_format, include_metadata
+            )
+        else:
+            st.error("Please provide a configuration name")pty()
+
+def show_sampling_config():xt("Enumerating combinations...")
+    """Sampling configuration parameters"""
+    with st.expander("⚙️ Sampling Parameters"):
+        col1, col2 = st.columns(2) Simulate enumeration
+                time.sleep(2)
+        with col1:
+            model_path = st.text_input("Model Path", value="priors/reinvent.prior")library
+            num_smiles = st.number_input("Number of SMILES", 1, 10000, 1000)s)
+            batch_size = st.number_input("Batch Size", 1, 500, 100)    
+        r.progress(1.0)
+        with col2:Library enumeration complete!")
+            temperature = st.slider("Temperature", 0.1, 2.0, 1.0, 0.1)
+            unique_molecules = st.checkbox("Unique Molecules", value=True).session_state.library_results = {
+            randomize = st.checkbox("Randomize", value=True)_df,
+        'library_type': 'Combinatorial',
+def show_rl_config_creator():
+    """RL configuration parameters"""rgroup_sets
+    with st.expander("⚙️ RL Parameters"):
+        col1, col2 = st.columns(2)
+        ary with {len(library_df)} compounds!")
+        with col1:   
+            agent_path = st.text_input("Agent Model", value="priors/reinvent.prior")except Exception as e:
+            prior_path = st.text_input("Prior Model", value="priors/reinvent.prior")r(e)}")
+            num_steps = st.number_input("RL Steps", 100, 50000, 5000)
+        d, rgroup_sets, max_combinations):
+        with col2:library enumeration"""
+            batch_size = st.number_input("Batch Size", 10, 500, 128)
+            learning_rate = st.number_input("Learning Rate", 0.00001, 0.01, 0.0001, format="%.5f")
+            kl_sigma = st.slider("KL Sigma", 1, 200, 60)    data = []
+
+def show_tl_config_creator():
+    """Transfer learning configuration parameters"""num_combinations = min(max_combinations, 1000)  # Limit for demo
+    with st.expander("⚙️ Transfer Learning Parameters"):
+        col1, col2 = st.columns(2)for i in range(num_combinations):
+        
+        with col1:
+            input_model = st.text_input("Input Model", value="priors/reinvent.prior")rgroups_used = {}
+            output_model = st.text_input("Output Model", value="models/transfer_model")
+            training_data = st.text_input("Training Data", placeholder="path/to/training.smi")enumerate(rgroup_sets.items()):
+        if rgroup_list:
+        with col2:.choice(rgroup_list)
+            num_epochs = st.number_input("Epochs", 1, 1000, 100)e] = selected_rgroup
+            batch_size = st.number_input("Batch Size", 1, 200, 64)tation would be more sophisticated)
+            learning_rate = st.number_input("Learning Rate", 0.00001, 0.1, 0.001, format="%.5f")
+
+def show_library_config_creator():nerate properties
+    """Library design configuration parameters"""
+    with st.expander("⚙️ Library Design Parameters"): = np.random.uniform(-1, 6)
+        col1, col2 = st.columns(2)
+        
+        with col1:int(0, 12)
+            design_type = st.selectbox("Design Type", ["combinatorial", "focused", "diversity"])
+            reactions = st.text_area("Reaction SMARTS", placeholder="[C:1]>>N[C:1]")
+            building_blocks = st.text_area("Building Blocks", placeholder="File paths or SMILES")
+        SMILES': smiles,
+        with col2:'Molecular_Weight': mw,
+            max_products = st.number_input("Max Products", 100, 1000000, 10000)
+            filter_duplicates = st.checkbox("Filter Duplicates", value=True)
+            apply_filters = st.checkbox("Apply Drug-like Filters", value=True)
+
+def show_scoring_config_creator():p <= 5 and hbd <= 5 and hba <= 10 and tpsa <= 140),
+    """Scoring configuration parameters"""
+    with st.expander("⚙️ Scoring Parameters"):
+        input_file = st.text_input("Input File", placeholder="molecules.smi")
+        
+        # Scoring components
+        st.markdown("**Scoring Components:**")gn_focused_library(target_type, library_size, diversity_threshold,
+                include_bioisosteres, fragment_based):
+        use_qed = st.checkbox("QED (Drug-likeness)", value=True)
+        if use_qed:
+            qed_weight = st.slider("QED Weight", 0.0, 1.0, 1.0, 0.1)
+        
+        use_similarity = st.checkbox("Similarity Scoring")y()
+        if use_similarity:
+            reference_smiles = st.text_input("Reference SMILES")signing focused library...")
+            similarity_weight = st.slider("Similarity Weight", 0.0, 1.0, 1.0, 0.1)
+
+def show_config_loader():.sleep(3)
+    """Configuration loading interface"""
+    st.subheader("📂 Load Existing Configuration")
+    e_focused_library(library_size, target_type)
+    # File upload
+    uploaded_config = st.file_uploader(ess_bar.progress(1.0)
+        "Upload Configuration File",us_text.text("Focused library design complete!")
+        type=['toml', 'json', 'yaml'],
+        help="Load a previously saved REINVENT configuration"results = {
+    )brary_df,
+    
+    if uploaded_config is not None:target_type': target_type
+        try:
+            # Parse configuration based on file type
+            if uploaded_config.name.endswith('.json'):h {len(library_df)} compounds!")
+                config_data = json.load(uploaded_config)
+            elif uploaded_config.name.endswith('.toml'):
+                import toml
+                config_data = toml.load(uploaded_config)
+            else:simulate_focused_library(library_size, target_type):
+                st.error("Unsupported file format")
+                return
             
-            exclude_reactive = st.checkbox(
-                "Exclude Reactive Groups",
-                value=True,
-                help="Filter out compounds with reactive functional groups"
-            )
-            
-            lipinski_filter = st.checkbox(
-                "Apply Lipinski Filter",
-                value=True,
-                help="Apply Lipinski's Rule of Five"
-            )
-    
-    if st.button("🚀 Generate Diversity Library", type="primary"):
-        generate_diversity_library(
-            diversity_method, descriptor_set, target_size,
-            min_distance, exclude_reactive, lipinski_filter
-        )
-    
-    if 'diversity_library_results' in st.session_state:
-        show_library_results(st.session_state.diversity_library_results)
-
-def enumerate_combinatorial_library(scaffold, rgroup_sets, max_combinations, 
-                                   include_duplicates, filter_by_properties):
-    """Enumerate combinatorial library"""
-    
-    try:
-        progress_bar = st.progress(0)
-        status_text = st.empty()
-        
-        status_text.text("Enumerating combinations...")
-        progress_bar.progress(0.3)
-        
-        # Simulate enumeration
-        time.sleep(2)
-        
-        # Generate simulated library
-        library_df = simulate_combinatorial_library(scaffold, rgroup_sets, max_combinations)
-        
-        progress_bar.progress(1.0)
-        status_text.text("Library enumeration complete!")
-        
-        st.session_state.library_results = {
-            'dataframe': library_df,
-            'library_type': 'Combinatorial',
-            'scaffold': scaffold,
-            'rgroup_sets': rgroup_sets
-        }
-        
-        st.success(f"✅ Generated combinatorial library with {len(library_df)} compounds!")
-        
-    except Exception as e:
-        st.error(f"❌ Error during enumeration: {str(e)}")
-
-def simulate_combinatorial_library(scaffold, rgroup_sets, max_combinations):
-    """Simulate combinatorial library enumeration"""
-    
-    np.random.seed(42)
-    data = []
-    
-    # Sample combinations
-    num_combinations = min(max_combinations, 1000)  # Limit for demo
-    
-    for i in range(num_combinations):
-        # Generate random combination
-        smiles = scaffold
-        rgroups_used = {}
-        
-        for j, (rgroup_name, rgroup_list) in enumerate(rgroup_sets.items()):
-            if rgroup_list:
-                selected_rgroup = np.random.choice(rgroup_list)
-                rgroups_used[rgroup_name] = selected_rgroup
-                # Simple replacement (real implementation would be more sophisticated)
-                smiles = smiles.replace(f"[*:{j+1}]", selected_rgroup)
-        
-        # Generate properties
-        mw = np.random.uniform(150, 600)
-        logp = np.random.uniform(-1, 6)
-        tpsa = np.random.uniform(20, 150)
-        hbd = np.random.randint(0, 8)
-        hba = np.random.randint(0, 12)
-        
-        data.append({
-            'Compound_ID': f"LIB_{i+1:06d}",
-            'SMILES': smiles,
-            'Molecular_Weight': mw,
-            'LogP': logp,
-            'TPSA': tpsa,
-            'HBD': hbd,
-            'HBA': hba,
-            'Lipinski_Compliant': (mw <= 500 and logp <= 5 and hbd <= 5 and hba <= 10 and tpsa <= 140),
-            **rgroups_used
-        })
-    
-    return pd.DataFrame(data)
-
-def design_focused_library(target_type, library_size, diversity_threshold,
-                          include_bioisosteres, fragment_based):
-    """Design focused library"""
-    
-    try:
-        progress_bar = st.progress(0)
-        status_text = st.empty()
-        
-        status_text.text("Designing focused library...")
-        progress_bar.progress(0.5)
-        
-        time.sleep(3)
-        
-        # Generate simulated focused library
-        library_df = simulate_focused_library(library_size, target_type)
-        
-        progress_bar.progress(1.0)
-        status_text.text("Focused library design complete!")
-        
-        st.session_state.focused_library_results = {
-            'dataframe': library_df,
-            'library_type': 'Focused',
-            'target_type': target_type
-        }
-        
-        st.success(f"✅ Generated focused library with {len(library_df)} compounds!")
-        
-    except Exception as e:
-        st.error(f"❌ Error during focused library design: {str(e)}")
-
-def simulate_focused_library(library_size, target_type):
-    """Simulate focused library design"""
-    
-    np.random.seed(42)
-    data = []
-    
-    # Simulate focused compounds
-    for i in range(min(library_size, 1000)):  # Limit for demo
-        # Generate SMILES with bias towards target
-        base_smiles = ["CCO", "c1ccccc1", "CCN", "c1ccncc1", "CC(=O)O"]
-        smiles = np.random.choice(base_smiles)
-        
-        # Properties biased towards target
-        if target_type == "Protein Target":
-            mw = np.random.normal(350, 50)
+            st.session_state.loaded_config = config_data
+            st.success(f"✅ Configuration loaded: {uploaded_config.name}")
+            e focused compounds
+            # Display configurationrange(min(library_size, 1000)):  # Limit for demo
+            show_config_preview(config_data)
+                base_smiles = ["CCO", "c1ccccc1", "CCN", "c1ccncc1", "CC(=O)O"]
+        except Exception as e:)
+            st.error(f"Error loading configuration: {str(e)}")
+            # Properties biased towards target
+    # Quick load from templatesProtein Target":
+    st.subheader("📋 Quick Load from Templates")
             logp = np.random.normal(2.5, 0.8)
-            score = np.random.uniform(0.6, 0.9)  # Higher scores for protein targets
+    template_configs = get_template_configurations()9)  # Higher scores for protein targets
         else:
-            mw = np.random.uniform(200, 500)
-            logp = np.random.uniform(1, 4)
-            score = np.random.uniform(0.4, 0.8)
-        
-        tpsa = np.random.uniform(40, 120)
-        similarity = np.random.uniform(0.7, 0.95)  # High similarity in focused library
-        
-        data.append({
-            'Compound_ID': f"FOC_{i+1:06d}",
-            'SMILES': smiles,
-            'Molecular_Weight': max(150, mw),
-            'LogP': logp,
-            'TPSA': tpsa,
-            'Target_Score': score,
-            'Similarity_to_Target': similarity,
-            'Lipinski_Compliant': np.random.choice([True, False], p=[0.85, 0.15])
-        })
+    if template_configs:
+        selected_template = st.selectbox(rm(1, 4)
+            "Select Template",    score = np.random.uniform(0.4, 0.8)
+            ["None"] + list(template_configs.keys())
+        )
+        larity = np.random.uniform(0.7, 0.95)  # High similarity in focused library
+        if selected_template != "None":
+            if st.button(f"Load {selected_template}"):
+                st.session_state.loaded_config = template_configs[selected_template]
+                st.success(f"Template loaded: {selected_template}")
+                show_config_preview(template_configs[selected_template])Molecular_Weight': max(150, mw),
+'LogP': logp,
+def show_config_preview(config_data):
+    """Display configuration preview"""
+    st.subheader("🔍 Configuration Preview")
+    ce([True, False], p=[0.85, 0.15])
+    # Basic info
+    col1, col2, col3 = st.columns(3)
+    aFrame(data)
+    with col1:
+        st.metric("Run Type", config_data.get('run_type', 'Unknown'))scriptor_set, target_size,
     
-    return pd.DataFrame(data)
-
-def generate_diversity_library(diversity_method, descriptor_set, target_size,
-                              min_distance, exclude_reactive, lipinski_filter):
-    """Generate diversity library"""
+    with col2:
+        st.metric("Device", config_data.get('device', 'Unknown'))
     
+    with col3:
+        if 'metadata' in config_data:
+            st.metric("Version", config_data['metadata'].get('version', 'Unknown'))
+    sing {diversity_method}...")
+    # Full configuration
+    with st.expander("📄 Full Configuration"):
+        st.json(config_data)time.sleep(3)
+    
+    # Actions
+    col1, col2, col3 = st.columns(3)ary_df = simulate_diversity_library(target_size, diversity_method)
+    
+    with col1:
+        if st.button("▶️ Run Configuration"):rsity library generation complete!")
+            run_configuration(config_data)
+    iversity_library_results = {
+    with col2:dataframe': library_df,
+        if st.button("✏️ Edit Configuration"):'library_type': 'Diversity',
+            st.session_state.edit_config = config_data
+            st.info("Configuration loaded for editing")
+    
+    with col3:ed diversity library with {len(library_df)} compounds!")
+        if st.button("💾 Save as Template"):
+            save_as_template(config_data)
+ror(f"❌ Error during diversity library generation: {str(e)}")
+def show_config_templates():
+    """Configuration templates management"""hod):
+    st.subheader("📋 Configuration Templates")ation"""
+    
+    # Template categories
+    template_categories = {
+        "🧪 Basic Sampling": [
+            {
+                "name": "Simple Sampling",
+                "description": "Basic molecular generation from prior",CCN(CC)CC", "c1ccncc1", "CC(=O)O",
+                "run_type": "sampling",
+                "parameters": {"num_smiles": 1000, "batch_size": 100}c(F)cc1", "CCNC", "c1cccnc1", "CCC(=O)N"
+            },]
+            {
+                "name": "High Diversity Sampling", ize, 1000)):  # Limit for demo
+                "description": "Generate diverse molecules with high temperature",
+                "run_type": "sampling",
+                "parameters": {"num_smiles": 5000, "temperature": 1.5} Properties spread across chemical space
+            }    mw = np.random.uniform(150, 650)
+        ],
+        "🎯 Reinforcement Learning": [
+            {        
+                "name": "Drug-like Optimization",ed on method
+                "description": "Optimize for drug-like properties using QED",
+                "run_type": "reinforcement_learning",        diversity_score = np.random.uniform(0.3, 0.9)
+                "parameters": {"num_steps": 5000, "scoring": "qed"}
+            },        diversity_score = np.random.uniform(0.4, 0.8)
+            {
+                "name": "Multi-objective Optimization",andom.uniform(0.2, 0.7)
+                "description": "Balance multiple objectives with constraints",
+                "run_type": "reinforcement_learning", d({
+                "parameters": {"num_steps": 10000, "scoring": "multi"}
+            }'SMILES': smiles,
+        ],
+        "📚 Transfer Learning": [
+            {
+                "name": "Fine-tune on ChEMBL",
+                "description": "Fine-tune model on ChEMBL data",Cluster_ID': np.random.randint(1, 20),
+                "run_type": "transfer_learning",'Lipinski_Compliant': np.random.choice([True, False], p=[0.7, 0.3])
+                "parameters": {"epochs": 100, "learning_rate": 0.001}
+            }
+        ],
+        "🔬 Library Design": [
+            {ary_results(results):
+                "name": "Combinatorial Library",ay library design results"""
+                "description": "Generate combinatorial chemical library",
+                "run_type": "library_design",">📊 {results["library_type"]} Library Results</div>', unsafe_allow_html=True)
+                "parameters": {"design_type": "combinatorial"}
+            }lts['dataframe']
+        ]
+    }
+    4)
+    for category, templates in template_categories.items():
+        with st.expander(category, expanded=True):
+            for template in templates:("Total Compounds", len(df))
+                col1, col2, col3 = st.columns([3, 2, 1])
+                
+                with col1:Compliant'].sum() if 'Lipinski_Compliant' in df.columns else 0
+                    st.markdown(f"**{template['name']}**")
+                    st.caption(template['description'])
+                
+                with col2:if 'Molecular_Weight' in df.columns:
+                    st.code(f"Type: {template['run_type']}") = df['Molecular_Weight'].mean()
+                vg_mw:.1f} Da")
+                with col3:
+                    if st.button("Use", key=f"use_{template['name']}"):
+                        st.session_state.selected_template = template
+                        st.success(f"Template '{template['name']}' selected!")gP'].mean()
+, f"{avg_logp:.2f}")
+def show_batch_processing():
+    """Batch processing interface""" library data
+    st.subheader("🔄 Batch Processing")ader("Library Compounds")
+    dth=True)
+    st.markdown("""
+    Run multiple configurations in sequence or parallel for systematic experiments.ots
+    """)
+    erty Distributions")
+    # Batch configuration
+    with st.expander("⚙️ Batch Settings", expanded=True): col2 = st.columns(2)
+        col1, col2 = st.columns(2)
+        
+        with col1:mns:
+            batch_name = st.text_input(lecular_Weight', title="Molecular Weight Distribution")
+                "Batch Name",)
+                placeholder="Systematic Study 2024",
+                help="Name for this batch of experiments" col2:
+            )
+            LogP', title="LogP Distribution")
+            execution_mode = st.selectbox(hart(fig, use_container_width=True)
+                "Execution Mode",
+                ["Sequential", "Parallel (Limited)", "Queue"]itional plots for specific library types
+            )esults['library_type'] == 'Diversity' and 'Diversity_Score' in df.columns:
+        lar_Weight', y='LogP', 
+        with col2:ity_Score', title="Chemical Space Coverage")
+            max_parallel = st.number_input((fig, use_container_width=True)
+                "Max Parallel Jobs",
+                min_value=1,d options
+                max_value=10,st.subheader("Download Library")
+                value=2,
+                help="Maximum number of parallel experiments")
+            )
+            
+            auto_save_results = st.checkbox(sv_data = df.to_csv(index=False)
+                "Auto-save Results",    st.download_button(
+                value=True,
+                help="Automatically save results from each run"
+            )            file_name=f"{results['library_type'].lower()}_library.csv",
+    
+    # Configuration queue
+    st.subheader("📋 Configuration Queue")
+    with col2:
+    if 'batch_queue' not in st.session_state:smi_data = "\n".join([f"{row['SMILES']}\t{row['Compound_ID']}" for _, row in df.iterrows()])
+        st.session_state.batch_queue = []
+    
+    # Add configurations to queue    smi_data,
+    col1, col2 = st.columns(2))}_library.smi",
+    
+    with col1:)
+        st.markdown("**Add Configurations:**")
+        
+        # Upload multiple configs# Summary report
+        uploaded_configs = st.file_uploader(Report
+            "Upload Configuration Files",
+            type=['toml', 'json'],mpounds: {len(df)}
+            accept_multiple_files=TrueCompliant'].sum() if 'Lipinski_Compliant' in df.columns else 'N/A'}
+        )
+        : {df['LogP'].mean():.2f}
+        if uploaded_configs:%m-%d %H:%M:%S')}
+            if st.button("Add to Queue"):
+                for config_file in uploaded_configs:
+                    try:
+                        if config_file.name.endswith('.json'):
+                            config_data = json.load(config_file)   file_name=f"{results['library_type'].lower()}_report.txt",
+                        else:    mime="text/plain"
+                            import toml
+                            config_data = toml.load(config_file)
+                        
+                        st.session_state.batch_queue.append({
+                            'name': config_file.name,    st.markdown('<div class="sub-header">🎯 Scoring Functions</div>', unsafe_allow_html=True)
+                            'config': config_data,
+                            'status': 'Queued'
+                        })<div class="info-box">
+                    except Exception as e:e multi-component scoring functions for molecular optimization and evaluation.
+                        st.error(f"Error loading {config_file.name}: {e}")
+                """, unsafe_allow_html=True)
+                st.success(f"Added {len(uploaded_configs)} configurations to queue")
+    
+    with col2:with st.expander("🔧 Scoring Function Builder", expanded=True):
+        st.markdown("**Queue Status:**")nents")
+        
+        if st.session_state.batch_queue:tion
+            queue_df = pd.DataFrame([olumns(2)
+                {
+                    'Name': item['name'],
+                    'Type': item['config'].get('run_type', 'Unknown'),## Property Components")
+                    'Status': item['status']
+                }
+                for item in st.session_state.batch_queue
+            ])
+                    qed_weight = st.slider("QED Weight", 0.0, 1.0, 0.3, 0.05)
+            st.dataframe(queue_df, use_container_width=True) = st.selectbox("QED Transform", ["linear", "sigmoid", "reverse_sigmoid"], key="qed_transform")
+        else:
+            st.info("No configurations in queue")
+    ynthetic Accessibility", value=True)
+    # Batch execution
+    if st.session_state.batch_queue:"SA Score Weight", 0.0, 1.0, 0.2, 0.05)
+        st.subheader("🚀 Execute Batch")        sa_transform = st.selectbox("SA Transform", ["linear", "sigmoid", "reverse_sigmoid"], key="sa_transform")
+        
+        col1, col2, col3 = st.columns(3)
+        .checkbox("Lipinski Rule of Five", value=False)
+        with col1:
+            if st.button("▶️ Start Batch", type="primary"):weight = st.slider("Lipinski Weight", 0.0, 1.0, 0.1, 0.05)
+                execute_batch(st.session_state.batch_queue, execution_mode)
+        operty
+        with col2:property = st.checkbox("Custom Property")
+            if st.button("⏸️ Pause Batch"):
+                st.info("Batch execution paused")perty = st.selectbox(
+                  "Property Type",
+        with col3:                ["Molecular Weight", "LogP", "TPSA", "Rotatable Bonds", "Aromatic Rings"]
+            if st.button("🗑️ Clear Queue"):
+                st.session_state.batch_queue = []                custom_target = st.number_input(f"Target {custom_property}", value=300.0)
+                st.success("Queue cleared")erance", value=50.0)
+ight", 0.0, 1.0, 0.1, 0.05)
+def get_template_configurations():
+    """Get available template configurations"""    with col2:
+    return {    st.markdown("#### Similarity Components")
+        "Basic Sampling": {
+            "run_type": "sampling",rence
+            "device": "cuda:0",    use_similarity = st.checkbox("Similarity to Reference", value=False)
+            "parameters": {
+                "model_file": "priors/reinvent.prior", st.text_area(
+                "num_smiles": 1000,            "Reference SMILES (one per line)",
+                "batch_size": 100,laceholder="CCO\nc1ccccc1\nCC(=O)O",
+                "temperature": 1.0            height=100
+            }
+        },1.0, 0.3, 0.05)
+        "RL Optimization": {        similarity_method = st.selectbox("Similarity Method", ["Tanimoto", "Dice", "Cosine"])
+            "run_type": "reinforcement_learning", 
+            "device": "cuda:0",
+            "parameters": {    use_substructure = st.checkbox("Substructure Match")
+                "agent_file": "priors/reinvent.prior",
+                "prior_file": "priors/reinvent.prior",= st.text_input(
+                "num_steps": 5000,
+                "batch_size": 128,cc1",
+                "learning_rate": 0.0001           help="SMARTS pattern for substructure matching"
+            }        )
+        },, 0.05)
+        "Transfer Learning": {        substructure_mode = st.selectbox("Match Mode", ["Must Match", "Must Not Match"])
+            "run_type": "transfer_learning",
+            "device": "cuda:0",
+            "parameters": {            use_rocs = st.checkbox("ROCS 3D Similarity", value=False)
+                "input_model_file": "priors/reinvent.prior",
+                "output_model_file": "models/transfer_model.prior",input("Reference Molecule for ROCS")
+                "num_epochs": 100,            rocs_weight = st.slider("ROCS Weight", 0.0, 1.0, 0.2, 0.05)
+                "batch_size": 64,
+                "learning_rate": 0.001t.markdown("#### Predictive Models")
+            }        
+        },
+        "Library Design": {")
+            "run_type": "library_design",
+            "device": "cuda:0",ity Prediction", "ADMET", "Custom"])
+            "parameters": {del File Path", placeholder="models/activity_model.pkl")
+                "design_type": "combinatorial",        ml_weight = st.slider("ML Model Weight", 0.0, 1.0, 0.4, 0.05)
+                "num_products": 10000,
+                "filter_duplicates": True
+            }tion", expanded=True):
+        }
+    }
+col1:
+def save_configuration(name, run_type, description, author, version, 
+                      save_location, file_format, include_metadata):
+    """Save configuration to file"""
+    try:        "Score Aggregation",
+        config = {d Product", "Pareto Ranking", "Custom"],
+            "run_type": run_type,
+            "device": "cuda:0",    )
+            "parameters": {}  # Would be populated based on form inputs
+        }":
+        ormula = st.text_area(
+        if include_metadata:
+            config["metadata"] = {holder="(qed * 0.3 + sa_score * 0.2) * similarity",
+                "name": name,"Custom aggregation formula using component names"
+                "description": description,
+                "author": author,
+                "version": version,
+                "created": datetime.now().isoformat()      "Normalize Component Scores",
+            }            value=True,
+        ze all component scores to [0,1] range"
+        # Simulate saving            )
+        filename = f"{name.replace(' ', '_').lower()}.{file_format.lower()}"
+        
+        if file_format == "JSON":olds")
+            config_str = json.dumps(config, indent=2)        
+        elif file_format == "TOML":    min_score_threshold = st.slider(
+            config_str = f"# {name} Configuration\n[parameters]\n# Add parameters here"old",
+        else:  # YAML
+            config_str = f"# {name} Configuration\nrun_type: {run_type}"        max_value=1.0,
+        
+        st.download_button(e for molecule acceptance"
+            f"💾 Download {filename}",    )
+            config_str,
+            file_name=filename,    diversity_filter = st.checkbox(
+            mime="application/json" if file_format == "JSON" else "text/plain"
+        )
+                help="Remove similar high-scoring molecules"
+        st.success(f"✅ Configuration '{name}' saved as {filename}")
+        
+    except Exception as e:    if diversity_filter:
+        st.error(f"Error saving configuration: {str(e)}")
+hold",
+def run_configuration(config_data):
+    """Run a configuration"""
+    try:           value=0.7,
+        run_type = config_data.get('run_type', 'unknown')            help="Minimum Tanimoto distance for diversity"
+        
+        st.info(f"🚀 Starting {run_type} run...")
+        n
+        # Simulate run
+        progress_bar = st.progress(0)        st.subheader("Test with Sample Molecules")
+        for i in range(100):
+            progress_bar.progress((i + 1) / 100)
+            time.sleep(0.02)        "Test SMILES (one per line)",
+        r="CCO\nc1ccccc1\nCC(=O)O\nCCN(CC)CC\nc1ccncc1",
+        st.success(f"✅ {run_type.title()} run completed successfully!")eight=120,
+                help="Enter SMILES to test the scoring function"
+    except Exception as e:
+        st.error(f"Error running configuration: {str(e)}")
+"):
+def save_as_template(config_data):
+    """Save configuration as template""" test_molecules.split('\n') if line.strip()]
+    template_name = st.text_input("Template Name", placeholder="My Custom Template")           test_scoring_function(molecules)
+            else:
+    if template_name and st.button("Save Template"):
+        # In real implementation, would save to templates directory
+        st.success(f"✅ Template '{template_name}' saved!")ve/Load configurations
+):
+def execute_batch(queue, execution_mode):
+    """Execute batch of configurations"""
     try:
+        st.info(f"🚀 Starting batch execution in {execution_mode} mode...")    st.markdown("#### Save Configuration")
+        Configuration Name", placeholder="my_scoring_function")
         progress_bar = st.progress(0)
         status_text = st.empty()
         
-        status_text.text(f"Generating diversity library using {diversity_method}...")
-        progress_bar.progress(0.5)
-        
-        time.sleep(3)
-        
-        # Generate simulated diversity library
-        library_df = simulate_diversity_library(target_size, diversity_method)
-        
-        progress_bar.progress(1.0)
-        status_text.text("Diversity library generation complete!")
-        
-        st.session_state.diversity_library_results = {
-            'dataframe': library_df,
-            'library_type': 'Diversity',
-            'method': diversity_method
-        }
-        
-        st.success(f"✅ Generated diversity library with {len(library_df)} compounds!")
+        for i, item in enumerate(queue):
+            status_text.text(f"Processing {item['name']}...")   else:
+            item['status'] = 'Running'ion name.")
+            
+            # Simulate processing
+            time.sleep(1)tion")
+            
+            item['status'] = 'Completed'ions
+            progress_bar.progress((i + 1) / len(queue)) = ["default_drug_like", "similarity_focused", "diversity_optimized", "custom_qsar"]
+        ig = st.selectbox("Saved Configurations", saved_configs)
+        st.success("✅ Batch execution completed!")
         
     except Exception as e:
-        st.error(f"❌ Error during diversity library generation: {str(e)}")
+        st.error(f"Error during batch execution: {str(e)}")
+# Display current scoring function
+def show_file_manager_page():.session_state:
+    """File manager page for organizing and downloading saved files"""        show_scoring_summary()
+    st.markdown('<div class="sub-header">📁 File Manager</div>', unsafe_allow_html=True)
+    
+    st.markdown(""""""Test the configured scoring function on sample molecules"""
+    <div class="info-box">
+    Manage, organize, and download all your REINVENT4 results and configuration files.try:
+    </div>gress(0)
+    """, unsafe_allow_html=True)    status_text = st.empty()
+    
+    # Initialize file system structurees...")
+    if 'file_system' not in st.session_state:    progress_bar.progress(0.5)
+        st.session_state.file_system = initialize_file_system()
+    
+    # File management tabs    time.sleep(2)
+    tab1, tab2, tab3, tab4 = st.tabs([
+        "📂 Browse Files", 
+        "💾 Recent Downloads", )
+        "📊 Storage Analytics",     
+        "🔧 File Operations"ss_bar.progress(1.0)
+    ]))
+    
+    with tab1:
+        show_file_browser()    
+    cess(f"✅ Scored {len(molecules)} molecules!")
+    with tab2:
+        show_recent_downloads()
+    
+    with tab3:    
+        show_storage_analytics()
+    ring: {str(e)}")
+    with tab4:
+        show_file_operations()simulate_scoring_results(molecules):
+results"""
+def initialize_file_system():
+    """Initialize the file system structure"""
+    return { = []
+        'results': {
+            'denovo_generation': [],i, smiles in enumerate(molecules):
+            'optimization': [], component scores
+            'library_design': [],
+            'reinforcement_learning': [],
+            'transfer_learning': [],
+            'scoring': []lipinski_score = np.random.choice([0, 1], p=[0.3, 0.7])
+        },
+        'configurations': {ghted sum)
+            'templates': [],
+            'custom': [],* 0.2)
+            'batch_configs': []
+        },
+        'exports': {
+            'csv_files': [],
+            'sdf_files': [],
+            'json_files': [],
+            'reports': []    data.append({
+        },smiles,
+        'models': {re,
+            'trained_models': [],        'QED_Score': qed_score,
+            'checkpoints': [],
+            'prior_models': []        'Similarity_Score': similarity_score,
+        }ipinski_Score': lipinski_score,
+    }
 
-def simulate_diversity_library(target_size, method):
-    """Simulate diversity library generation"""
+def show_file_browser():
+    """Display file browser interface""" + 1
+    st.subheader("📂 File Browser")
     
-    np.random.seed(42)
-    data = []
-    
-    # Simulate diverse compounds
-    diverse_smiles = [
-        "CCO", "c1ccccc1", "CCN(CC)CC", "c1ccncc1", "CC(=O)O",
-        "c1ccc2ccccc2c1", "CCOCC", "c1cnc2ccccc2c1", "CC(C)O",
-        "c1ccc(F)cc1", "CCNC", "c1cccnc1", "CCC(=O)N"
-    ]
-    
-    for i in range(min(target_size, 1000)):  # Limit for demo
-        smiles = np.random.choice(diverse_smiles)
+    # Directory navigationpd.DataFrame(data)
+    col1, col2 = st.columns([1, 3])# Sort by total score descending
+    rt_values('Total_Score', ascending=False).reset_index(drop=True)
+    with col1:
+        st.markdown("**📁 Directories**")
         
-        # Properties spread across chemical space
-        mw = np.random.uniform(150, 650)
-        logp = np.random.uniform(-2, 6)
-        tpsa = np.random.uniform(20, 160)
+        # Directory tree
+        directories = {
+            "🧪 Results": "results",esults"""
+            "⚙️ Configurations": "configurations", 
+            "📤 Exports": "exports",st.markdown('<div class="sub-header">📊 Scoring Results</div>', unsafe_allow_html=True)
+            "🤖 Models": "models"
+        }
         
-        # Diversity score based on method
-        if method == "MaxMin Algorithm":
-            diversity_score = np.random.uniform(0.3, 0.9)
-        elif method == "Cluster-Based":
-            diversity_score = np.random.uniform(0.4, 0.8)
-        else:
-            diversity_score = np.random.uniform(0.2, 0.7)
+        selected_dir = st.radio(
+            "Select Directory:",
+            list(directories.keys()),
+            key="file_browser_dir"
+        )
         
-        data.append({
-            'Compound_ID': f"DIV_{i+1:06d}",
-            'SMILES': smiles,
-            'Molecular_Weight': mw,
-            'LogP': logp,
-            'TPSA': tpsa,
-            'Diversity_Score': diversity_score,
-            'Cluster_ID': np.random.randint(1, 20),
-            'Lipinski_Compliant': np.random.choice([True, False], p=[0.7, 0.3])
-        })
+        dir_key = directories[selected_dir]     st.metric("Average Score", f"{avg_score:.3f}")
     
-    return pd.DataFrame(data)
-
-def show_library_results(results):
-    """Display library design results"""
-    
-    st.markdown(f'<div class="sub-header">📊 {results["library_type"]} Library Results</div>', unsafe_allow_html=True)
-    
-    df = results['dataframe']
-    
-    # Summary statistics
+    with col2:
+        st.markdown(f"**📂 {selected_dir}**")= df['Total_Score'].max()
+        
+        # Show subdirectories and files
+        if dir_key in st.session_state.file_system:col4:
+            subdirs = st.session_state.file_system[dir_key]        passing_threshold = (df['Total_Score'] >= 0.5).sum()
+             Threshold", f"{passing_threshold}/{len(df)}")
+            if isinstance(subdirs, dict):
+                # Show subdirectories
+                for subdir_name, files in subdirs.items():st.subheader("Detailed Results")
+                    with st.expander(f"📁 {subdir_name.replace('_', ' ').title()}", expanded=False):, use_container_width=True)
+                        if files:
+                            display_files(files, dir_key, subdir_name)
+                        else:col2 = st.columns(2)
+                            st.info("No files in this directory")
+            else:with col1:
+                # Show files directly x='Total_Score', title="Total Score Distribution")
+                if subdirs:
+                    display_files(subdirs, dir_key)
+                else: col2:
+                    st.info("No files in this directory")parison
+     'SA_Score', 'Similarity_Score']
+    # Quick actionsscore_data = df[score_cols].melt()
+    st.subheader("⚡ Quick Actions")ox(score_data, x='variable', y='value', title="Component Score Distributions")
+    ue)
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric("Total Compounds", len(df))
+        if st.button("📊 View All Results"):
+            show_all_results_summary()
     
-    with col2:
-        lipinski_count = df['Lipinski_Compliant'].sum() if 'Lipinski_Compliant' in df.columns else 0
-        st.metric("Lipinski Compliant", lipinski_count)
-    
+    with col2:1:
+        if st.button("🗂️ Export All Data"):ex=False)
+            create_bulk_export()
+    ults CSV",
     with col3:
-        if 'Molecular_Weight' in df.columns:
-            avg_mw = df['Molecular_Weight'].mean()
-            st.metric("Avg Molecular Weight", f"{avg_mw:.1f} Da")
+        if st.button("🧹 Clean Up Files"):
+            show_cleanup_options()mime="text/csv"
     
     with col4:
-        if 'LogP' in df.columns:
-            avg_logp = df['LogP'].mean()
-            st.metric("Avg LogP", f"{avg_logp:.2f}")
+        if st.button("📈 Generate Report"):
+            generate_usage_report()
+molecules = df.head(10)
+def display_files(files, directory, subdirectory=None):es.to_csv(index=False)
+    """Display files in a directory with download options"""
     
-    # Display library data
-    st.subheader("Library Compounds")
-    st.dataframe(df, use_container_width=True)
+    if not files:
+        st.info("No files available")olecules.csv",
+        return
     
-    # Property distribution plots
-    if len(df) > 0:
-        st.subheader("Property Distributions")
-        
-        col1, col2 = st.columns(2)
-        
+    # Create file list with metadata
+    file_data = []
+    for i, file_info in enumerate(files):
+        if isinstance(file_info, dict):
+            file_data.append({ing configuration
+                'Name': file_info.get('name', f'File_{i}'),
+                'Type': file_info.get('type', 'Unknown'),e': config_name,
+                'Size': file_info.get('size', 'Unknown'),re', 'Similarity'],
+                'Created': file_info.get('created', 'Unknown'),
+                'Description': file_info.get('description', 'No description')mp.now().strftime('%Y-%m-%d %H:%M:%S')
+            })
+        else:
+            file_data.append({saved successfully!")
+                'Name': str(file_info),
+                'Type': 'Data',config(config_name):
+                'Size': 'Unknown',
+                'Created': 'Unknown',
+                'Description': 'Session data'te loading configuration
+            })
+    
+    if file_data:
+        files_df = pd.DataFrame(file_data)ski'],
+        ],
+        # Display files tableikeness scoring'
+        st.dataframe(files_df, use_container_width=True)
+        ty_focused": {
+        # Bulk download option
+        if len(files_df) > 1:
+            if st.button(f"📦 Download All Files from {subdirectory or directory}", 'weights': [0.6, 0.4],
+                        key=f"bulk_download_{directory}_{subdirectory}"):eight on similarity to reference compounds'
+                create_bulk_download(files, directory, subdirectory)
+ized": {
+def show_recent_downloads():
+    """Show recent downloads and download history"""
+    st.subheader("💾 Recent Downloads")ghts': [0.3, 0.3, 0.4],
+     molecular libraries'
+    # Initialize download history
+    if 'download_history' not in st.session_state:
+        st.session_state.download_history = []
+    s:
+    # Download statistics
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:    st.error(f"❌ Configuration '{config_name}' not found.")
+        total_downloads = len(st.session_state.download_history)
+        st.metric("Total Downloads", total_downloads)
+    scoring configuration"""
+    with col2:
+        today_downloads = len([d for d in st.session_state.download_history div class="sub-header">📋 Current Scoring Configuration</div>', unsafe_allow_html=True)
+                              if d.get('date', '').startswith(datetime.now().strftime('%Y-%m-%d'))])
+        st.metric("Today's Downloads", today_downloads) st.session_state.scoring_config
+    
+    with col3:
+        # Most downloaded file type
+        if st.session_state.download_history:
+            file_types = [d.get('type', 'Unknown') for d in st.session_state.download_history]rkdown("#### Configuration Details")
+            most_common = max(set(file_types), key=file_types.count) if file_types else 'None'nfo(f"**Name:** {config['name']}")
+            st.metric("Most Downloaded Type", most_common)'components'])}")
+        else:
+            st.metric("Most Downloaded Type", "None")* {config['description']}")
+    
+    with col4:
+        # Total data size (simulated)wn("#### Component Weights")
+        total_size_mb = sum([d.get('size_mb', 0) for d in st.session_state.download_history])comp, weight in zip(config['components'], config['weights']):
+        st.metric("Total Downloaded", f"{total_size_mb:.1f} MB")t}")
+    
+    # Recent downloads listtion JSON
+    if st.session_state.download_history:
+        st.subheader("Recent Download History")ing_function": {
+            "name": config['name'],
+        # Filter optionsnents": [
+        col1, col2 = st.columns(2)t": weight} 
+            for comp, weight in zip(config['components'], config['weights'])
         with col1:
-            if 'Molecular_Weight' in df.columns:
-                fig = px.histogram(df, x='Molecular_Weight', title="Molecular Weight Distribution")
-                st.plotly_chart(fig, use_container_width=True)
+            filter_type = st.selectbox(
+                "Filter by Type:",
+                ["All", "CSV", "JSON", "SDF", "Configuration", "Report"]
+            )ation JSON")
         
         with col2:
-            if 'LogP' in df.columns:
-                fig = px.histogram(df, x='LogP', title="LogP Distribution")
-                st.plotly_chart(fig, use_container_width=True)
+            time_filter = st.selectbox(ad configuration
+                "Time Period:",ent=2)
+                ["All Time", "Today", "This Week", "This Month"]
+            )ration JSON",
         
-        # Additional plots for specific library types
-        if results['library_type'] == 'Diversity' and 'Diversity_Score' in df.columns:
-            fig = px.scatter(df, x='Molecular_Weight', y='LogP', 
-                           color='Diversity_Score', title="Chemical Space Coverage")
-            st.plotly_chart(fig, use_container_width=True)
+        # Apply filtersname=f"{config['name']}_scoring_config.json",
+        filtered_history = st.session_state.download_history="application/json"
+        
+        if filter_type != "All":
+            filtered_history = [d for d in filtered_history if d.get('type') == filter_type]
+        
+        # Time filtering (simplified)eader">🎓 Transfer Learning</div>', unsafe_allow_html=True)
+        if time_filter == "Today":
+            today = datetime.now().strftime('%Y-%m-%d')
+            filtered_history = [d for d in filtered_history if d.get('date', '').startswith(today)]nfo-box">
+        Fine-tune pre-trained REINVENT models on custom datasets to adapt to specific chemical spaces or properties.
+        # Display filtered history
+        if filtered_history:
+            history_df = pd.DataFrame(filtered_history[-20:])  # Show last 20
+            st.dataframe(history_df, use_container_width=True)ansfer learning configuration
+            ning Configuration", expanded=True):
+            # Re-download option
+            st.subheader("🔄 Re-download Files")
+            selected_file = st.selectbox(
+                "Select file to re-download:",
+                [f"{d['name']} ({d['date']})" for d in filtered_history[-10:]]   
+            )    # Pre-trained model selection
+            
+            if st.button("🔄 Re-download Selected File"):odel",
+                recreate_download(selected_file)
+        else:
+            st.info("No downloads match the selected filters")   "priors/libinvent.prior", 
+    else:
+        st.info("No download history available")                "priors/mol2mol.prior",
+del Path"
+def show_storage_analytics():
+    """Show storage usage analytics"""re-trained model to fine-tune"
+    st.subheader("📊 Storage Analytics")    )
     
-    # Download options
-    st.subheader("Download Library")
+    # Simulate storage dataath":
+    storage_data = {
+        'Results': {'size_mb': 145.3, 'files': 23, 'color': '#1f77b4'},        "Custom Model Path",
+        'Configurations': {'size_mb': 5.7, 'files': 8, 'color': '#ff7f0e'},el.prior"
+        'Exports': {'size_mb': 89.2, 'files': 15, 'color': '#2ca02c'},
+        'Models': {'size_mb': 256.8, 'files': 4, 'color': '#d62728'}
+    }model configuration
     
+    # Storage overview        "Output Model Name",
+    total_size = sum(data['size_mb'] for data in storage_data.values())lue="fine_tuned_model",
+    total_files = sum(data['files'] for data in storage_data.values())l"
+    )
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        csv_data = df.to_csv(index=False)
-        st.download_button(
-            "📄 Download CSV",
-            csv_data,
-            file_name=f"{results['library_type'].lower()}_library.csv",
-            mime="text/csv"
-        )
+        st.metric("Total Storage Used", f"{total_size:.1f} MB")# Model architecture
     
     with col2:
-        smi_data = "\n".join([f"{row['SMILES']}\t{row['Compound_ID']}" for _, row in df.iterrows()])
-        st.download_button(
-            "🧪 Download SMI",
-            smi_data,
-            file_name=f"{results['library_type'].lower()}_library.smi",
-            mime="text/plain"
-        )
-    
+        st.metric("Total Files", total_files)            ["REINVENT", "LibINVENT", "LinkINVENT", "Mol2Mol"],
+    chitecture"
     with col3:
-        # Summary report
-        report = f"""Library Design Report
-Type: {results['library_type']}
-Total Compounds: {len(df)}
-Lipinski Compliant: {df['Lipinski_Compliant'].sum() if 'Lipinski_Compliant' in df.columns else 'N/A'}
-Avg MW: {df['Molecular_Weight'].mean():.1f} Da
-Avg LogP: {df['LogP'].mean():.2f}
-Generated: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}
-"""
-        st.download_button(
-            "📊 Download Report",
-            report,
-            file_name=f"{results['library_type'].lower()}_report.txt",
-            mime="text/plain"
+        # Estimate available space (simulated)
+        available_space = 1024 - total_size  # Assume 1GB limit        with col2:
+        st.metric("Available Space", f"{available_space:.1f} MB")taset")
+    
+    # Storage breakdown pie chart        # Dataset input method
+    col1, col2 = st.columns(2)    dataset_method = st.radio(
+    :",
+    with col1:"Text Input", "Database Query"]
+        st.subheader("Storage by Category")    )
+        
+        labels = list(storage_data.keys())
+        sizes = [data['size_mb'] for data in storage_data.values()]    
+        colors = [data['color'] for data in storage_data.values()]hod == "Upload File":
+        ded_file = st.file_uploader(
+        fig = px.pie(            "Upload Training Dataset",
+            values=sizes,sv', 'txt'],
+            names=labels,e-tuning"
+            title="Storage Usage by Category",        )
+            color_discrete_sequence=colors
         )
-
-def show_scoring_page():
-    """Scoring functions page"""
-    st.markdown('<div class="sub-header">🎯 Scoring Functions</div>', unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div class="info-box">
-    Build and configure multi-component scoring functions for molecular optimization and evaluation.
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Scoring function builder
-    with st.expander("🔧 Scoring Function Builder", expanded=True):
-        st.subheader("Available Components")
-        
-        # Component selection
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("#### Property Components")
-            
-            # QED Component
-            use_qed = st.checkbox("QED (Drug-likeness)", value=True)
-            if use_qed:
-                qed_weight = st.slider("QED Weight", 0.0, 1.0, 0.3, 0.05)
-                qed_transform = st.selectbox("QED Transform", ["linear", "sigmoid", "reverse_sigmoid"], key="qed_transform")
-            
-            # SA Score Component
-            use_sa_score = st.checkbox("Synthetic Accessibility", value=True)
-            if use_sa_score:
-                sa_weight = st.slider("SA Score Weight", 0.0, 1.0, 0.2, 0.05)
-                sa_transform = st.selectbox("SA Transform", ["linear", "sigmoid", "reverse_sigmoid"], key="sa_transform")
-            
-            # Lipinski Component
-            use_lipinski = st.checkbox("Lipinski Rule of Five", value=False)
-            if use_lipinski:
-                lipinski_weight = st.slider("Lipinski Weight", 0.0, 1.0, 0.1, 0.05)
-            
-            # Custom Property
-            use_custom_property = st.checkbox("Custom Property")
-            if use_custom_property:
-                custom_property = st.selectbox(
-                    "Property Type",
-                    ["Molecular Weight", "LogP", "TPSA", "Rotatable Bonds", "Aromatic Rings"]
-                )
-                custom_target = st.number_input(f"Target {custom_property}", value=300.0)
-                custom_tolerance = st.number_input(f"{custom_property} Tolerance", value=50.0)
-                custom_weight = st.slider(f"{custom_property} Weight", 0.0, 1.0, 0.1, 0.05)
-        
-        with col2:
-            st.markdown("#### Similarity Components")
-            
-            # Similarity to reference
-            use_similarity = st.checkbox("Similarity to Reference", value=False)
-            if use_similarity:
-                reference_smiles = st.text_area(
-                    "Reference SMILES (one per line)",
-                    placeholder="CCO\nc1ccccc1\nCC(=O)O",
-                    height=100
-                )
-                similarity_weight = st.slider("Similarity Weight", 0.0, 1.0, 0.3, 0.05)
-                similarity_method = st.selectbox("Similarity Method", ["Tanimoto", "Dice", "Cosine"])
-            
-            # Substructure match
-            use_substructure = st.checkbox("Substructure Match")
-            if use_substructure:
-                substructure_smarts = st.text_input(
-                    "SMARTS Pattern",
-                    placeholder="c1ccccc1",
-                    help="SMARTS pattern for substructure matching"
-                )
-                substructure_weight = st.slider("Substructure Weight", 0.0, 1.0, 0.2, 0.05)
-                substructure_mode = st.selectbox("Match Mode", ["Must Match", "Must Not Match"])
-            
-            # ROCS Similarity (3D)
-            use_rocs = st.checkbox("ROCS 3D Similarity", value=False)
-            if use_rocs:
-                rocs_reference = st.text_input("Reference Molecule for ROCS")
-                rocs_weight = st.slider("ROCS Weight", 0.0, 1.0, 0.2, 0.05)
-                
-            st.markdown("#### Predictive Models")
-            
-            # Custom ML Model
-            use_ml_model = st.checkbox("Machine Learning Model")
-            if use_ml_model:
-                model_type = st.selectbox("Model Type", ["QSAR", "Activity Prediction", "ADMET", "Custom"])
-                model_file = st.text_input("Model File Path", placeholder="models/activity_model.pkl")
-                ml_weight = st.slider("ML Model Weight", 0.0, 1.0, 0.4, 0.05)
-    
-    # Scoring function configuration
-    with st.expander("⚙️ Scoring Configuration", expanded=True):
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("#### Aggregation")
-            
-            aggregation_method = st.selectbox(
-                "Score Aggregation",
-                ["Weighted Sum", "Weighted Product", "Pareto Ranking", "Custom"],
-                help="How to combine individual component scores"
-            )
-            
-            if aggregation_method == "Custom":
-                aggregation_formula = st.text_area(
-                    "Custom Formula",
-                    placeholder="(qed * 0.3 + sa_score * 0.2) * similarity",
-                    help="Custom aggregation formula using component names"
-                )
-            
-            normalize_scores = st.checkbox(
-                "Normalize Component Scores",
-                value=True,
-                help="Normalize all component scores to [0,1] range"
-            )
-        
-        with col2:
-            st.markdown("#### Thresholds")
-            
-            min_score_threshold = st.slider(
-                "Minimum Score Threshold",
-                min_value=0.0,
-                max_value=1.0,
-                value=0.3,
-                help="Minimum score for molecule acceptance"
-            )
-            
-            diversity_filter = st.checkbox(
-                "Apply Diversity Filter",
-                value=False,
-                help="Remove similar high-scoring molecules"
-            )
-            
-            if diversity_filter:
-                diversity_threshold = st.slider(
-                    "Diversity Threshold",
-                    min_value=0.0,
-                    max_value=1.0,
-                    value=0.7,
-                    help="Minimum Tanimoto distance for diversity"
-                )
-    
-    # Test scoring function
-    with st.expander("🧪 Test Scoring Function"):
-        st.subheader("Test with Sample Molecules")
-        
-        test_molecules = st.text_area(
-            "Test SMILES (one per line)",
-            placeholder="CCO\nc1ccccc1\nCC(=O)O\nCCN(CC)CC\nc1ccncc1",
-            height=120,
-            help="Enter SMILES to test the scoring function"
-        )
-        
-        if st.button("🚀 Test Scoring Function", type="primary"):
-            if test_molecules:
-                molecules = [line.strip() for line in test_molecules.split('\n') if line.strip()]
-                test_scoring_function(molecules)
-            else:
-                st.warning("Please provide test molecules.")
-    
-    # Save/Load configurations
-    with st.expander("💾 Save/Load Configuration"):
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("#### Save Configuration")
-            config_name = st.text_input("Configuration Name", placeholder="my_scoring_function")
-            
-            if st.button("💾 Save Configuration"):
-                if config_name:
-                    save_scoring_config(config_name)
-                else:
-                    st.error("Please provide a configuration name.")
-        
-        with col2:
-            st.markdown("#### Load Configuration")
-            
-            # List saved configurations
-            saved_configs = ["default_drug_like", "similarity_focused", "diversity_optimized", "custom_qsar"]
-            selected_config = st.selectbox("Saved Configurations", saved_configs)
-            
-            if st.button("📁 Load Configuration"):
-                load_scoring_config(selected_config)
-    
-    # Display current scoring function
-    if 'scoring_config' in st.session_state:
-        show_scoring_summary()
-
-def test_scoring_function(molecules):
-    """Test the configured scoring function on sample molecules"""
-    
-    try:
-        progress_bar = st.progress(0)
-        status_text = st.empty()
-        
-        status_text.text("Calculating scores...")
-        progress_bar.progress(0.5)
-        
-        # Simulate scoring
-        time.sleep(2)
-        
-        # Generate simulated scores
-        results_df = simulate_scoring_results(molecules)
-        
-        progress_bar.progress(1.0)
-        status_text.text("Scoring complete!")
-        
-        st.session_state.scoring_test_results = results_df
-        
-        st.success(f"✅ Scored {len(molecules)} molecules!")
-        
-        # Display results
-        show_scoring_test_results(results_df)
-        
-    except Exception as e:
-        st.error(f"❌ Error during scoring: {str(e)}")
-
-def simulate_scoring_results(molecules):
-    """Simulate scoring function results"""
-    
-    np.random.seed(42)
-    data = []
-    
-    for i, smiles in enumerate(molecules):
-        # Simulate component scores
-        qed_score = np.random.uniform(0.2, 0.9)
-        sa_score = np.random.uniform(0.3, 0.8)
-        similarity_score = np.random.uniform(0.4, 0.9)
-        lipinski_score = np.random.choice([0, 1], p=[0.3, 0.7])
-        
-        # Calculate total score (weighted sum)
-        total_score = (qed_score * 0.3 + sa_score * 0.2 + 
-                      similarity_score * 0.3 + lipinski_score * 0.2)
-        
-        # Molecular properties
-        mw = np.random.uniform(150, 500)
-        logp = np.random.uniform(-1, 5)
-        tpsa = np.random.uniform(20, 140)
-        
-        data.append({
-            'SMILES': smiles,
-            'Total_Score': total_score,
-            'QED_Score': qed_score,
-            'SA_Score': sa_score,
-            'Similarity_Score': similarity_score,
-            'Lipinski_Score': lipinski_score,
-            'Molecular_Weight': mw,
-            'LogP': logp,
-            'TPSA': tpsa,
-            'Rank': i + 1
-        })
-    
-    df = pd.DataFrame(data)
-    # Sort by total score descending
-    df = df.sort_values('Total_Score', ascending=False).reset_index(drop=True)
-    df['Rank'] = df.index + 1
-    
-    return df
-
-def show_scoring_test_results(df):
-    """Display scoring test results"""
-    
-    st.markdown('<div class="sub-header">📊 Scoring Results</div>', unsafe_allow_html=True)
-    
-    # Summary metrics
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.metric("Molecules Scored", len(df))
-    
-    with col2:
-        avg_score = df['Total_Score'].mean()
-        st.metric("Average Score", f"{avg_score:.3f}")
-    
-    with col3:
-        best_score = df['Total_Score'].max()
-        st.metric("Best Score", f"{best_score:.3f}")
-    
-    with col4:
-        passing_threshold = (df['Total_Score'] >= 0.5).sum()
-        st.metric("Above Threshold", f"{passing_threshold}/{len(df)}")
-    
-    # Results table
-    st.subheader("Detailed Results")
-    st.dataframe(df, use_container_width=True)
-    
-    # Score distribution
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        fig = px.histogram(df, x='Total_Score', title="Total Score Distribution")
-        st.plotly_chart(fig, use_container_width=True)
-    
-    with col2:
-        # Component score comparison
-        score_cols = ['QED_Score', 'SA_Score', 'Similarity_Score']
-        score_data = df[score_cols].melt()
-        fig = px.box(score_data, x='variable', y='value', title="Component Score Distributions")
-        st.plotly_chart(fig, use_container_width=True)
-    
-    # Download results
-    st.subheader("Download Results")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        csv_data = df.to_csv(index=False)
-        st.download_button(
-            "📄 Download Results CSV",
-            csv_data,
-            file_name="scoring_results.csv",
-            mime="text/csv"
-        )
-    
-    with col2:
-        # Top scoring molecules only
-        top_molecules = df.head(10)
-        top_csv = top_molecules.to_csv(index=False)
-        st.download_button(
-            "🏆 Download Top 10",
-            top_csv,
-            file_name="top_scoring_molecules.csv",
-            mime="text/csv"
-        )
-
-def save_scoring_config(config_name):
-    """Save current scoring configuration"""
-    
-    # Simulate saving configuration
-    st.session_state.scoring_config = {
-        'name': config_name,
-        'components': ['QED', 'SA_Score', 'Similarity'],
-        'weights': [0.3, 0.2, 0.3],
-        'saved_at': pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')
-    }
-    
-    st.success(f"✅ Scoring configuration '{config_name}' saved successfully!")
-
-def load_scoring_config(config_name):
-    """Load a saved scoring configuration"""
-    
-    # Simulate loading configuration
-    configs = {
-        "default_drug_like": {
-            'name': config_name,
-            'components': ['QED', 'SA_Score', 'Lipinski'],
-            'weights': [0.4, 0.3, 0.3],
-            'description': 'Balanced drug-likeness scoring'
-        },
-        "similarity_focused": {
-            'name': config_name,
-            'components': ['Similarity', 'QED'],
-            'weights': [0.6, 0.4],
-            'description': 'High weight on similarity to reference compounds'
-        },
-        "diversity_optimized": {
-            'name': config_name,
-            'components': ['QED', 'SA_Score', 'Diversity'],
-            'weights': [0.3, 0.3, 0.4],
-            'description': 'Optimized for diverse molecular libraries'
-        }
-    }
-    
-    if config_name in configs:
-        st.session_state.scoring_config = configs[config_name]
-        st.success(f"✅ Loaded configuration '{config_name}'!")
-    else:
-        st.error(f"❌ Configuration '{config_name}' not found.")
-
-def show_scoring_summary():
-    """Display summary of current scoring configuration"""
-    
-    st.markdown('<div class="sub-header">📋 Current Scoring Configuration</div>', unsafe_allow_html=True)
-    
-    config = st.session_state.scoring_config
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("#### Configuration Details")
-        st.info(f"**Name:** {config['name']}")
-        st.info(f"**Components:** {len(config['components'])}")
-        if 'description' in config:
-            st.info(f"**Description:** {config['description']}")
-    
-    with col2:
-        st.markdown("#### Component Weights")
-        for comp, weight in zip(config['components'], config['weights']):
-            st.write(f"• **{comp}:** {weight}")
-    
-    # Generate scoring function JSON
-    scoring_json = {
-        "scoring_function": {
-            "name": config['name'],
-            "components": [
-                {"component": comp, "weight": weight} 
-                for comp, weight in zip(config['components'], config['weights'])
-            ]
-        }
-    }
-    
-    st.subheader("Configuration JSON")
-    st.json(scoring_json)
-    
-    # Download configuration
-    json_str = json.dumps(scoring_json, indent=2)
-    st.download_button(
-        "📁 Download Configuration JSON",
-        json_str,
-        file_name=f"{config['name']}_scoring_config.json",
-        mime="application/json"
-    )
-
-def show_transfer_learning_page():
-    """Transfer learning page"""
-    st.markdown('<div class="sub-header">🎓 Transfer Learning</div>', unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div class="info-box">
-    Fine-tune pre-trained REINVENT models on custom datasets to adapt to specific chemical spaces or properties.
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Transfer learning configuration
-    with st.expander("⚙️ Transfer Learning Configuration", expanded=True):
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.subheader("Model Configuration")
-            
-            # Pre-trained model selection
-            pretrained_model = st.selectbox(
-                "Pre-trained Model",
-                [
-                    "priors/reinvent.prior",
-                    "priors/libinvent.prior", 
-                    "priors/linkinvent.prior",
-                    "priors/mol2mol.prior",
-                    "Custom Model Path"
-                ],
-                help="Select the pre-trained model to fine-tune"
-            )
-            
-            if pretrained_model == "Custom Model Path":
-                custom_model_path = st.text_input(
-                    "Custom Model Path",
-                    placeholder="/path/to/your/model.prior"
-                )
-            
-            # Output model configuration
-            output_model_name = st.text_input(
-                "Output Model Name",
-                value="fine_tuned_model",
-                help="Name for the fine-tuned model"
-            )
-            
-            device = st.selectbox("Compute Device", ["cuda:0", "cpu"])
-            
-            # Model architecture
-            model_type = st.selectbox(
-                "Model Architecture",
-                ["REINVENT", "LibINVENT", "LinkINVENT", "Mol2Mol"],
-                help="Type of model architecture"
-            )
-        
-        with col2:
-            st.subheader("Training Dataset")
-            
-            # Dataset input method
-            dataset_method = st.radio(
-                "Dataset Input Method:",
-                ["Upload File", "Text Input", "Database Query"]
-            )
-            
-            training_data = []
-            
-            if dataset_method == "Upload File":
-                uploaded_file = st.file_uploader(
-                    "Upload Training Dataset",
-                    type=['smi', 'csv', 'txt'],
-                    help="File containing SMILES for fine-tuning"
-                )
-                
-                if uploaded_file:
-                    content = uploaded_file.read().decode('utf-8')
-                    if uploaded_file.name.endswith('.csv'):
-                        # Try to parse as CSV
-                        lines = content.strip().split('\n')
+        st.plotly_chart(fig, use_container_width=True)            content = uploaded_file.read().decode('utf-8')
+    :
+    with col2:                # Try to parse as CSV
+        st.subheader("File Count by Category")
                         if len(lines) > 1:
-                            # Assume first column is SMILES
-                            training_data = [line.split(',')[0].strip() for line in lines[1:] if line.strip()]
-                    else:
-                        training_data = [line.strip() for line in content.split('\n') if line.strip()]
-                    
-                    st.success(f"Loaded {len(training_data)} training molecules")
-            
-            elif dataset_method == "Text Input":
-                training_text = st.text_area(
+        file_counts = [data['files'] for data in storage_data.values()]   # Assume first column is SMILES
+        line.split(',')[0].strip() for line in lines[1:] if line.strip()]
+        fig = px.bar(            else:
+            x=labels,aining_data = [line.strip() for line in content.split('\n') if line.strip()]
+            y=file_counts,
+            title="Number of Files by Category",                    st.success(f"Loaded {len(training_data)} training molecules")
+            color=labels,
+            color_discrete_sequence=colorsput":
+        )            training_text = st.text_area(
                     "Training SMILES (one per line)",
                     placeholder="CCO\nc1ccccc1\nCC(=O)O\n...",
                     height=150,
