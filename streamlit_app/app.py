@@ -124,9 +124,8 @@ def main():
     # Sidebar navigation
     st.sidebar.title("🧪 REINVENT4 Interface")
     
-    # Generation Modules Section
-    st.sidebar.markdown("### 🔬 Generation Modules")
-    generation_pages = {
+    # Main Navigation - Only pipeline modules
+    pages = {
         "🏠 Home": "home",
         "🔬 De Novo Generation": "denovo",
         "🧬 Scaffold Hopping": "scaffold",
@@ -135,24 +134,9 @@ def main():
         "📈 Molecule Optimization": "optimization"
     }
     
-    # Features & Tools Section
-    st.sidebar.markdown("### 🛠️ Features & Tools")
-    feature_pages = {
-        "📚 Library Design": "library",
-        "🎯 Scoring Functions": "scoring",
-        "🎓 Transfer Learning": "transfer_learning",
-        "💪 Reinforcement Learning": "reinforcement_learning",
-        "📊 Results Visualization": "visualization",
-        "⚙️ Configuration Manager": "config"
-    }
-    
-    # Combine all pages for routing
-    pages = {**generation_pages, **feature_pages}
-    
     # Main page selection
-    st.sidebar.markdown("**Select Module:**")
     selected_page = st.sidebar.radio(
-        "",
+        "Select Module:",
         list(pages.keys()),
         format_func=lambda x: x,
         key="page_selector"
@@ -180,18 +164,6 @@ def main():
         show_rgroup_page()
     elif page_key == "optimization":
         show_optimization_page()
-    elif page_key == "library":
-        show_library_page()
-    elif page_key == "scoring":
-        show_scoring_page()
-    elif page_key == "transfer_learning":
-        show_transfer_learning_page()
-    elif page_key == "reinforcement_learning":
-        show_reinforcement_learning_page()
-    elif page_key == "visualization":
-        show_visualization_page()
-    elif page_key == "config":
-        show_config_page()
 
 def show_home_page():
     """Display the home page with beautiful design"""
@@ -273,8 +245,17 @@ def show_home_page():
         </div>
         """, unsafe_allow_html=True)
     
-    # Tools section
+    # Pipeline features info
     st.markdown('<div style="margin: 2rem 0;"></div>', unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h3 style="color: #495057; margin-bottom: 1rem;">🔄 Integrated Pipeline Features</h3>
+        <p style="color: #6c757d; max-width: 800px; margin: 0 auto;">
+            Each pipeline includes integrated tools for scoring, optimization, library design, and visualization
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns(3)
     
@@ -282,8 +263,8 @@ def show_home_page():
         st.markdown("""
         <div style="background: #f8f9fa; border: 2px solid #e9ecef; 
                     padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
-            <h4 style="margin: 0 0 0.5rem 0; color: #495057;">🎯 Scoring Functions</h4>
-            <p style="margin: 0; color: #6c757d; font-size: 0.9rem;">Multi-objective property optimization</p>
+            <h4 style="margin: 0 0 0.5rem 0; color: #495057;">🎯 Scoring & Optimization</h4>
+            <p style="margin: 0; color: #6c757d; font-size: 0.9rem;">Built-in multi-objective property optimization</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -292,7 +273,7 @@ def show_home_page():
         <div style="background: #f8f9fa; border: 2px solid #e9ecef; 
                     padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
             <h4 style="margin: 0 0 0.5rem 0; color: #495057;">🎓 Transfer Learning</h4>
-            <p style="margin: 0; color: #6c757d; font-size: 0.9rem;">Fine-tune models for specific tasks</p>
+            <p style="margin: 0; color: #6c757d; font-size: 0.9rem;">Model fine-tuning integrated in each pipeline</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -300,8 +281,8 @@ def show_home_page():
         st.markdown("""
         <div style="background: #f8f9fa; border: 2px solid #e9ecef; 
                     padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
-            <h4 style="margin: 0 0 0.5rem 0; color: #495057;">📊 Visualization</h4>
-            <p style="margin: 0; color: #6c757d; font-size: 0.9rem;">Interactive analysis and plots</p>
+            <h4 style="margin: 0 0 0.5rem 0; color: #495057;">📊 Analysis & Libraries</h4>
+            <p style="margin: 0; color: #6c757d; font-size: 0.9rem;">Real-time visualization and library generation</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -311,10 +292,13 @@ def show_home_page():
     st.markdown("""
     <div style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                 padding: 2rem; border-radius: 15px; color: white;">
-        <h3 style="margin: 0 0 1rem 0;">Ready to start?</h3>
+        <h3 style="margin: 0 0 1rem 0;">🔄 Complete Pipeline Approach</h3>
         <p style="margin: 0; opacity: 0.9; font-size: 1.1rem;">
-            Select a module from the sidebar to begin molecular design
+            Each module provides a complete pipeline: Input → Training → Generation → Optimization → Libraries
         </p>
+        <div style="margin-top: 1rem; opacity: 0.8; font-size: 0.95rem;">
+            Select a generation module from the sidebar to start your molecular design workflow
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
