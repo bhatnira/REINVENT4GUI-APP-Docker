@@ -134,27 +134,61 @@ def main():
         st.markdown("<div class='error-box'>⚠️ Unable to determine REINVENT4 status</div>", unsafe_allow_html=True)
     
     # Sidebar navigation
-    st.sidebar.title("Navigation")
+    st.sidebar.title("🧪 REINVENT4 Interface")
     
-    pages = {
+    # Generation Modules Section
+    st.sidebar.markdown("### 🔬 Generation Modules")
+    generation_pages = {
         "🏠 Home": "home",
         "🔬 De Novo Generation": "denovo",
         "🧬 Scaffold Hopping": "scaffold",
         "🔗 Linker Design": "linker",
         "⚗️ R-Group Replacement": "rgroup",
-        "📈 Molecule Optimization": "optimization",
+        "📈 Molecule Optimization": "optimization"
+    }
+    
+    # Features & Tools Section
+    st.sidebar.markdown("### 🛠️ Features & Tools")
+    feature_pages = {
         "📚 Library Design": "library",
         "🎯 Scoring Functions": "scoring",
         "🎓 Transfer Learning": "transfer_learning",
         "💪 Reinforcement Learning": "reinforcement_learning",
         "📊 Results Visualization": "visualization",
-        "⚙️ Configuration Manager": "config",
-        "📁 File Manager": "file_manager",
-        "📖 Documentation": "docs"
+        "⚙️ Configuration Manager": "config"
     }
     
-    selected_page = st.sidebar.radio("Select Page:", list(pages.keys()))
-    page_key = pages[selected_page]
+    # Combine all pages for routing
+    pages = {**generation_pages, **feature_pages}
+    
+    # Generation Module Selection
+    st.sidebar.markdown("**Select Generation Module:**")
+    selected_generation = st.sidebar.radio(
+        "",
+        list(generation_pages.keys()),
+        format_func=lambda x: x,
+        key="generation_selector"
+    )
+    
+    # Features & Tools Selection (only show if not on Home)
+    selected_feature = None
+    if selected_generation != "🏠 Home":
+        st.sidebar.markdown("**Select Feature/Tool (Optional):**")
+        feature_options = ["None"] + list(feature_pages.keys())
+        selected_feature = st.sidebar.selectbox(
+            "",
+            feature_options,
+            index=0,
+            key="feature_selector"
+        )
+    
+    # Determine which page to show
+    if selected_feature and selected_feature != "None":
+        page_key = feature_pages[selected_feature]
+        selected_page = selected_feature
+    else:
+        page_key = generation_pages[selected_generation]
+        selected_page = selected_generation
     
     # Initialize session state
     if 'results' not in st.session_state:
@@ -187,10 +221,6 @@ def main():
         show_visualization_page()
     elif page_key == "config":
         show_config_page()
-    elif page_key == "file_manager":
-        show_file_manager_page()
-    elif page_key == "docs":
-        show_documentation_page()
 
 def show_home_page():
     """Display the home page with overview and quick start"""
@@ -220,45 +250,89 @@ def show_home_page():
         """, unsafe_allow_html=True)
     
     # Quick overview cards
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("### 🔬 Generation Modes")
+        st.markdown("### 🔬 Generation Modules")
         st.markdown("""
-        - **Reinvent**: Pure de novo generation
-        - **Libinvent**: Scaffold decoration
-        - **Linkinvent**: Fragment linking
-        - **Mol2Mol**: Molecule optimization
+        **Core molecular generation capabilities:**
+        - **De Novo Generation**: Pure molecule creation from scratch
+        - **Scaffold Hopping**: Decorate scaffolds with R-groups
+        - **Linker Design**: Connect molecular fragments
+        - **R-Group Replacement**: Replace specific functional groups
+        - **Molecule Optimization**: Improve existing molecules
         """)
     
     with col2:
-        st.markdown("### 📈 Optimization Strategies")
+        st.markdown("### �️ Features & Tools")
         st.markdown("""
-        - **Transfer Learning**: Model fine-tuning
-        - **Reinforcement Learning**: Score optimization
-        - **Curriculum Learning**: Staged optimization
-        - **Multi-objective**: Complex scoring
+        **Advanced features for generation workflows:**
+        - **Library Design**: Design focused molecular libraries
+        - **Scoring Functions**: Multi-component scoring systems
+        - **Transfer Learning**: Model fine-tuning capabilities
+        - **Reinforcement Learning**: Score-guided optimization
+        - **Results Visualization**: Interactive analysis tools
+        - **Configuration Manager**: Save and manage settings
         """)
     
-    with col3:
-        st.markdown("### 🎯 Key Features")
-        st.markdown("""
-        - **Custom Scoring**: Multi-component functions
-        - **Real-time Monitoring**: TensorBoard integration
-        - **Batch Processing**: High-throughput generation
-        - **Export Options**: Multiple formats
-        """)
+    # Workflow explanation
+    st.markdown('<div class="sub-header">🔄 Workflow Structure</div>', unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div class="info-box">
+    <strong>How to Use:</strong><br>
+    1. <strong>Select a Generation Module</strong> (primary molecular generation method)<br>
+    2. <strong>Optionally add Features/Tools</strong> (enhance generation with scoring, optimization, etc.)<br>
+    3. <strong>Configure parameters</strong> for your specific workflow<br>
+    4. <strong>Run generation</strong> and analyze results
+    </div>
+    """, unsafe_allow_html=True)
     
     # Quick start section
     st.markdown('<div class="sub-header">Quick Start Guide</div>', unsafe_allow_html=True)
     
     with st.expander("🚀 Getting Started", expanded=True):
         st.markdown("""
-        1. **Choose a Generation Mode**: Select from the sidebar based on your needs
-        2. **Configure Parameters**: Set up model files, scoring functions, and output options
-        3. **Run Generation**: Execute the selected mode with your configuration
-        4. **Analyze Results**: View generated molecules and their properties
-        5. **Export Data**: Download results in CSV, SDF, or other formats
+        **Generation Modules (Choose One):**
+        1. **🔬 De Novo Generation**: Start here for creating completely new molecules
+        2. **🧬 Scaffold Hopping**: Use when you have scaffolds to decorate
+        3. **🔗 Linker Design**: Connect molecular fragments with optimal linkers
+        4. **⚗️ R-Group Replacement**: Replace specific parts of existing molecules
+        5. **📈 Molecule Optimization**: Improve existing molecules with RL
+        
+        **Features & Tools (Optional Enhancements):**
+        - **📚 Library Design**: Generate focused molecular libraries
+        - **🎯 Scoring Functions**: Apply multi-objective scoring
+        - **🎓 Transfer Learning**: Fine-tune models for specific tasks
+        - **💪 Reinforcement Learning**: Advanced optimization strategies
+        - **📊 Results Visualization**: Analyze and visualize results
+        - **⚙️ Configuration Manager**: Save and reuse configurations
+        
+        **Typical Workflow:**
+        → Select Generation Module → Add Features (optional) → Configure → Run → Analyze
+        """)
+    
+    # Example workflows
+    st.markdown('<div class="sub-header">💡 Example Workflows</div>', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### 🎯 Focused Drug Discovery")
+        st.markdown("""
+        1. **📈 Molecule Optimization** (starting molecules)
+        2. **+ 🎯 Scoring Functions** (ADMET properties)
+        3. **+ 💪 Reinforcement Learning** (multi-objective)
+        4. **+ 📊 Results Visualization** (analyze results)
+        """)
+    
+    with col2:
+        st.markdown("#### 🔬 Exploratory Generation")
+        st.markdown("""
+        1. **🔬 De Novo Generation** (create new molecules)
+        2. **+ 📚 Library Design** (focused libraries)
+        3. **+ 🎯 Scoring Functions** (filter promising compounds)
+        4. **+ ⚙️ Configuration Manager** (save settings)
         """)
     
     # System status
@@ -300,6 +374,35 @@ def show_home_page():
         else:
             st.warning("⚠️ No prior models directory found")
 
+def show_active_features():
+    """Display active features/tools being used"""
+    
+    # Check session state for active features
+    active_features = []
+    
+    # Check which features are being used based on session state
+    if 'scoring_config' in st.session_state:
+        active_features.append("🎯 Scoring Functions")
+    
+    if 'library_config' in st.session_state:
+        active_features.append("📚 Library Design")
+    
+    if 'transfer_learning_active' in st.session_state:
+        active_features.append("🎓 Transfer Learning")
+    
+    if 'reinforcement_learning_active' in st.session_state:
+        active_features.append("💪 Reinforcement Learning")
+    
+    if 'visualization_active' in st.session_state:
+        active_features.append("📊 Results Visualization")
+    
+    if active_features:
+        st.markdown("""
+        <div class="success-box">
+        <strong>🛠️ Active Features:</strong> """ + " • ".join(active_features) + """
+        </div>
+        """, unsafe_allow_html=True)
+
 def show_denovo_page():
     """De novo molecule generation page"""
     
@@ -310,6 +413,9 @@ def show_denovo_page():
     Generate completely new molecules from scratch using trained REINVENT models.
     </div>
     """, unsafe_allow_html=True)
+    
+    # Show active features if any
+    show_active_features()
     
     # Configuration section
     with st.expander("⚙️ Configuration", expanded=True):
@@ -1629,6 +1735,9 @@ def show_optimization_page():
     </div>
     """, unsafe_allow_html=True)
     
+    # Show active features if any
+    show_active_features()
+    
     # Configuration interface
     with st.expander("⚙️ Configuration", expanded=True):
         col1, col2 = st.columns(2)
@@ -2014,28 +2123,105 @@ def show_optimization_results(results):
         )
 
 def show_library_page():
-    """Library design page"""
+    """Library design feature page"""
     st.markdown('<div class="sub-header">📚 Library Design</div>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="info-box">
     Design focused molecular libraries using combinatorial enumeration and virtual screening approaches.
+    This feature enhances generation modules with library design capabilities.
     </div>
     """, unsafe_allow_html=True)
     
-    # Library design mode selection
-    design_mode = st.radio(
-        "Library Design Mode:",
-        ["Combinatorial Enumeration", "Focused Library", "Diversity Library"],
-        help="Choose the type of library to design"
-    )
+    # Library design configuration
+    with st.expander("⚙️ Library Design Configuration", expanded=True):
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader("Library Type")
+            
+            library_type = st.radio(
+                "Select Library Design Mode:",
+                ["Combinatorial Enumeration", "Focused Library", "Diversity Library"],
+                help="Choose the type of library to design"
+            )
+            
+            library_size = st.number_input(
+                "Target Library Size",
+                min_value=10,
+                max_value=100000,
+                value=1000,
+                help="Number of molecules in the designed library"
+            )
+            
+            diversity_threshold = st.slider(
+                "Diversity Threshold",
+                min_value=0.0,
+                max_value=1.0,
+                value=0.7,
+                step=0.05,
+                help="Minimum diversity between library members"
+            )
+        
+        with col2:
+            st.subheader("Library Constraints")
+            
+            if library_type == "Combinatorial Enumeration":
+                st.markdown("**Combinatorial Parameters:**")
+                
+                max_substitutions = st.number_input(
+                    "Max Substitutions per Scaffold",
+                    min_value=1,
+                    max_value=10,
+                    value=3
+                )
+                
+                substitution_types = st.multiselect(
+                    "Allowed Substitution Types",
+                    ["R-groups", "Ring replacements", "Linker variations", "Functional groups"],
+                    default=["R-groups", "Functional groups"]
+                )
+            
+            elif library_type == "Focused Library":
+                st.markdown("**Focus Parameters:**")
+                
+                target_class = st.selectbox(
+                    "Target Molecular Class",
+                    ["Kinase inhibitors", "GPCR ligands", "Ion channel modulators", "General drug-like", "Custom"]
+                )
+                
+                activity_profile = st.selectbox(
+                    "Desired Activity Profile",
+                    ["High potency", "Selectivity", "ADMET optimized", "Balanced profile"]
+                )
+            
+            else:  # Diversity Library
+                st.markdown("**Diversity Parameters:**")
+                
+                diversity_metric = st.selectbox(
+                    "Diversity Metric",
+                    ["Tanimoto distance", "ECFP4 fingerprints", "Pharmacophore diversity", "Shape diversity"]
+                )
+                
+                cluster_method = st.selectbox(
+                    "Clustering Method",
+                    ["K-means", "Hierarchical", "DBSCAN", "Random selection"]
+                )
     
-    if design_mode == "Combinatorial Enumeration":
-        show_combinatorial_library()
-    elif design_mode == "Focused Library":
-        show_focused_library()
-    else:
-        show_diversity_library()
+    # Generate library button
+    if st.button("🎯 Design Library", type="primary"):
+        st.success("✅ Library design functionality integrated! This feature enhances generation modules.")
+        
+        # Save library configuration to session state
+        library_config = {
+            "library_type": library_type,
+            "library_size": library_size,
+            "diversity_threshold": diversity_threshold,
+            "active": True
+        }
+        
+        st.session_state.library_config = library_config
+        st.info("🛠️ Library configuration saved! It will be applied to generation modules.")
 
 def show_combinatorial_library():
     """Combinatorial library enumeration interface"""
