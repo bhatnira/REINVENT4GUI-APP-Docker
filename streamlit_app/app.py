@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-REINVENT4 Streamlit Web Application
+GenChem Streamlit Web Application
 A comprehensive GUI for molecule generation, optimization, and analysis using REINVENT4.
 """
 
@@ -37,10 +37,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 # Page configuration - must be first Streamlit command
 st.set_page_config(
-    page_title="REINVENT4 Web Interface",
-    page_icon="🧪",
+    page_title="GenChem - Molecular Design Suite",
+    page_icon="�",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 try:
@@ -55,54 +55,514 @@ except ImportError as e:
     REINVENT_VERSION = "Not available"
     print(f"REINVENT import error: {e}")
 
-# Custom CSS for better styling
+# Apple-style iOS interface CSS
 st.markdown("""
 <style>
-    .main-header {
-        font-size: 3rem;
-        font-weight: bold;
-        color: #1f77b4;
+    @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap');
+    
+    /* Global iOS-like styling */
+    .stApp {
+        background: #fefcf7;
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+        color: #1d1d1f;
+        min-height: 100vh;
+    }
+    
+    /* Hide default Streamlit elements */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    .stDeployButton {visibility: hidden;}
+    
+    /* Main container */
+    .main .block-container {
+        max-width: 1200px;
+        padding: 0.5rem 0.8rem;
+        background: transparent;
+        margin: 0 auto;
+    }
+    
+    /* Remove default Streamlit spacing */
+    .element-container {
+        margin-bottom: 0 !important;
+    }
+    
+    /* Remove gap between containers */
+    .stMarkdown {
+        margin-bottom: 0 !important;
+    }
+    
+    /* Header Navigation Bar */
+    .nav-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 16px;
+        padding: 12px 20px;
+        margin: 4px 0 16px 0;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    
+    /* Horizontal Navigation Bar */
+    .horizontal-nav {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 16px;
+        padding: 12px 16px;
+        margin: 4px 0 16px 0;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    
+    .nav-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    
+    /* Navigation Button */
+    .nav-button {
+        background: linear-gradient(145deg, #ffffff, #f8f9ff);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-radius: 12px;
+        padding: 8px 16px;
         text-align: center;
-        margin-bottom: 2rem;
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        border: 1.5px solid rgba(102, 126, 234, 0.2);
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        min-width: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 0.85rem;
+        height: 48px;
     }
-    .sub-header {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #ff7f0e;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
+    
+    .nav-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.25);
+        background: linear-gradient(145deg, #ffffff, #f0f4ff);
+        border-color: rgba(102, 126, 234, 0.4);
+        color: #667eea;
     }
-    .info-box {
-        background-color: #f0f2f6;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        border-left: 5px solid #1f77b4;
-        margin: 1rem 0;
+    
+    /* Hero Section */
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 16px;
+        padding: 20px 32px;
+        margin: 0 auto 12px auto;
+        max-width: 1000px;
+        box-shadow: 0 15px 30px rgba(102, 126, 234, 0.15);
+        position: relative;
+        overflow: hidden;
     }
-    .success-box {
-        background-color: #d4edda;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        border-left: 5px solid #28a745;
-        margin: 1rem 0;
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+        pointer-events: none;
     }
-    .error-box {
-        background-color: #f8d7da;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        border-left: 5px solid #dc3545;
-        margin: 1rem 0;
+    
+    /* Logo Container */
+    .logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 1;
     }
-    .stButton > button {
-        background-color: #1f77b4;
+    
+    .main-logo {
+        font-size: 3rem;
+        margin-right: 16px;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        animation: logoFloat 3s ease-in-out infinite;
+    }
+    
+    @keyframes logoFloat {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-5px); }
+    }
+    
+    .main-title {
+        font-size: 3rem;
+        font-weight: 800;
+        color: white !important;
+        margin: 0;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        background: linear-gradient(135deg, #fff 0%, #f0f8ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    /* Subtitle Container */
+    .subtitle-container {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 8px;
+    }
+    
+    .main-subtitle {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.95) !important;
+        font-weight: 400;
+        margin-bottom: 12px;
+        line-height: 1.4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .ai-badge {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
         color: white;
-        border-radius: 0.5rem;
-        border: none;
-        padding: 0.5rem 1rem;
-        font-weight: bold;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        animation: glow 2s ease-in-out infinite alternate;
     }
+    
+    @keyframes glow {
+        from { box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3); }
+        to { box-shadow: 0 4px 25px rgba(255, 107, 107, 0.5); }
+    }
+    
+    .subtitle-text {
+        font-weight: 500;
+    }
+    
+    .tagline {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.8) !important;
+        font-weight: 400;
+        margin: 0;
+        line-height: 1.2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .tagline-icon {
+        font-size: 1.1rem;
+        animation: rocket 2s ease-in-out infinite;
+    }
+    
+    @keyframes rocket {
+        0%, 100% { transform: translateX(0px) rotate(0deg); }
+        25% { transform: translateX(2px) rotate(5deg); }
+        75% { transform: translateX(-2px) rotate(-5deg); }
+    }
+    
+    /* Gradient Line */
+    .gradient-line {
+        width: 120px;
+        height: 4px;
+        background: linear-gradient(90deg, #ff6b6b 0%, #ffd93d 50%, #6bcf7f 100%);
+        margin: 0 auto;
+        border-radius: 2px;
+        animation: shimmer 3s ease-in-out infinite;
+    }
+    
+    @keyframes shimmer {
+        0%, 100% { opacity: 0.7; transform: scaleX(1); }
+        50% { opacity: 1; transform: scaleX(1.1); }
+    }
+    
+    /* Status indicator */
+    .status-indicator {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background: #30d158;
+        border-radius: 50%;
+        margin-right: 6px;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.6; }
+        100% { opacity: 1; }
+    }
+    
+    /* Button styling */
+    .stButton > button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 16px;
+        padding: 12px 20px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3),
+                    0 2px 8px rgba(102, 126, 234, 0.15);
+        width: 100%;
+        margin-top: 8px;
+        height: 48px;
+        letter-spacing: 0.3px;
+        position: relative;
+        overflow: hidden;
+        z-index: 10;
+        opacity: 1;
+    }
+    
+    .stButton > button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.6s;
+    }
+    
+    .stButton > button:hover::before {
+        left: 100%;
+    }
+    
     .stButton > button:hover {
-        background-color: #145a9e;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4),
+                    0 4px 12px rgba(102, 126, 234, 0.25);
+        background: linear-gradient(135deg, #5a6fd8 0%, #6b4190 100%);
+    }
+    
+    .stButton > button:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Center the tabs navigation */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 16px;
+        padding: 12px 16px;
+        margin: 8px 0 16px 0;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Style individual tabs */
+    .stTabs [data-baseweb="tab"] {
+        background: linear-gradient(145deg, #ffffff, #f8f9ff);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-radius: 12px;
+        padding: 8px 16px;
+        margin: 0 4px;
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        border: 1.5px solid rgba(102, 126, 234, 0.2);
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+        min-width: 120px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #2c3e50;
+        white-space: nowrap;
+    }
+    
+    .stTabs [data-baseweb="tab"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.25);
+        background: linear-gradient(145deg, #ffffff, #f0f4ff);
+        border-color: rgba(102, 126, 234, 0.4);
+        color: #667eea;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(145deg, #667eea, #764ba2) !important;
+        color: white !important;
+        border-color: rgba(102, 126, 234, 0.8) !important;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3) !important;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: rgba(29, 29, 31, 0.1);
+        border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: rgba(29, 29, 31, 0.3);
+        border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(29, 29, 31, 0.4);
+    }
+    
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .main .block-container {
+            max-width: 100%;
+            padding: 0.4rem 0.6rem;
+        }
+        
+        .nav-buttons {
+            gap: 8px;
+        }
+        
+        .nav-button {
+            min-width: 120px;
+            font-size: 0.75rem;
+            padding: 6px 12px;
+            height: 42px;
+        }
+        
+        .hero-section {
+            padding: 24px 16px;
+            margin: 0 auto 12px auto;
+            border-radius: 16px;
+        }
+        
+        .main-title {
+            font-size: 2.2rem;
+        }
+        
+        .main-logo {
+            font-size: 2.2rem;
+            margin-right: 12px;
+        }
+        
+        .main-subtitle {
+            font-size: 1rem;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .tagline {
+            font-size: 0.9rem;
+        }
+        
+        .logo-container {
+            margin-bottom: 16px;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .nav-container {
+            padding: 10px 14px;
+        }
+        
+        .stTabs [data-baseweb="tab-list"] {
+            padding: 8px 12px;
+            margin: 4px 0 12px 0;
+        }
+        
+        .stTabs [data-baseweb="tab"] {
+            min-width: 100px;
+            font-size: 0.75rem;
+            padding: 6px 10px;
+            height: 40px;
+            margin: 0 2px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .main .block-container {
+            max-width: 100%;
+            padding: 0.3rem 0.5rem;
+        }
+        
+        .hero-section {
+            padding: 20px 12px;
+        }
+        
+        .main-title {
+            font-size: 1.8rem;
+        }
+        
+        .main-logo {
+            font-size: 1.8rem;
+            margin-right: 0;
+            margin-bottom: 8px;
+        }
+        
+        .logo-container {
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .main-subtitle {
+            font-size: 0.9rem;
+        }
+        
+        .tagline {
+            font-size: 0.8rem;
+        }
+        
+        .nav-button {
+            min-width: 90px;
+            font-size: 0.65rem;
+            padding: 4px 8px;
+            height: 36px;
+        }
+        
+        .nav-buttons {
+            gap: 6px;
+        }
+        
+        .stTabs [data-baseweb="tab"] {
+            min-width: 80px;
+            font-size: 0.7rem;
+            padding: 4px 6px;
+            height: 36px;
+            margin: 0 1px;
+        }
+        
+        .stTabs [data-baseweb="tab-list"] {
+            padding: 6px 8px;
+            margin: 2px 0 8px 0;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -110,8 +570,28 @@ st.markdown("""
 def main():
     """Main application entry point"""
     
-    # Header
-    st.markdown('<div class="main-header">🧪 REINVENT4 Web Interface</div>', unsafe_allow_html=True)
+    # Hero Section Header
+    st.markdown("""
+    <div class="nav-container">
+        <div class="hero-section">
+            <div class="logo-container">
+                <div class="main-logo">�</div>
+                <h1 class="main-title">GenChem</h1>
+            </div>
+            <div class="subtitle-container">
+                <p class="main-subtitle">
+                    <span class="ai-badge">AI</span>
+                    <span class="subtitle-text">Built on REINVENT4</span>
+                </p>
+                <p class="tagline">
+                    <span class="tagline-icon">🚀</span>
+                    De Novo Generation • Optimization • Analysis
+                </p>
+            </div>
+            <div class="gradient-line"></div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
     
     if not REINVENT_AVAILABLE:
         st.error("❌ REINVENT4 modules not available. Please check the installation.")
@@ -121,29 +601,17 @@ def main():
         # Show a simplified interface for demonstration
         st.warning("⚠️ Running in limited mode without REINVENT4 functionality.")
     
-    # Sidebar navigation
-    st.sidebar.title("🧪 REINVENT4 Interface")
+    # Create tabs for main navigation
+    tab_labels = [
+        "🏠 Home",
+        "🔬 De Novo Generation", 
+        "🧬 Scaffold Hopping",
+        "🔗 Linker Design",
+        "⚗️ R-Group Replacement",
+        "📈 Molecule Optimization"
+    ]
     
-    # Main Navigation - Only pipeline modules
-    pages = {
-        "🏠 Home": "home",
-        "🔬 De Novo Generation": "denovo",
-        "🧬 Scaffold Hopping": "scaffold",
-        "🔗 Linker Design": "linker",
-        "⚗️ R-Group Replacement": "rgroup",
-        "📈 Molecule Optimization": "optimization"
-    }
-    
-    # Main page selection
-    selected_page = st.sidebar.radio(
-        "Select Module:",
-        list(pages.keys()),
-        format_func=lambda x: x,
-        key="page_selector"
-    )
-    
-    # Get the page key
-    page_key = pages[selected_page]
+    tabs = st.tabs(tab_labels)
     
     # Initialize session state
     if 'results' not in st.session_state:
@@ -151,154 +619,61 @@ def main():
     if 'config_history' not in st.session_state:
         st.session_state.config_history = []
     
-    # Route to appropriate page
-    if page_key == "home":
+    # Route to appropriate tab content
+    with tabs[0]:  # Home
         show_home_page()
-    elif page_key == "denovo":
+    
+    with tabs[1]:  # De Novo Generation
         show_denovo_page()
-    elif page_key == "scaffold":
+    
+    with tabs[2]:  # Scaffold Hopping
         show_scaffold_page()
-    elif page_key == "linker":
+    
+    with tabs[3]:  # Linker Design
         show_linker_page()
-    elif page_key == "rgroup":
+    
+    with tabs[4]:  # R-Group Replacement
         show_rgroup_page()
-    elif page_key == "optimization":
+    
+    with tabs[5]:  # Molecule Optimization
         show_optimization_page()
 
 def show_home_page():
-    """Display the home page with beautiful design"""
+    """Display a clean, minimal home page with iOS-style design"""
     
     # Status notice (only show if REINVENT not available)
     if not REINVENT_AVAILABLE:
-        st.markdown("""
-        <div class="error-box">
-        ❌ <strong>REINVENT4 Not Available:</strong> Please install REINVENT4 dependencies to enable full functionality.
-        </div>
-        """, unsafe_allow_html=True)
+        st.error("❌ REINVENT4 modules not available. Please install REINVENT4 dependencies to enable full functionality.")
     
-    # Beautiful welcome section with centered content
+    # Welcome content with iOS-style cards
     st.markdown("""
-    <div style="text-align: center; padding: 2rem 0;">
-        <h1 style="color: #1f77b4; font-size: 2.5rem; margin-bottom: 1rem;">
-            🧪 Molecular Design Platform
-        </h1>
-        <p style="font-size: 1.2rem; color: #666; max-width: 600px; margin: 0 auto;">
-            Advanced AI-powered molecular generation and optimization
-        </p>
+    <div style="text-align: center; margin: 2rem 0;">
+        <h3 style="color: #1f2937; font-weight: 300; font-size: 1.5rem; margin-bottom: 1rem;">Welcome to GenChem</h3>
+        <p style="color: #6b7280; font-size: 1.1rem; font-weight: 300; line-height: 1.6;">Beautiful molecular design at your fingertips.<br>Select a module from the navigation tabs above to begin your journey into AI-powered chemistry.</p>
     </div>
     """, unsafe_allow_html=True)
     
-    # Feature cards in a grid layout
-    st.markdown('<div style="margin: 3rem 0;"></div>', unsafe_allow_html=True)
-    
-    # Generation modules grid
+    # Footer with system info
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                    padding: 1.5rem; border-radius: 10px; color: white; margin-bottom: 1rem;">
-            <h3 style="margin: 0 0 0.5rem 0;">🔬 Generation</h3>
-            <p style="margin: 0; opacity: 0.9;">Create new molecules from scratch</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
-                    padding: 1.5rem; border-radius: 10px; color: white; margin-bottom: 1rem;">
-            <h3 style="margin: 0 0 0.5rem 0;">🧬 Scaffold Design</h3>
-            <p style="margin: 0; opacity: 0.9;">Decorate molecular scaffolds</p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.info(f"**🧬 GenChem** (Built on REINVENT4)\nVersion: {REINVENT_VERSION}")
     
     with col2:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
-                    padding: 1.5rem; border-radius: 10px; color: white; margin-bottom: 1rem;">
-            <h3 style="margin: 0 0 0.5rem 0;">🔗 Linker Design</h3>
-            <p style="margin: 0; opacity: 0.9;">Connect molecular fragments</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); 
-                    padding: 1.5rem; border-radius: 10px; color: white; margin-bottom: 1rem;">
-            <h3 style="margin: 0 0 0.5rem 0;">⚗️ R-Group Replacement</h3>
-            <p style="margin: 0; opacity: 0.9;">Replace functional groups</p>
-        </div>
-        """, unsafe_allow_html=True)
+        if TORCH_AVAILABLE:
+            device_info = "GPU Available" if torch.cuda.is_available() else "CPU Only"
+            st.info(f"**🖥️ Compute**\n{device_info}")
+        else:
+            st.info("**🖥️ Compute**\nPyTorch: Not Available")
     
     with col3:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); 
-                    padding: 1.5rem; border-radius: 10px; color: white; margin-bottom: 1rem;">
-            <h3 style="margin: 0 0 0.5rem 0;">📈 Optimization</h3>
-            <p style="margin: 0; opacity: 0.9;">Improve molecular properties</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); 
-                    padding: 1.5rem; border-radius: 10px; color: #333; margin-bottom: 1rem;">
-            <h3 style="margin: 0 0 0.5rem 0;">📚 Library Design</h3>
-            <p style="margin: 0; opacity: 0.8;">Build molecular libraries</p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.info(f"**📊 Status**\n{'🟢 Ready' if REINVENT_AVAILABLE else '🔴 Limited Mode'}")
     
-    # Pipeline features info
-    st.markdown('<div style="margin: 2rem 0;"></div>', unsafe_allow_html=True)
-    
+    # Footer
     st.markdown("""
-    <div style="text-align: center; margin-bottom: 2rem;">
-        <h3 style="color: #495057; margin-bottom: 1rem;">🔄 Integrated Pipeline Features</h3>
-        <p style="color: #6c757d; max-width: 800px; margin: 0 auto;">
-            Each pipeline includes integrated tools for scoring, optimization, library design, and visualization
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.markdown("""
-        <div style="background: #f8f9fa; border: 2px solid #e9ecef; 
-                    padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
-            <h4 style="margin: 0 0 0.5rem 0; color: #495057;">🎯 Scoring & Optimization</h4>
-            <p style="margin: 0; color: #6c757d; font-size: 0.9rem;">Built-in multi-objective property optimization</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-        <div style="background: #f8f9fa; border: 2px solid #e9ecef; 
-                    padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
-            <h4 style="margin: 0 0 0.5rem 0; color: #495057;">🎓 Transfer Learning</h4>
-            <p style="margin: 0; color: #6c757d; font-size: 0.9rem;">Model fine-tuning integrated in each pipeline</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        st.markdown("""
-        <div style="background: #f8f9fa; border: 2px solid #e9ecef; 
-                    padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
-            <h4 style="margin: 0 0 0.5rem 0; color: #495057;">📊 Analysis & Libraries</h4>
-            <p style="margin: 0; color: #6c757d; font-size: 0.9rem;">Real-time visualization and library generation</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    # Call to action
-    st.markdown('<div style="margin: 3rem 0;"></div>', unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                padding: 2rem; border-radius: 15px; color: white;">
-        <h3 style="margin: 0 0 1rem 0;">🔄 Complete Pipeline Approach</h3>
-        <p style="margin: 0; opacity: 0.9; font-size: 1.1rem;">
-            Each module provides a complete pipeline: Input → Training → Generation → Optimization → Libraries
-        </p>
-        <div style="margin-top: 1rem; opacity: 0.8; font-size: 0.95rem;">
-            Select a generation module from the sidebar to start your molecular design workflow
-        </div>
+    ---
+    <div style="text-align: center; color: #667eea; font-size: 0.9rem; margin-top: 16px;">
+        Built with Streamlit and REINVENT4
     </div>
     """, unsafe_allow_html=True)
 
@@ -333,14 +708,6 @@ def show_active_features():
 
 def show_denovo_page():
     """De novo molecule generation pipeline"""
-    
-    st.markdown('<div class="sub-header">🔬 De Novo Molecule Generation Pipeline</div>', unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div class="info-box">
-    Complete pipeline: Input molecules → Model training/fine-tuning → Generation → Optimization → Library design
-    </div>
-    """, unsafe_allow_html=True)
     
     # Pipeline steps as tabs
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
@@ -459,7 +826,7 @@ def show_denovo_training_step():
         with col2:
             st.subheader("Training Parameters")
             
-            batch_size = st.number_input("Batch Size", min_value=16, max_value=512, value=64)
+            batch_size = st.number_input("Batch Size", min_value=16, max_value=512, value=64, key="denovo_training_batch_size")
             
             if training_type == "Curriculum Learning":
                 curriculum_strategy = st.selectbox(
@@ -504,15 +871,16 @@ def show_denovo_generation_step():
             max_value=2.0,
             value=1.0,
             step=0.1,
-            help="Controls diversity: lower = more conservative, higher = more diverse"
+            help="Controls diversity: lower = more conservative, higher = more diverse",
+            key="denovo_temperature"
         )
         
-        batch_size = st.number_input("Batch Size", min_value=16, max_value=512, value=128)
+        batch_size = st.number_input("Batch Size", min_value=16, max_value=512, value=128, key="denovo_generation_batch_size")
     
     with col2:
         st.subheader("Filtering & Quality")
         
-        remove_duplicates = st.checkbox("Remove Duplicates", value=True)
+        remove_duplicates = st.checkbox("Remove Duplicates", value=True, key="denovo_remove_duplicates")
         
         validity_filter = st.checkbox("Validity Filter", value=True)
         if validity_filter:
@@ -592,18 +960,18 @@ def show_denovo_optimization_step():
         objectives = {}
         
         if st.checkbox("Drug-likeness (QED)", value=True):
-            objectives['qed_weight'] = st.slider("QED Weight", 0.0, 1.0, 0.3)
+            objectives['qed_weight'] = st.slider("QED Weight", 0.0, 1.0, 0.3, key="denovo_qed_weight")
         
         if st.checkbox("Synthetic Accessibility", value=True):
-            objectives['sa_weight'] = st.slider("SA Score Weight", 0.0, 1.0, 0.2)
+            objectives['sa_weight'] = st.slider("SA Score Weight", 0.0, 1.0, 0.2, key="denovo_sa_weight")
         
         if st.checkbox("Target Similarity", value=False):
             target_smiles = st.text_input("Target SMILES")
             if target_smiles:
-                objectives['similarity_weight'] = st.slider("Similarity Weight", 0.0, 1.0, 0.5)
+                objectives['similarity_weight'] = st.slider("Similarity Weight", 0.0, 1.0, 0.5, key="denovo_similarity_weight")
                 objectives['target_smiles'] = target_smiles
         
-        if st.checkbox("Custom Property", value=False):
+        if st.checkbox("Custom Property", value=False, key="denovo_custom_property"):
             custom_property = st.selectbox("Property", ["LogP", "TPSA", "MW", "HBD", "HBA"])
             target_value = st.number_input(f"Target {custom_property}", value=2.0)
             objectives[f'{custom_property}_weight'] = st.slider(f"{custom_property} Weight", 0.0, 1.0, 0.2)
@@ -835,7 +1203,7 @@ def run_denovo_optimization(molecules, config):
         
         # Store results
         st.session_state['denovo_optimization_results'] = {
-            'molecules': optimized_results['SMILES'].tolist(),
+            'molecules': optimized_results['Optimized_SMILES'].tolist(),
             'dataframe': optimized_results,
             'config': config
         }
@@ -1153,11 +1521,10 @@ def show_generation_results(results, title):
 def show_scaffold_page():
     """Scaffold hopping and LibInvent page"""
     
-    st.markdown('<div class="sub-header">🧬 Scaffold Hopping & R-Group Replacement</div>', unsafe_allow_html=True)
-    
     st.markdown("""
-    <div class="info-box">
-    Use LibInvent to decorate scaffolds with R-groups or perform scaffold hopping to find alternative scaffolds.
+    <div style="text-align: center; margin: 2rem 0 1.5rem 0;">
+        <h2 style="color: #1f2937; font-weight: 300; font-size: 1.8rem; margin-bottom: 0.5rem;">Scaffold Hopping & R-Group Replacement</h2>
+        <p style="color: #6b7280; font-size: 1rem; font-weight: 300; line-height: 1.6;">Use LibInvent to decorate scaffolds with R-groups or perform scaffold hopping to find alternative scaffolds.</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -1178,10 +1545,11 @@ def show_scaffold_page():
             model_file = st.text_input(
                 "LibInvent Model File",
                 value="priors/libinvent.prior",
-                help="Path to the trained LibInvent model"
+                help="Path to the trained LibInvent model",
+                key="scaffold_model_file"
             )
             
-            device = st.selectbox("Compute Device", ["cuda:0", "cpu"])
+            device = st.selectbox("Compute Device", ["cuda:0", "cpu"], key="scaffold_device")
             
             num_compounds = st.number_input(
                 "Number of Compounds per Scaffold",
@@ -1250,16 +1618,18 @@ def show_scaffold_page():
                 min_value=0.1,
                 max_value=2.0,
                 value=1.0,
-                step=0.1
+                step=0.1,
+                key="scaffold_temperature"
             )
         
         with col2:
-            unique_molecules = st.checkbox("Remove Duplicates", value=True)
+            unique_molecules = st.checkbox("Remove Duplicates", value=True, key="scaffold_remove_duplicates")
             randomize_smiles = st.checkbox("Randomize SMILES", value=True)
             
             output_file = st.text_input(
                 "Output File Name",
-                value=f"{mode.lower().replace(' ', '_')}_results.csv"
+                value=f"{mode.lower().replace(' ', '_')}_results.csv",
+                key="scaffold_output_file"
             )
     
     # Generate button
@@ -1394,7 +1764,7 @@ def show_linker_page():
                 help="Path to the trained LinkInvent model"
             )
             
-            device = st.selectbox("Compute Device", ["cuda:0", "cpu"])
+            device = st.selectbox("Compute Device", ["cuda:0", "cpu"], key="linker_device")
             
             num_linkers = st.number_input(
                 "Number of Linkers per Fragment Pair",
@@ -1473,12 +1843,14 @@ def show_linker_page():
                 min_value=0.1,
                 max_value=2.0,
                 value=1.0,
-                step=0.1
+                step=0.1,
+                key="linker_temperature"
             )
             
             output_file = st.text_input(
                 "Output File Name",
-                value="linker_design_results.csv"
+                value="linker_design_results.csv",
+                key="linker_output_file"
             )
     
     # Property filters
@@ -1814,10 +2186,11 @@ def show_rgroup_page():
             model_file = st.text_input(
                 "LibInvent Model File",
                 value="priors/libinvent.prior",
-                help="Path to the trained LibInvent model"
+                help="Path to the trained LibInvent model",
+                key="rgroup_model_file"
             )
             
-            device = st.selectbox("Compute Device", ["cuda:0", "cpu"])
+            device = st.selectbox("Compute Device", ["cuda:0", "cpu"], key="rgroup_device")
             
             num_variants = st.number_input(
                 "Number of Variants per Molecule",
@@ -2242,7 +2615,7 @@ def show_optimization_page():
                 step=10
             )
             
-            device = st.selectbox("Compute Device", ["cuda:0", "cpu"])
+            device = st.selectbox("Compute Device", ["cuda:0", "cpu"], key="optimization_device")
     
     # Scoring function configuration
     with st.expander("🎯 Scoring Function", expanded=True):
@@ -2361,7 +2734,8 @@ def show_optimization_page():
             output_file = st.text_input(
                 "Output File Name",
                 value=f"optimization_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
-                help="Unique filename with timestamp to avoid conflicts"
+                help="Unique filename with timestamp to avoid conflicts",
+                key="optimization_output_file"
             )
             
             # File format selection
@@ -3229,15 +3603,15 @@ def show_scoring_page():
             st.markdown("#### Property Components")
             
             # QED Component
-            use_qed = st.checkbox("QED (Drug-likeness)", value=True)
+            use_qed = st.checkbox("QED (Drug-likeness)", value=True, key="scoring_qed_checkbox")
             if use_qed:
-                qed_weight = st.slider("QED Weight", 0.0, 1.0, 0.3, 0.05)
+                qed_weight = st.slider("QED Weight", 0.0, 1.0, 0.3, 0.05, key="scoring_qed_weight")
                 qed_transform = st.selectbox("QED Transform", ["linear", "sigmoid", "reverse_sigmoid"], key="qed_transform")
             
             # SA Score Component
             use_sa_score = st.checkbox("Synthetic Accessibility", value=True)
             if use_sa_score:
-                sa_weight = st.slider("SA Score Weight", 0.0, 1.0, 0.2, 0.05)
+                sa_weight = st.slider("SA Score Weight", 0.0, 1.0, 0.2, 0.05, key="scoring_sa_weight")
                 sa_transform = st.selectbox("SA Transform", ["linear", "sigmoid", "reverse_sigmoid"], key="sa_transform")
             
             # Lipinski Component
@@ -3246,7 +3620,7 @@ def show_scoring_page():
                 lipinski_weight = st.slider("Lipinski Weight", 0.0, 1.0, 0.1, 0.05)
             
             # Custom Property
-            use_custom_property = st.checkbox("Custom Property")
+            use_custom_property = st.checkbox("Custom Property", key="scoring_custom_property")
             if use_custom_property:
                 custom_property = st.selectbox(
                     "Property Type",
@@ -3267,7 +3641,7 @@ def show_scoring_page():
                     placeholder="CCO\nc1ccccc1\nCC(=O)O",
                     height=100
                 )
-                similarity_weight = st.slider("Similarity Weight", 0.0, 1.0, 0.3, 0.05)
+                similarity_weight = st.slider("Similarity Weight", 0.0, 1.0, 0.3, 0.05, key="scoring_similarity_weight")
                 similarity_method = st.selectbox("Similarity Method", ["Tanimoto", "Dice", "Cosine"])
             
             # Substructure match
@@ -3662,7 +4036,7 @@ def show_transfer_learning_page():
                 help="Name for the fine-tuned model"
             )
             
-            device = st.selectbox("Compute Device", ["cuda:0", "cpu"])
+            device = st.selectbox("Compute Device", ["cuda:0", "cpu"], key="transfer_learning_device")
             
             # Model architecture
             model_type = st.selectbox(
@@ -4134,7 +4508,7 @@ def show_reinforcement_learning_page():
                 help="Reinforcement learning algorithm to use"
             )
             
-            device = st.selectbox("Compute Device", ["cuda:0", "cpu"])
+            device = st.selectbox("Compute Device", ["cuda:0", "cpu"], key="rl_device")
         
         with col2:
             st.subheader("Training Parameters")
@@ -4174,9 +4548,9 @@ def show_reinforcement_learning_page():
             st.markdown("#### Primary Objectives")
             
             # QED reward
-            use_qed_reward = st.checkbox("QED (Drug-likeness)", value=True)
+            use_qed_reward = st.checkbox("QED (Drug-likeness)", value=True, key="rl_qed_checkbox")
             if use_qed_reward:
-                qed_weight = st.slider("QED Weight", 0.0, 1.0, 0.3, 0.05)
+                qed_weight = st.slider("QED Weight", 0.0, 1.0, 0.3, 0.05, key="rl_qed_weight")
                 qed_transform = st.selectbox("QED Transform", ["linear", "sigmoid", "step"], key="qed_rl")
             
             # Similarity reward
@@ -4187,7 +4561,7 @@ def show_reinforcement_learning_page():
                     placeholder="CCO\nc1ccccc1",
                     height=80
                 )
-                similarity_weight = st.slider("Similarity Weight", 0.0, 1.0, 0.4, 0.05)
+                similarity_weight = st.slider("Similarity Weight", 0.0, 1.0, 0.4, 0.05, key="rl_similarity_weight")
             
             # Custom scoring
             use_custom_reward = st.checkbox("Custom Scoring Function")
@@ -5122,9 +5496,9 @@ def show_sampling_config():
         col1, col2 = st.columns(2)
         
         with col1:
-            model_path = st.text_input("Model Path", value="priors/reinvent.prior")
+            model_path = st.text_input("Model Path", value="priors/reinvent.prior", key="sampling_model_path")
             num_smiles = st.number_input("Number of SMILES", 1, 10000, 1000)
-            batch_size = st.number_input("Batch Size", 1, 500, 100)
+            batch_size = st.number_input("Batch Size", 1, 500, 100, key="sampling_batch_size")
         
         with col2:
             temperature = st.slider("Temperature", 0.1, 2.0, 1.0, 0.1)
@@ -5137,13 +5511,13 @@ def show_rl_config_creator():
         col1, col2 = st.columns(2)
         
         with col1:
-            agent_path = st.text_input("Agent Model", value="priors/reinvent.prior")
-            prior_path = st.text_input("Prior Model", value="priors/reinvent.prior")
+            agent_path = st.text_input("Agent Model", value="priors/reinvent.prior", key="rl_agent_path")
+            prior_path = st.text_input("Prior Model", value="priors/reinvent.prior", key="rl_prior_path")
             num_steps = st.number_input("RL Steps", 100, 50000, 5000)
         
         with col2:
-            batch_size = st.number_input("Batch Size", 10, 500, 128)
-            learning_rate = st.number_input("Learning Rate", 0.00001, 0.01, 0.0001, format="%.5f")
+            batch_size = st.number_input("Batch Size", 10, 500, 128, key="rl_config_batch_size")
+            learning_rate = st.number_input("Learning Rate", 0.00001, 0.01, 0.0001, format="%.5f", key="rl_config_learning_rate")
             kl_sigma = st.slider("KL Sigma", 1, 200, 60)
 
 def show_tl_config_creator():
@@ -5152,14 +5526,14 @@ def show_tl_config_creator():
         col1, col2 = st.columns(2)
         
         with col1:
-            input_model = st.text_input("Input Model", value="priors/reinvent.prior")
+            input_model = st.text_input("Input Model", value="priors/reinvent.prior", key="tl_input_model")
             output_model = st.text_input("Output Model", value="models/transfer_model")
             training_data = st.text_input("Training Data", placeholder="path/to/training.smi")
         
         with col2:
             num_epochs = st.number_input("Epochs", 1, 1000, 100)
-            batch_size = st.number_input("Batch Size", 1, 200, 64)
-            learning_rate = st.number_input("Learning Rate", 0.00001, 0.1, 0.001, format="%.5f")
+            batch_size = st.number_input("Batch Size", 1, 200, 64, key="tl_config_batch_size")
+            learning_rate = st.number_input("Learning Rate", 0.00001, 0.1, 0.001, format="%.5f", key="tl_config_learning_rate")
 
 def show_library_config_creator():
     """Library design configuration parameters"""
@@ -5184,14 +5558,14 @@ def show_scoring_config_creator():
         # Scoring components
         st.markdown("**Scoring Components:**")
         
-        use_qed = st.checkbox("QED (Drug-likeness)", value=True)
+        use_qed = st.checkbox("QED (Drug-likeness)", value=True, key="optimization_qed_checkbox")
         if use_qed:
-            qed_weight = st.slider("QED Weight", 0.0, 1.0, 1.0, 0.1)
+            qed_weight = st.slider("QED Weight", 0.0, 1.0, 1.0, 0.1, key="optimization_qed_weight")
         
         use_similarity = st.checkbox("Similarity Scoring")
         if use_similarity:
             reference_smiles = st.text_input("Reference SMILES")
-            similarity_weight = st.slider("Similarity Weight", 0.0, 1.0, 1.0, 0.1)
+            similarity_weight = st.slider("Similarity Weight", 0.0, 1.0, 1.0, 0.1, key="optimization_similarity_weight")
 
 def show_config_loader():
     """Configuration loading interface"""
@@ -5584,7 +5958,7 @@ def show_file_manager_page():
     
     st.markdown("""
     <div class="info-box">
-    Manage, organize, and download all your REINVENT4 results and configuration files.
+    Manage, organize, and download all your GenChem results and configuration files.
     </div>
     """, unsafe_allow_html=True)
     
@@ -6326,7 +6700,7 @@ def create_bulk_export():
         export_data = {
             'export_info': {
                 'created': datetime.now().isoformat(),
-                'version': 'REINVENT4_WebInterface_v1.0',
+                'version': 'GenChem_WebInterface_v1.0',
                 'total_items': 0
             },
             'results': {},
@@ -6354,7 +6728,7 @@ def create_bulk_export():
         
         # Create download
         export_json = json.dumps(export_data, indent=2)
-        filename = f"reinvent4_bulk_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        filename = f"genchem_bulk_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         
         st.download_button(
             "📦 Download Complete Export Package",
@@ -6451,7 +6825,7 @@ def generate_usage_report():
             'report_info': {
                 'generated': datetime.now().isoformat(),
                 'period': 'All Time',
-                'version': 'REINVENT4 Web Interface'
+                'version': 'GenChem Web Interface'
             },
             'summary': {
                 'total_experiments': len([k for k in st.session_state.keys() if k.endswith('_results')]),
@@ -6564,10 +6938,10 @@ def show_documentation_page():
     st.markdown('<div class="sub-header">📖 Documentation</div>', unsafe_allow_html=True)
     
     st.markdown("""
-    ## REINVENT4 Web Interface Documentation
+    ## GenChem Web Interface Documentation
     
     ### Overview
-    This web interface provides a user-friendly way to access all REINVENT4 capabilities:
+    This web interface provides a user-friendly way to access all REINVENT4 capabilities through GenChem:
     
     ### Generation Modes
     - **De Novo Generation**: Create entirely new molecules from scratch
