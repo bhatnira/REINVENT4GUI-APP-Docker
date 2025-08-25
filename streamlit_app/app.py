@@ -149,34 +149,17 @@ def main():
     # Combine all pages for routing
     pages = {**generation_pages, **feature_pages}
     
-    # Generation Module Selection
-    st.sidebar.markdown("**Select Generation Module:**")
-    selected_generation = st.sidebar.radio(
+    # Main page selection
+    st.sidebar.markdown("**Select Module:**")
+    selected_page = st.sidebar.radio(
         "",
-        list(generation_pages.keys()),
+        list(pages.keys()),
         format_func=lambda x: x,
-        key="generation_selector"
+        key="page_selector"
     )
     
-    # Features & Tools Selection (only show if not on Home)
-    selected_feature = None
-    if selected_generation != "🏠 Home":
-        st.sidebar.markdown("**Select Feature/Tool (Optional):**")
-        feature_options = ["None"] + list(feature_pages.keys())
-        selected_feature = st.sidebar.selectbox(
-            "",
-            feature_options,
-            index=0,
-            key="feature_selector"
-        )
-    
-    # Determine which page to show
-    if selected_feature and selected_feature != "None":
-        page_key = feature_pages[selected_feature]
-        selected_page = selected_feature
-    else:
-        page_key = generation_pages[selected_generation]
-        selected_page = selected_generation
+    # Get the page key
+    page_key = pages[selected_page]
     
     # Initialize session state
     if 'results' not in st.session_state:
