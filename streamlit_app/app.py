@@ -120,18 +120,6 @@ def main():
         
         # Show a simplified interface for demonstration
         st.warning("⚠️ Running in limited mode without REINVENT4 functionality.")
-    else:
-        st.success("✅ REINVENT4 is fully loaded and ready to use!")
-        st.info(f"🚀 Running REINVENT4 version {REINVENT_VERSION}")
-        
-    # Display version information
-    try:
-        if REINVENT_AVAILABLE:
-            st.markdown(f"<div class='success-box'>🎉 REINVENT4 version {REINVENT_VERSION} is active and ready!</div>", unsafe_allow_html=True)
-        else:
-            st.markdown("<div class='error-box'>⚠️ REINVENT4 modules not loaded - limited functionality available</div>", unsafe_allow_html=True)
-    except:
-        st.markdown("<div class='error-box'>⚠️ Unable to determine REINVENT4 status</div>", unsafe_allow_html=True)
     
     # Sidebar navigation
     st.sidebar.title("🧪 REINVENT4 Interface")
@@ -223,156 +211,129 @@ def main():
         show_config_page()
 
 def show_home_page():
-    """Display the home page with overview and quick start"""
+    """Display the home page with beautiful design"""
     
-    st.markdown('<div class="sub-header">Welcome to REINVENT4</div>', unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div class="info-box">
-    REINVENT4 is a comprehensive platform for de novo molecular design and optimization.
-    This web interface provides an intuitive way to access all REINVENT4 capabilities.
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Status notice
-    if REINVENT_AVAILABLE:
-        st.markdown("""
-        <div class="success-box">
-        ✅ <strong>REINVENT4 Active:</strong> All molecular generation and optimization features are fully functional! 
-        Ready for real molecular design workflows.
-        </div>
-        """, unsafe_allow_html=True)
-    else:
+    # Status notice (only show if REINVENT not available)
+    if not REINVENT_AVAILABLE:
         st.markdown("""
         <div class="error-box">
         ❌ <strong>REINVENT4 Not Available:</strong> Please install REINVENT4 dependencies to enable full functionality.
         </div>
         """, unsafe_allow_html=True)
     
-    # Quick overview cards
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("### 🔬 Generation Modules")
-        st.markdown("""
-        **Core molecular generation capabilities:**
-        - **De Novo Generation**: Pure molecule creation from scratch
-        - **Scaffold Hopping**: Decorate scaffolds with R-groups
-        - **Linker Design**: Connect molecular fragments
-        - **R-Group Replacement**: Replace specific functional groups
-        - **Molecule Optimization**: Improve existing molecules
-        """)
-    
-    with col2:
-        st.markdown("### �️ Features & Tools")
-        st.markdown("""
-        **Advanced features for generation workflows:**
-        - **Library Design**: Design focused molecular libraries
-        - **Scoring Functions**: Multi-component scoring systems
-        - **Transfer Learning**: Model fine-tuning capabilities
-        - **Reinforcement Learning**: Score-guided optimization
-        - **Results Visualization**: Interactive analysis tools
-        - **Configuration Manager**: Save and manage settings
-        """)
-    
-    # Workflow explanation
-    st.markdown('<div class="sub-header">🔄 Workflow Structure</div>', unsafe_allow_html=True)
-    
+    # Beautiful welcome section with centered content
     st.markdown("""
-    <div class="info-box">
-    <strong>How to Use:</strong><br>
-    1. <strong>Select a Generation Module</strong> (primary molecular generation method)<br>
-    2. <strong>Optionally add Features/Tools</strong> (enhance generation with scoring, optimization, etc.)<br>
-    3. <strong>Configure parameters</strong> for your specific workflow<br>
-    4. <strong>Run generation</strong> and analyze results
+    <div style="text-align: center; padding: 2rem 0;">
+        <h1 style="color: #1f77b4; font-size: 2.5rem; margin-bottom: 1rem;">
+            🧪 Molecular Design Platform
+        </h1>
+        <p style="font-size: 1.2rem; color: #666; max-width: 600px; margin: 0 auto;">
+            Advanced AI-powered molecular generation and optimization
+        </p>
     </div>
     """, unsafe_allow_html=True)
     
-    # Quick start section
-    st.markdown('<div class="sub-header">Quick Start Guide</div>', unsafe_allow_html=True)
+    # Feature cards in a grid layout
+    st.markdown('<div style="margin: 3rem 0;"></div>', unsafe_allow_html=True)
     
-    with st.expander("🚀 Getting Started", expanded=True):
-        st.markdown("""
-        **Generation Modules (Choose One):**
-        1. **🔬 De Novo Generation**: Start here for creating completely new molecules
-        2. **🧬 Scaffold Hopping**: Use when you have scaffolds to decorate
-        3. **🔗 Linker Design**: Connect molecular fragments with optimal linkers
-        4. **⚗️ R-Group Replacement**: Replace specific parts of existing molecules
-        5. **📈 Molecule Optimization**: Improve existing molecules with RL
-        
-        **Features & Tools (Optional Enhancements):**
-        - **📚 Library Design**: Generate focused molecular libraries
-        - **🎯 Scoring Functions**: Apply multi-objective scoring
-        - **🎓 Transfer Learning**: Fine-tune models for specific tasks
-        - **💪 Reinforcement Learning**: Advanced optimization strategies
-        - **📊 Results Visualization**: Analyze and visualize results
-        - **⚙️ Configuration Manager**: Save and reuse configurations
-        
-        **Typical Workflow:**
-        → Select Generation Module → Add Features (optional) → Configure → Run → Analyze
-        """)
-    
-    # Example workflows
-    st.markdown('<div class="sub-header">💡 Example Workflows</div>', unsafe_allow_html=True)
-    
-    col1, col2 = st.columns(2)
+    # Generation modules grid
+    col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.markdown("#### 🎯 Focused Drug Discovery")
         st.markdown("""
-        1. **📈 Molecule Optimization** (starting molecules)
-        2. **+ 🎯 Scoring Functions** (ADMET properties)
-        3. **+ 💪 Reinforcement Learning** (multi-objective)
-        4. **+ 📊 Results Visualization** (analyze results)
-        """)
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 1.5rem; border-radius: 10px; color: white; margin-bottom: 1rem;">
+            <h3 style="margin: 0 0 0.5rem 0;">🔬 Generation</h3>
+            <p style="margin: 0; opacity: 0.9;">Create new molecules from scratch</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+                    padding: 1.5rem; border-radius: 10px; color: white; margin-bottom: 1rem;">
+            <h3 style="margin: 0 0 0.5rem 0;">🧬 Scaffold Design</h3>
+            <p style="margin: 0; opacity: 0.9;">Decorate molecular scaffolds</p>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col2:
-        st.markdown("#### 🔬 Exploratory Generation")
         st.markdown("""
-        1. **🔬 De Novo Generation** (create new molecules)
-        2. **+ 📚 Library Design** (focused libraries)
-        3. **+ 🎯 Scoring Functions** (filter promising compounds)
-        4. **+ ⚙️ Configuration Manager** (save settings)
-        """)
+        <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
+                    padding: 1.5rem; border-radius: 10px; color: white; margin-bottom: 1rem;">
+            <h3 style="margin: 0 0 0.5rem 0;">🔗 Linker Design</h3>
+            <p style="margin: 0; opacity: 0.9;">Connect molecular fragments</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); 
+                    padding: 1.5rem; border-radius: 10px; color: white; margin-bottom: 1rem;">
+            <h3 style="margin: 0 0 0.5rem 0;">⚗️ R-Group Replacement</h3>
+            <p style="margin: 0; opacity: 0.9;">Replace functional groups</p>
+        </div>
+        """, unsafe_allow_html=True)
     
-    # System status
-    st.markdown('<div class="sub-header">System Status</div>', unsafe_allow_html=True)
+    with col3:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); 
+                    padding: 1.5rem; border-radius: 10px; color: white; margin-bottom: 1rem;">
+            <h3 style="margin: 0 0 0.5rem 0;">📈 Optimization</h3>
+            <p style="margin: 0; opacity: 0.9;">Improve molecular properties</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); 
+                    padding: 1.5rem; border-radius: 10px; color: #333; margin-bottom: 1rem;">
+            <h3 style="margin: 0 0 0.5rem 0;">📚 Library Design</h3>
+            <p style="margin: 0; opacity: 0.8;">Build molecular libraries</p>
+        </div>
+        """, unsafe_allow_html=True)
     
-    col1, col2 = st.columns(2)
+    # Tools section
+    st.markdown('<div style="margin: 2rem 0;"></div>', unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.markdown("#### 🖥️ Compute Resources")
-        # Check CUDA availability
-        try:
-            if TORCH_AVAILABLE and torch.cuda.is_available():
-                device_count = torch.cuda.device_count()
-                current_device = torch.cuda.current_device()
-                device_name = torch.cuda.get_device_name(current_device)
-                free_mem, total_mem = torch.cuda.mem_get_info()
-                
-                st.success(f"✅ CUDA Available: {device_count} device(s)")
-                st.info(f"Current: {device_name}")
-                st.info(f"Memory: {free_mem//1024**2} MB free / {total_mem//1024**2} MB total")
-            elif TORCH_AVAILABLE:
-                st.warning("⚠️ CUDA not available, using CPU")
-            else:
-                st.info("ℹ️ PyTorch not installed - GPU status unknown")
-        except Exception as e:
-            st.error(f"❌ Could not check CUDA status: {e}")
+        st.markdown("""
+        <div style="background: #f8f9fa; border: 2px solid #e9ecef; 
+                    padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
+            <h4 style="margin: 0 0 0.5rem 0; color: #495057;">🎯 Scoring Functions</h4>
+            <p style="margin: 0; color: #6c757d; font-size: 0.9rem;">Multi-objective property optimization</p>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col2:
-        st.markdown("#### 📁 File System")
-        # Check for model files
-        prior_dir = Path("../priors")
-        if prior_dir.exists():
-            priors = list(prior_dir.glob("*.prior"))
-            st.success(f"✅ Found {len(priors)} prior model(s)")
-            for prior in priors[:5]:  # Show first 5
-                st.info(f"📄 {prior.name}")
-            if len(priors) > 5:
-                st.info(f"... and {len(priors) - 5} more")
-        else:
-            st.warning("⚠️ No prior models directory found")
+        st.markdown("""
+        <div style="background: #f8f9fa; border: 2px solid #e9ecef; 
+                    padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
+            <h4 style="margin: 0 0 0.5rem 0; color: #495057;">🎓 Transfer Learning</h4>
+            <p style="margin: 0; color: #6c757d; font-size: 0.9rem;">Fine-tune models for specific tasks</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("""
+        <div style="background: #f8f9fa; border: 2px solid #e9ecef; 
+                    padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
+            <h4 style="margin: 0 0 0.5rem 0; color: #495057;">📊 Visualization</h4>
+            <p style="margin: 0; color: #6c757d; font-size: 0.9rem;">Interactive analysis and plots</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Call to action
+    st.markdown('<div style="margin: 3rem 0;"></div>', unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                padding: 2rem; border-radius: 15px; color: white;">
+        <h3 style="margin: 0 0 1rem 0;">Ready to start?</h3>
+        <p style="margin: 0; opacity: 0.9; font-size: 1.1rem;">
+            Select a module from the sidebar to begin molecular design
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
 def show_active_features():
     """Display active features/tools being used"""
