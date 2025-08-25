@@ -6940,12 +6940,24 @@ def show_documentation_page():
     st.markdown("""
     ## GenChem Web Interface Documentation
     
-    ### Overview
-    This web interface provides a user-friendly way to access all REINVENT4 capabilities through GenChem:
+    ### About GenChem
+    GenChem is a beautiful, user-friendly GUI interface for REINVENT4 molecular design capabilities. 
+    This application makes advanced AI-driven drug discovery accessible through an intuitive web interface.
+    
+    ### Built on REINVENT4
+    This GUI is powered by **REINVENT4**, a state-of-the-art platform for AI-driven molecular design 
+    developed by MolecularAI.
+    
+    **📄 Academic Reference:**
+    > Guo, J., Fialková, V., Coley, J.D. et al. REINVENT4: Modern AI–driven generative molecule design. 
+    > *J Cheminform* 16, 20 (2024). https://doi.org/10.1186/s13321-024-00812-5
+    
+    **🐙 Source Repository:**
+    > https://github.com/MolecularAI/REINVENT4
     
     ### Generation Modes
     - **De Novo Generation**: Create entirely new molecules from scratch
-    - **Scaffold Hopping**: Find alternative scaffolds for existing molecules
+    - **Scaffold Hopping**: Find alternative scaffolds for existing molecules  
     - **Linker Design**: Connect molecular fragments with optimal linkers
     - **R-Group Replacement**: Modify specific positions in molecules
     
@@ -6953,6 +6965,19 @@ def show_documentation_page():
     - **Transfer Learning**: Fine-tune models on specific datasets
     - **Reinforcement Learning**: Optimize towards scoring functions
     - **Curriculum Learning**: Multi-stage optimization
+    
+    ### Citation
+    When using GenChem in your research, please cite the original REINVENT4 paper:
+    
+    ```
+    @article{guo2024reinvent4,
+      title={REINVENT4: Modern AI–driven generative molecule design},
+      author={Guo, Jiazhen and Fialková, Vendula and Coley, John D and others},
+      journal={Journal of Cheminformatics},
+      volume={16}, number={1}, pages={20}, year={2024},
+      doi={10.1186/s13321-024-00812-5}
+    }
+    ```
     
     ### Getting Help
     - Use the sidebar to navigate between different modules

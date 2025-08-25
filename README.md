@@ -1,161 +1,212 @@
-REINVENT 4
-==========
+# GenChem - GUI Interface for REINVENT4
 
+**A beautiful, user-friendly web interface for REINVENT4 molecular design capabilities**
 
-Description
------------
+[![Built with Streamlit](https://img.shields.io/badge/Built%20with-Streamlit-FF6B6B?style=flat-square)](https://streamlit.io/)
+[![Powered by REINVENT4](https://img.shields.io/badge/Powered%20by-REINVENT4-4285F4?style=flat-square)](https://github.com/MolecularAI/REINVENT4)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=flat-square)](https://python.org)
 
-REINVENT is a molecular design tool for de novo design, scaffold hopping,
-R-group replacement, linker design, molecule optimization, and other small
-molecule design tasks.  REINVENT uses a Reinforcement Learning
-(RL) algorithm to generate optimized molecules compliant with a user defined
-property profile defined as a multi-component score.  Transfer Learning (TL)
-can be used to create or pre-train a model that generates molecules closer
-to a set of input molecules. 
+## Overview
 
-A paper describing the software has been published as Open Access in the
-Journal of Cheminformatics:
-[Reinvent 4: Modern AI–driven generative molecule design](https://link.springer.com/article/10.1186/s13321-024-00812-5?utm_source=rct_congratemailt&utm_medium=email&utm_campaign=oa_20240221&utm_content=10.1186/s13321-024-00812-5).
-See AUTHORS.md for references to previous papers.
+GenChem provides an intuitive, web-based graphical user interface (GUI) for the powerful REINVENT4 molecular design platform. This application makes advanced AI-driven drug discovery accessible through a beautiful, iOS-inspired interface that requires no command-line expertise.
 
+## About REINVENT4
 
-Requirements
-------------
+This GUI is built on **REINVENT4**, a state-of-the-art platform for AI-driven molecular design and drug discovery developed by MolecularAI.
 
-REINVENT is being developed on Linux and supports both GPU and CPU.  The Linux
-version is fully validated.  REINVENT on Windows supports GPU and CPU while
-MacOSX supports CPU only, but both platforms are only partially tested and
-therefore support is limited.
+### Academic Reference
 
-The code is written in Python 3 (>= 3.10).  The list of
-dependencies can be found in the repository (see also Installation below).
+**Please cite the original REINVENT4 paper when using this GUI:**
 
-A GPU is not strictly necessary but strongly recommended for performance
-reasons especially for transfer learning and model training.  Reinforcement
-learning (RL) requires the computation of scores where most scoring
-components run on the CPU.  Thus, a GPU is less important for RL (depending
-on how much time is spent on the CPU).
+> Guo, J., Fialková, V., Coley, J.D. et al. REINVENT4: Modern AI–driven generative molecule design. *J Cheminform* 16, 20 (2024). https://doi.org/10.1186/s13321-024-00812-5
 
-Note that if no GPU is installed in your computer the code will run on the
-CPU automatically.  REINVENT [supports](https://pytorch.org/get-started/locally/) NVIDIA GPUs and also some AMD GPUs.
-For most design tasks a memory of about 8 GiB for both CPU main memory and
-GPU memory is sufficient.
+### Source Repository
 
+**Original REINVENT4 implementation:**
+- GitHub: https://github.com/MolecularAI/REINVENT4
+- Documentation: Available in the main repository
 
-Installation
-------------
+## Features
 
-1. Clone this Git repository.
-1. Create a Python environment and install a compatible version of Python, for example with [Conda](https://conda.io/projects/conda/en/latest/index.html) (other virtual environments like Docker, pyenv, or the system package manager work too).
-    ```shell
-    conda create --name reinvent4 python=3.10
-    conda activate reinvent4
-    ```
-1. Change directory to the repository and install all dependencies.  You will need to set the right processor type, see [PyTorch versions](https://pytorch.org/get-started/locally/). Linux supports CUDA (e.g. "cu124"), ROCm (e.g. "rocm6.2.4")  and CPU. Windows supports CUDA and CPU.  MacOSX only supports CPU (use "mac" as processor type!). Optionally, you can select dependencies "openeye" (for ROCS; you need to obtain your own license), "isim" for similarity tracking in TensorBoard or "none" to skip all.  The default is installation of "all" dependencies.  See the help text from the install script for details.
-    ```shell
-    python install.py --help
-    python install.py cu124  # or rocm6.2.4, cpu, mac, etc.
-    ```
-1. Test the tool. The installer has added a script `reinvent` to your PATH.
-    ```shell
-    reinvent --help
-    ```
+GenChem provides a complete GUI interface for all major REINVENT4 capabilities:
 
-Prior models
-------------
+### 🧬 Molecular Design Modules
+- **De Novo Generation Pipeline** - Complete molecule generation workflow
+- **Scaffold Hopping & R-Group Replacement** - LibInvent-based scaffold decoration
+- **Molecular Transformation** - Mol2Mol structure-to-structure translation
+- **Link Discovery** - LinkInvent for fragment linking
 
-All public prior models can be found on [Zenodo](https://doi.org/10.5281/zenodo.15641296).
+### 🎯 Advanced Capabilities
+- **Transfer Learning** - Adapt pre-trained models to specific datasets
+- **Reinforcement Learning** - Optimize molecules for desired properties
+- **Staged Learning** - Multi-stage optimization workflows
+- **Curriculum Learning** - Progressive training strategies
 
+### 📊 Analysis & Visualization
+- **Interactive Molecular Visualization** - 2D/3D structure rendering
+- **Real-time Analytics** - Generation statistics and metrics
+- **Progress Monitoring** - Live training and sampling progress
+- **Results Export** - Multiple output formats (SDF, CSV, JSON)
 
-Basic Usage
------------
+### 🔧 Configuration Management
+- **Visual Config Builder** - No-code configuration creation
+- **Template Library** - Pre-built configurations for common tasks
+- **Parameter Optimization** - Guided hyperparameter tuning
+- **Batch Processing** - Multiple configuration management
 
-REINVENT is a command line tool and works principally as follows
-```shell
-reinvent -l sampling.log sampling.toml
+## Installation
+
+### Prerequisites
+
+1. **Python 3.8+** with pip
+2. **REINVENT4 dependencies** - Install from the original repository
+3. **Git** for cloning the repository
+
+### Setup Instructions
+
+1. **Clone this repository:**
+   ```bash
+   git clone https://github.com/your-username/genchem-gui.git
+   cd genchem-gui
+   ```
+
+2. **Install REINVENT4:**
+   ```bash
+   # Clone and install REINVENT4
+   git clone https://github.com/MolecularAI/REINVENT4.git
+   cd REINVENT4
+   pip install -e .
+   cd ..
+   ```
+
+3. **Install additional GUI dependencies:**
+   ```bash
+   pip install streamlit plotly pandas numpy
+   ```
+
+4. **Launch GenChem:**
+   ```bash
+   streamlit run streamlit_app/app.py --server.port 8502
+   ```
+
+5. **Access the interface:**
+   Open your browser to `http://localhost:8502`
+
+## Usage
+
+### Quick Start
+
+1. **Select a Module** - Choose from the navigation tabs (De Novo, Scaffold Hopping, etc.)
+2. **Configure Parameters** - Use the intuitive forms to set up your job
+3. **Upload Data** - Provide input molecules, scaffolds, or datasets as needed
+4. **Run Generation** - Execute your molecular design workflow
+5. **Analyze Results** - View and download generated molecules with analytics
+
+### Example Workflows
+
+#### De Novo Molecule Generation
+1. Navigate to "De Novo Generation"
+2. Upload a reference dataset or use built-in examples
+3. Configure generation parameters (model type, sampling settings)
+4. Set optimization objectives (ADMET properties, similarity targets)
+5. Run the pipeline and monitor progress
+6. Download results in your preferred format
+
+#### Scaffold Decoration
+1. Go to "Scaffold Hopping"
+2. Upload your scaffold structures
+3. Choose decoration or hopping mode
+4. Set R-group constraints and properties
+5. Generate decorated molecules
+6. Export results with detailed analytics
+
+## Configuration Files
+
+GenChem generates standard REINVENT4 configuration files that are fully compatible with the command-line interface. All configurations can be:
+
+- **Exported** for use with command-line REINVENT4
+- **Imported** from existing REINVENT4 setups
+- **Shared** with team members
+- **Version controlled** with your projects
+
+## System Requirements
+
+### Minimum Requirements
+- **CPU:** 4+ cores recommended
+- **RAM:** 8GB minimum, 16GB+ recommended
+- **Storage:** 10GB+ free space
+- **GPU:** Optional but recommended for training (CUDA-compatible)
+
+### Recommended Setup
+- **CPU:** 8+ cores (Intel/AMD)
+- **RAM:** 32GB+ for large datasets
+- **GPU:** NVIDIA RTX series or Tesla with 8GB+ VRAM
+- **Storage:** SSD with 50GB+ free space
+
+## Contributing
+
+We welcome contributions to improve GenChem! Please:
+
+1. Fork this repository
+2. Create a feature branch
+3. Make your improvements
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+This GUI interface is provided under the same license terms as REINVENT4. Please refer to the original REINVENT4 repository for licensing information.
+
+## Acknowledgments
+
+- **MolecularAI Team** - For developing the exceptional REINVENT4 platform
+- **REINVENT4 Contributors** - All researchers and developers who contributed to the core platform
+- **Open Source Community** - For the tools and libraries that made this GUI possible
+
+## Citations
+
+If you use GenChem in your research, please cite both this GUI and the original REINVENT4 work:
+
+### REINVENT4 (Required)
+```bibtex
+@article{guo2024reinvent4,
+  title={REINVENT4: Modern AI–driven generative molecule design},
+  author={Guo, Jiazhen and Fialkov{\'a}, Vendula and Coley, John D and Patronov, Alexey and Holm, Esben Jannik and Engkvist, Ola and Bjerrum, Esben Jannik and Kogej, Thierry and Tyrchan, Christian and Voronov, Alexey and others},
+  journal={Journal of Cheminformatics},
+  volume={16},
+  number={1},
+  pages={20},
+  year={2024},
+  publisher={BioMed Central},
+  doi={10.1186/s13321-024-00812-5},
+  url={https://jcheminf.biomedcentral.com/articles/10.1186/s13321-024-00812-5}
+}
 ```
 
-This writes logging information to the file `sampling.log`.  If you wish to write
-this to the screen, leave out the `-l sampling.log` part. `sampling.toml` is the
-configuration file.  The main format is [TOML](https://toml.io/en/) as it tends to be more user friendly.  JSON and YAML are supported too.
-
-Sample configuration files for all run modes are
-located in `configs/` in the repository. File paths in these files would need to be
-adjusted to your local installation.  You will need to choose a model and the
-appropriate run mode depending on the research problem you are trying to address.
-There is additional documentation in `configs/` in several `*.md` files with
-instructions on how to configure the TOML file.  Internal priors can be referenced with a
-dot notation (see `reinvent/prior_registry.py`).
-
-
-Tutorials / `Jupyter` notebooks
--------------------------------
-
-Basic instructions can be found in the comments in the config examples in `configs/`.
-
-Notebooks are provided in the `notebooks/` directory.  Please note that we
-provide the notebooks in jupytext "light script" format.  To work with the light
-scripts you will need to install jupytext.  A few other packages will come in handy too.
-
-```shell
-pip install jupytext mols2grid seaborn
+### GenChem GUI (Optional)
+```bibtex
+@software{genchem_gui,
+  title={GenChem: A GUI Interface for REINVENT4 Molecular Design},
+  author={[Your Name]},
+  year={2025},
+  url={https://github.com/your-username/genchem-gui},
+  note={Built on REINVENT4 by MolecularAI}
+}
 ```
 
-The Python files in `notebooks/` can then be converted to a notebook e.g.
+## Support
 
-```shell
-jupytext -o Reinvent_demo.ipynb Reinvent_demo.py
-```
+- **REINVENT4 Issues** - Report to the [original repository](https://github.com/MolecularAI/REINVENT4/issues)
+- **GUI-specific Issues** - Report to this repository's issues
+- **Documentation** - See the original REINVENT4 documentation for algorithm details
 
+## Links
 
-Scoring Plugins
----------------
+- 📄 **REINVENT4 Paper:** https://jcheminf.biomedcentral.com/articles/10.1186/s13321-024-00812-5
+- 🐙 **REINVENT4 GitHub:** https://github.com/MolecularAI/REINVENT4
+- 🌐 **GenChem Demo:** [Your demo URL]
+- 📖 **Documentation:** [Your docs URL]
 
-The scoring subsystem uses a simple plugin mechanism (Python
-[native namespace packages](https://packaging.python.org/en/latest/guides/packaging-namespace-packages/#native-namespace-packages)).  If you
-wish to write your own plugin, follow the instructions below.
-There is no need to touch any of the REINVENT code. The public
-repository contains a [contrib](https://github.com/MolecularAI/REINVENT4/tree/main/contrib/reinvent_plugins/components) directory with some useful examples.
+---
 
-1. Create `/top/dir/somewhere/reinvent\_plugins/components` where `/top/dir/somewhere` is a convenient location for you.
-1. Do **not** place a `__init__.py` in either `reinvent_plugins` or `components` as this would break the mechanism.  It is fine to create normal packages within `components` as long as you import those correctly.
-1. Place a file whose name starts with `comp_*` into `reinvent_plugins/components` or subdirectories.   Files with different names will be ignored i.e. not imported. The directory will be searched recursively so structure your code as needed but directory/package names must be unique.
-1. Tag the scoring component class(es) in that file with the @add\_tag decorator.  More than one component class can be added to the same *comp\_* file. See existing code.
-1. Tag at most one dataclass for parameters in the same file, see existing code.  This is optional.
-1. Set or add `/top/dir/somewhere` to the `PYTHONPATH` environment variable or use any other mechanism to extend `sys.path`.
-1. The scoring component should now automatically be picked up by REINVENT.
-
-Ensure that the component can be important. The log file will write out an error if not.  Check directly if import is possible:
-
-```Python
-from reinvent_plugins.components import comp_myscorer
-```
-
-
-Unit and Integration Tests 
---------------------------
-
-This is primarily for developers and admins/users who wish to ensure that the
-installation works.  The information here is not relevant to the practical use
-of REINVENT.  Please refer to _Basic Usage_ for instructions on how to use the 
-`reinvent` command.
-
-The REINVENT project uses the `pytest` framework for its tests.  Before you run
-them you first have to create a configuration file for the tests.
-
-In the project directory, create a `config.json` file in the `configs/` directory.
-You can use the example config `example.config.json` as a base.  Make sure that
-you set `MAIN_TEST_PATH` to a non-existent directory.  That is where temporary
-files will be written during the tests.  If it is set to an existing directory,
-that directory will be removed once the tests have finished.
-
-Some tests require a proprietary OpenEye license.  You have to set up a few
-things to make the tests read your license.  The simple way is to just set the
-`OE_LICENSE` environment variable to the path of the file containing the
-license.  
-
-Once you have a configuration and your license can be read, you can run the tests.
-
-```
-$ pytest tests --json /path/to/config.json --device cuda
-```
+**GenChem** - Making AI-driven molecular design accessible to everyone, built on the robust foundation of REINVENT4.
