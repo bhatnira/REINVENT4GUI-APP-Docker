@@ -1,0 +1,57 @@
+# Requirements for REINVENT4 Docker Container
+# Simplified version without proprietary dependencies
+
+# Core web framework
+streamlit>=1.28.0
+
+# Data manipulation and analysis
+pandas>=2.0.0
+numpy>=1.21.0
+
+# Visualization
+plotly>=5.15.0
+matplotlib>=3.7.0
+
+# Machine Learning frameworks
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Chemistry and molecules (open source alternatives)  
+rdkit>=2021.0
+molvs>=0.1.1
+mmpdb>=3.1.0
+# Note: mmpdb provides mmpdblib with compatibility layer
+
+# Scientific computing
+scipy>=1.9.0
+
+# Configuration and serialization
+toml>=0.10.2
+pyyaml>=6.0
+python-dotenv>=1.0.0
+
+# Machine learning
+torch>=2.0.0
+torchvision>=0.15.0
+tensorboard>=2.0.0
+
+# Utilities
+tqdm>=4.64.0
+requests>=2.28.0
+funcy
+tenacity>=8.2,<9
+typing_extensions>=4.0,<5
+xxhash>=3,<4
+apted>=1.0.3,<2
+
+# Validation and data handling
+pydantic>=2,<3
+
+# Image processing
+pillow>=10.0.0
+
+# Chemistry descriptors
+descriptastorus>=2.6.1
+
+# Development and testing
+pytest>=7.0.0

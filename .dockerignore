@@ -1,0 +1,90 @@
+# Docker ignore file for REINVENT4-APP
+# Ignore version control
+.git
+.gitignore
+
+# Ignore Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Ignore virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore logs and temporary files
+*.log
+logs/
+tmp/
+temp/
+.tmp/
+
+# Ignore test files and coverage reports
+.coverage
+.pytest_cache/
+.tox/
+htmlcov/
+.coverage.*
+
+# Ignore large data files (these should be mounted or downloaded)
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+models/
+data/
+datasets/
+outputs/
+results/
+
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore environment files (should be set via Render environment variables)
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Ignore documentation build files
+docs/_build/
+
+# Ignore package manager files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore render specific files that shouldn't be in the image
+render.yaml

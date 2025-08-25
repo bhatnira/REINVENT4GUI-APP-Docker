@@ -5,6 +5,43 @@
 [![Built with Streamlit](https://img.shields.io/badge/Built%20with-Streamlit-FF6B6B?style=flat-square)](https://streamlit.io/)
 [![Powered by REINVENT4](https://img.shields.io/badge/Powered%20by-REINVENT4-4285F4?style=flat-square)](https://github.com/MolecularAI/REINVENT4)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=flat-square)](https://python.org)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square)](https://docker.com)
+
+## 🚀 Quick Start with Docker
+
+### Prerequisites
+- [Docker](https://www.docker.com/get-started) installed on your system
+- [Docker Compose](https://docs.docker.com/compose/install/) (usually included with Docker Desktop)
+
+### Run Locally in 3 Steps
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/bhatnira/REINVENT4GUI-APP-Docker.git
+   cd REINVENT4GUI-APP-Docker
+   ```
+
+2. **Start the application:**
+   ```bash
+   docker-compose up -d
+   ```
+
+3. **Open your browser:**
+   ```
+   http://localhost:8504
+   ```
+
+That's it! The REINVENT4 web interface will be running with all dependencies automatically configured.
+
+### Stop the Application
+```bash
+docker-compose down
+```
+
+### Rebuild (if needed)
+```bash
+docker-compose up -d --build
+```
 
 ## Overview
 
@@ -91,6 +128,102 @@ GenChem provides a complete GUI interface for all major REINVENT4 capabilities:
 
 5. **Access the interface:**
    Open your browser to `http://localhost:8502`
+
+## 🐳 Docker Deployment
+
+### Quick Docker Setup
+
+1. **Build and run with Docker:**
+   ```bash
+   docker build -t reinvent4-app .
+   docker run -p 8501:8501 reinvent4-app
+   ```
+
+2. **Or use Docker Compose:**
+   ```bash
+   docker-compose up -d
+   ```
+
+3. **Access the application:**
+   Open `http://localhost:8501`
+
+### 🌐 Deploy to Render.com
+
+1. **Fork this repository** to your GitHub account
+
+2. **Create a new Web Service** on Render.com:
+   - Connect your GitHub repository
+   - Select "Docker" as the environment
+   - Use automatic deployment with the included `render.yaml`
+
+3. **Your app will be live** at `https://your-app-name.onrender.com`
+
+📋 **See [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md) for detailed deployment instructions**
+
+### Docker Troubleshooting
+
+#### Common Issues and Solutions
+
+**🔧 Container Build Failures:**
+```bash
+# Clear Docker cache and rebuild
+docker system prune -a
+docker build --no-cache -t reinvent4-app .
+```
+
+**🐍 Python Dependencies:**
+```bash
+# Check dependency versions inside container
+docker run --rm reinvent4-app python -c "import torch; print(torch.__version__)"
+docker run --rm reinvent4-app python -c "import rdkit; print(rdkit.__version__)"
+```
+
+**🧠 REINVENT4 Import Issues:**
+```bash
+# Test REINVENT4 functionality
+docker run --rm reinvent4-app python -c "
+import sys
+try:
+    from reinvent import Reinvent
+    print('✅ REINVENT4 imported successfully')
+except Exception as e:
+    print(f'❌ REINVENT4 import failed: {e}')
+"
+```
+
+**🏥 Health Check Failures:**
+```bash
+# Test app health endpoint
+curl http://localhost:8504/health
+
+# Check container logs
+docker logs $(docker ps -q --filter ancestor=reinvent4-app)
+```
+
+**💾 Memory Issues:**
+```bash
+# Run with increased memory limit
+docker run -p 8504:8504 -m 4g reinvent4-app
+```
+
+**🔌 Port Conflicts:**
+```bash
+# Use different port if 8504 is busy
+docker run -p 8505:8504 reinvent4-app
+# Then access at http://localhost:8505
+```
+
+#### Performance Optimization
+
+**For better performance on local development:**
+```bash
+# Enable BuildKit for faster builds
+export DOCKER_BUILDKIT=1
+docker build -t reinvent4-app .
+
+# Use bind mounts for development
+docker run -v $(pwd):/app -p 8504:8504 reinvent4-app
+```
 
 ## Usage
 
