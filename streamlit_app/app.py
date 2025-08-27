@@ -686,14 +686,6 @@ def show_home_page():
             st.info("**🖥️ Compute**\nPyTorch: Not Available")
     
     with col3:
-        if st.button("📄 Export Report", key="scaffold_library_export_report"):
-            report = generate_library_report(results)
-            st.download_button(
-                "Download Report",
-                report,
-                f"scaffold_library_report.txt",
-                "text/plain"
-            )
         st.info(f"**📊 Status**\n{'🟢 Ready' if REINVENT_AVAILABLE else '🔴 Limited Mode'}")
     
     # Footer
@@ -762,12 +754,63 @@ def show_denovo_page():
 
 def show_denovo_input_step():
     """Step 1: Input data preparation"""
-    st.subheader("📥 Step 1: Input Data")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #4FACFE 0%, #00C9FF 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">📥 Input Data</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 300;
+        ">Prepare your molecular training dataset</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     st.markdown("""
-    **Optional:** Provide training molecules to fine-tune the model for your specific chemical space.
-    If no input is provided, we'll use the pre-trained model directly.
-    """)
+    <div style="
+        background: #f8fafc;
+        border-left: 4px solid #3b82f6;
+        padding: 16px;
+        margin: 20px 0;
+        border-radius: 8px;
+    ">
+        <p style="
+            margin: 0;
+            color: #374151;
+            font-size: 15px;
+            line-height: 1.6;
+        ">
+            <strong style="color: #1f2937;">Optional:</strong> Provide training molecules to fine-tune the model for your specific chemical space.
+            If no input is provided, we'll use the pre-trained model directly.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
     
     input_method = st.radio(
         "Training Data Source:",
@@ -854,7 +897,45 @@ def show_denovo_input_step():
 
 def show_denovo_training_step():
     """Step 2: Model training/fine-tuning"""
-    st.subheader("🎓 Step 2: Model Training & Fine-tuning")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FA709A 0%, #FEE140 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(250, 112, 154, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">🎓 Model Training</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Optimize neural networks for your molecular space</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     training_molecules = st.session_state.get('denovo_training_molecules', [])
     
@@ -862,7 +943,24 @@ def show_denovo_training_step():
         st.info("ℹ️ No training molecules provided. Will use pre-trained model directly.")
         
         # Base model selection
-        st.subheader("Base Model Selection")
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+            margin: 10px 0 18px 0;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        ">
+            <h4 style="
+                margin: 0;
+                font-size: 18px;
+                font-weight: 600;
+                letter-spacing: -0.2px;
+            ">🎯 Base Model Selection</h4>
+        </div>
+        """, unsafe_allow_html=True)
         base_model = st.selectbox(
             "Select Pre-trained Model:",
             ["reinvent.prior", "reinvent_focused.prior", "reinvent_diverse.prior"]
@@ -888,7 +986,24 @@ def show_denovo_training_step():
         col1, col2 = st.columns(2)
         
         with col1:
-            st.subheader("Training Configuration")
+            st.markdown("""
+            <div style="
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 14px;
+                border-radius: 10px;
+                margin: 10px 0 18px 0;
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            ">
+                <h4 style="
+                    margin: 0;
+                    font-size: 18px;
+                    font-weight: 600;
+                    letter-spacing: -0.2px;
+                ">🎓 Training Configuration</h4>
+            </div>
+            """, unsafe_allow_html=True)
             
             st.info("💡 **Fine-tuning Process**: The model will learn from your provided SMILES to better generate molecules similar to your chemical space.")
             
@@ -905,12 +1020,30 @@ def show_denovo_training_step():
             )
             
             epochs = st.number_input("Training Epochs", min_value=1, max_value=100, value=10, 
-                                   help="Number of training iterations through your dataset")
+                                   help="Number of training iterations through your dataset",
+                                   key="denovo_training_epochs")
             learning_rate = st.selectbox("Learning Rate", [0.001, 0.0001, 0.00001], index=1,
                                        help="Controls how fast the model learns")
         
         with col2:
-            st.subheader("Training Parameters")
+            st.markdown("""
+            <div style="
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 14px;
+                border-radius: 10px;
+                margin: 10px 0 18px 0;
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            ">
+                <h4 style="
+                    margin: 0;
+                    font-size: 18px;
+                    font-weight: 600;
+                    letter-spacing: -0.2px;
+                ">⚙️ Training Parameters</h4>
+            </div>
+            """, unsafe_allow_html=True)
             
             # Show data statistics
             st.metric("Training Molecules", len(training_molecules))
@@ -933,7 +1066,8 @@ def show_denovo_training_step():
                                         help="Stop training when no improvement is detected")
             if early_stopping:
                 patience = st.number_input("Patience", min_value=3, max_value=20, value=5,
-                                         help="Epochs to wait before stopping")
+                                         help="Epochs to wait before stopping",
+                                         key="denovo_patience")
         
         # Training progress section
         if 'denovo_training_in_progress' in st.session_state:
@@ -942,7 +1076,27 @@ def show_denovo_training_step():
         # Show latest training results prominently if available
         if 'training_metrics' in st.session_state and 'training_config' in st.session_state:
             st.markdown("---")
-            st.subheader("📊 Latest Training Results")
+            st.markdown("""
+            <div style="
+                background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+                color: white;
+                padding: 16px;
+                border-radius: 12px;
+                margin: 12px 0 20px 0;
+                box-shadow: 0 6px 20px rgba(255, 179, 71, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                position: relative;
+                overflow: hidden;
+            ">
+                <h3 style="
+                    margin: 0;
+                    font-size: 22px;
+                    font-weight: 600;
+                    letter-spacing: -0.3px;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                ">📊 Latest Training Results</h3>
+            </div>
+            """, unsafe_allow_html=True)
             
             prev_metrics = st.session_state['training_metrics']
             prev_config = st.session_state['training_config']
@@ -999,12 +1153,70 @@ def show_denovo_training_step():
 
 def show_denovo_generation_step():
     """Step 3: Molecule generation"""
-    st.subheader("🔬 Step 3: Molecule Generation")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #A8E6CF 0%, #7FCDCD 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(168, 230, 207, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">🔬 Generation</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Generate novel molecular structures with AI</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Show training completion results if available
     if 'training_metrics' in st.session_state and 'training_config' in st.session_state:
         st.markdown("---")
-        st.subheader("📊 Latest Training Results")
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 12px 0 20px 0;
+            box-shadow: 0 6px 20px rgba(255, 179, 71, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        ">
+            <h3 style="
+                margin: 0;
+                font-size: 22px;
+                font-weight: 600;
+                letter-spacing: -0.3px;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            ">📊 Latest Training Results</h3>
+        </div>
+        """, unsafe_allow_html=True)
         
         metrics = st.session_state['training_metrics']
         config = st.session_state['training_config']
@@ -1037,7 +1249,24 @@ def show_denovo_generation_step():
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("Generation Parameters")
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+            margin: 10px 0 18px 0;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        ">
+            <h4 style="
+                margin: 0;
+                font-size: 18px;
+                font-weight: 600;
+                letter-spacing: -0.2px;
+            ">⚙️ Generation Parameters</h4>
+        </div>
+        """, unsafe_allow_html=True)
         
         num_molecules = st.number_input(
             "Number of Molecules",
@@ -1060,7 +1289,24 @@ def show_denovo_generation_step():
         batch_size = st.number_input("Batch Size", min_value=16, max_value=512, value=128, key="denovo_generation_batch_size")
     
     with col2:
-        st.subheader("Filtering & Quality")
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+            margin: 10px 0 18px 0;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        ">
+            <h4 style="
+                margin: 0;
+                font-size: 18px;
+                font-weight: 600;
+                letter-spacing: -0.2px;
+            ">🔍 Filtering & Quality</h4>
+        </div>
+        """, unsafe_allow_html=True)
         
         remove_duplicates = st.checkbox("Remove Duplicates", value=True, key="denovo_remove_duplicates")
         
@@ -1120,7 +1366,45 @@ def show_denovo_generation_step():
 
 def show_denovo_optimization_step():
     """Step 4: Molecule optimization"""
-    st.subheader("📈 Step 4: Molecule Optimization")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(255, 179, 71, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">📈 Optimization</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Enhance molecular properties with advanced algorithms</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Check if we have generated molecules
     if 'denovo_generation_results' not in st.session_state:
@@ -1134,7 +1418,18 @@ def show_denovo_optimization_step():
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("Optimization Strategy")
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white; 
+                    padding: 15px; 
+                    border-radius: 10px; 
+                    margin: 10px 0; 
+                    text-align: center; 
+                    font-weight: 600;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            🎯 Optimization Strategy
+        </div>
+        """, unsafe_allow_html=True)
         
         optimization_method = st.selectbox(
             "Method:",
@@ -1145,7 +1440,8 @@ def show_denovo_optimization_step():
             "Optimization Steps",
             min_value=10,
             max_value=1000,
-            value=100
+            value=100,
+            key="denovo_optimization_steps"
         )
         
         # Select subset for optimization
@@ -1157,7 +1453,18 @@ def show_denovo_optimization_step():
         )
     
     with col2:
-        st.subheader("Optimization Objectives")
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white; 
+                    padding: 15px; 
+                    border-radius: 10px; 
+                    margin: 10px 0; 
+                    text-align: center; 
+                    font-weight: 600;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            🎯 Optimization Objectives
+        </div>
+        """, unsafe_allow_html=True)
         
         # Multi-objective scoring
         objectives = {}
@@ -1195,7 +1502,45 @@ def show_denovo_optimization_step():
 
 def show_denovo_library_step():
     """Step 5: Library design"""
-    st.subheader("📚 Step 5: Library Design")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #D299C2 0%, #FEF9D7 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(210, 153, 194, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">📚 Library Design</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Curate focused molecular libraries for discovery</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Check if we have optimized molecules
     optimized_molecules = st.session_state.get('denovo_optimization_results', {}).get('molecules', [])
@@ -1213,7 +1558,18 @@ def show_denovo_library_step():
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("Library Strategy")
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white; 
+                    padding: 15px; 
+                    border-radius: 10px; 
+                    margin: 10px 0; 
+                    text-align: center; 
+                    font-weight: 600;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            📚 Library Strategy
+        </div>
+        """, unsafe_allow_html=True)
         
         library_type = st.selectbox(
             "Library Type:",
@@ -1224,7 +1580,8 @@ def show_denovo_library_step():
             "Target Library Size",
             min_value=10,
             max_value=1000,
-            value=50
+            value=50,
+            key="denovo_library_size"
         )
         
         selection_method = st.selectbox(
@@ -1233,7 +1590,18 @@ def show_denovo_library_step():
         )
     
     with col2:
-        st.subheader("Library Criteria")
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white; 
+                    padding: 15px; 
+                    border-radius: 10px; 
+                    margin: 10px 0; 
+                    text-align: center; 
+                    font-weight: 600;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            📊 Library Criteria
+        </div>
+        """, unsafe_allow_html=True)
         
         if library_type == "Diverse Library":
             diversity_threshold = st.slider("Diversity Threshold", 0.0, 1.0, 0.6)
@@ -1500,7 +1868,25 @@ def show_training_evaluation(metrics, config, training_type):
         st.metric("Diversity Score", final_metrics["Diversity Score"])
     
     # Training curves visualization
-    st.subheader("📈 Training Progress Visualization")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+        color: white;
+        padding: 16px;
+        border-radius: 12px;
+        margin: 15px 0 20px 0;
+        box-shadow: 0 6px 20px rgba(255, 179, 71, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        ">📈 Training Progress Visualization</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Create training plots using plotly
     try:
@@ -1691,7 +2077,25 @@ def show_training_history():
     
     # Training progression visualization
     if len(history) >= 2:
-        st.subheader("📈 Training Progression Over Time")
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 15px 0 20px 0;
+            box-shadow: 0 6px 20px rgba(255, 179, 71, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        ">
+            <h3 style="
+                margin: 0;
+                font-size: 20px;
+                font-weight: 600;
+                letter-spacing: -0.5px;
+                text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            ">📈 Training Progression Over Time</h3>
+        </div>
+        """, unsafe_allow_html=True)
         
         try:
             import plotly.graph_objects as go
@@ -1731,7 +2135,25 @@ def show_training_history():
             st.info("📊 Install plotly for progression visualization")
     
     # Detailed session analysis
-    st.subheader("🔬 Detailed Session Analysis")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #A8E6CF 0%, #7FCDCD 100%);
+        color: white;
+        padding: 16px;
+        border-radius: 12px;
+        margin: 15px 0 20px 0;
+        box-shadow: 0 6px 20px rgba(168, 230, 207, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        ">🔬 Detailed Session Analysis</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     selected_session = st.selectbox(
         "Select session for detailed analysis:",
@@ -1850,40 +2272,222 @@ def show_denovo_generation_results():
     df = results['dataframe']
     config = results['config']
     
-    st.subheader("📊 Generation Results")
+    # iOS-style header
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 32px rgba(0, 122, 255, 0.3);
+        backdrop-filter: blur(10px);
+    ">
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">📊 Generation Results</h2>
+        <p style="
+            margin: 8px 0 0 0;
+            font-size: 17px;
+            opacity: 0.9;
+            font-weight: 400;
+        ">AI-generated molecular structures ready for analysis</p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    # Show generation parameters used
-    with st.expander("🔧 Generation Parameters Used", expanded=True):
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Temperature", f"{config.get('temperature', 1.0):.1f}")
-            temp_desc = "Conservative" if config.get('temperature', 1.0) < 0.8 else "Diverse" if config.get('temperature', 1.0) > 1.2 else "Balanced"
-            st.caption(f"Mode: {temp_desc}")
-        with col2:
-            st.metric("Batch Size", config.get('batch_size', 128))
-        with col3:
-            model_file = config.get('model_file', 'base_model')
-            model_type = "Fine-tuned" if 'finetuned' in model_file else "Base"
-            st.metric("Model Type", model_type)
+    # iOS-style parameters card
+    st.markdown("""
+    <div style="
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        padding: 20px;
+        margin: 16px 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(20px);
+    ">
+        <h3 style="
+            margin: 0 0 16px 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #1D1D1F;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">🔧 Generation Parameters</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
-    # Summary stats with insights
+    # iOS-style metrics
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        temp_val = config.get('temperature', 1.0)
+        temp_desc = "Conservative" if temp_val < 0.8 else "Diverse" if temp_val > 1.2 else "Balanced"
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(255, 107, 107, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">{temp_val:.1f}</div>
+            <div style="font-size: 15px; opacity: 0.9;">Temperature</div>
+            <div style="font-size: 13px; margin-top: 4px; opacity: 0.8;">{temp_desc}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        batch_size = config.get('batch_size', 128)
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #4ECDC4 0%, #6DDAD6 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(78, 205, 196, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">{batch_size}</div>
+            <div style="font-size: 15px; opacity: 0.9;">Batch Size</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        model_file = config.get('model_file', 'base_model')
+        model_type = "Fine-tuned" if 'finetuned' in model_file else "Base"
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #A855F7 0%, #C084FC 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(168, 85, 247, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">🤖</div>
+            <div style="font-size: 15px; opacity: 0.9;">Model Type</div>
+            <div style="font-size: 13px; margin-top: 4px; opacity: 0.8;">{model_type}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # iOS-style summary stats
+    st.markdown("""
+    <div style="
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        padding: 20px;
+        margin: 24px 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(20px);
+    ">
+        <h3 style="
+            margin: 0 0 16px 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #1D1D1F;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">📊 Generation Summary</h3>
+    </div>
+    """, unsafe_allow_html=True)
+    
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("Generated", len(df))
+        total_gen = len(df)
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #34D399 0%, #6EE7B7 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(52, 211, 153, 0.3);
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{total_gen}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Generated</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col2:
         valid_count = df['Valid'].sum() if 'Valid' in df.columns else len(df)
         validity_pct = (valid_count / len(df)) * 100
-        st.metric("Valid", f"{valid_count} ({validity_pct:.1f}%)")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(59, 130, 246, 0.3);
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{valid_count}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Valid ({validity_pct:.1f}%)</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col3:
         unique_count = df['SMILES'].nunique()
         uniqueness_pct = (unique_count / len(df)) * 100
-        st.metric("Unique", f"{unique_count} ({uniqueness_pct:.1f}%)")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(245, 158, 11, 0.3);
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{unique_count}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Unique ({uniqueness_pct:.1f}%)</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col4:
         avg_complexity = df['Complexity'].mean() if 'Complexity' in df.columns else 0
-        st.metric("Avg Complexity", f"{avg_complexity:.1f}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #EF4444 0%, #F87171 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(239, 68, 68, 0.3);
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{avg_complexity:.1f}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Avg Complexity</div>
+        </div>
+        """, unsafe_allow_html=True)
     
-    # Data table with enhanced information
-    st.subheader("📋 Generated Molecules")
+    # iOS-style data table header
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 16px 16px 0 0;
+        margin: 32px 0 0 0;
+        box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">📋 Generated Molecules</h3>
+        <p style="
+            margin: 6px 0 0 0;
+            font-size: 15px;
+            opacity: 0.9;
+        ">AI-designed molecular structures with properties</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Get temperature for file names
     temp = config.get('temperature', 1.0)
@@ -1893,9 +2497,44 @@ def show_denovo_generation_results():
     if 'NLL' in df_display.columns:
         df_display['Quality_Score'] = df_display['NLL'].apply(lambda x: "Excellent" if x > -2 else "Good" if x > -3 else "Fair")
     
+    # iOS-style dataframe container
+    st.markdown("""
+    <div style="
+        background: rgba(255, 255, 255, 0.98);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0 0 16px 16px;
+        padding: 0;
+        margin: 0 0 24px 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    ">
+    """, unsafe_allow_html=True)
+    
     st.dataframe(df_display, use_container_width=True)
     
-    # Download options
+    st.markdown("</div>", unsafe_allow_html=True)
+    
+    # iOS-style download section
+    st.markdown("""
+    <div style="
+        background: rgba(248, 249, 250, 0.95);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 16px;
+        padding: 20px;
+        margin: 24px 0;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    ">
+        <h3 style="
+            margin: 0 0 16px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1D1D1F;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">💾 Export Options</h3>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Download buttons with iOS styling
     col1, col2 = st.columns(2)
     with col1:
         csv = df.to_csv(index=False)
@@ -1903,7 +2542,8 @@ def show_denovo_generation_results():
             label="📥 Download Results (CSV)",
             data=csv,
             file_name=f"denovo_generation_T{temp:.1f}_{len(df)}mols.csv",
-            mime="text/csv"
+            mime="text/csv",
+            use_container_width=True
         )
     
     with col2:
@@ -1920,12 +2560,9 @@ Uniqueness: {uniqueness_pct:.1f}%
             label="📄 Download Config Summary",
             data=config_summary,
             file_name=f"generation_config_T{temp:.1f}.txt",
-            mime="text/plain"
+            mime="text/plain",
+            use_container_width=True
         )
-    
-    # Download button
-    csv_data = df.to_csv(index=False)
-    st.download_button("📄 Download Results", csv_data, "generation_results.csv", "text/csv")
 
 def run_denovo_optimization(molecules, config):
     """Run molecule optimization"""
@@ -1969,32 +2606,154 @@ def show_denovo_optimization_results():
     results = st.session_state['denovo_optimization_results']
     df = results['dataframe']
     
-    st.subheader("📊 Optimization Results")
+    # iOS-style header
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 32px rgba(255, 107, 53, 0.3);
+        backdrop-filter: blur(10px);
+    ">
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">🎯 Optimization Results</h2>
+        <p style="
+            margin: 8px 0 0 0;
+            font-size: 17px;
+            opacity: 0.9;
+            font-weight: 400;
+        ">Molecules optimized for enhanced properties</p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    # Summary stats
+    # iOS-style summary metrics
     col1, col2, col3 = st.columns(3)
     with col1:
         final_step = df['Step'].max()
-        st.metric("Final Step", final_step)
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
+            margin-bottom: 16px;
+        ">
+            <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">{final_step}</div>
+            <div style="font-size: 15px; opacity: 0.9;">Final Step</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col2:
         if 'Score' in df.columns:
             best_score = df['Score'].max()
-            st.metric("Best Score", f"{best_score:.3f}")
+            st.markdown(f"""
+            <div style="
+                background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+                color: white;
+                padding: 20px;
+                border-radius: 16px;
+                text-align: center;
+                box-shadow: 0 4px 16px rgba(52, 199, 89, 0.3);
+                margin-bottom: 16px;
+            ">
+                <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">{best_score:.3f}</div>
+                <div style="font-size: 15px; opacity: 0.9;">Best Score</div>
+            </div>
+            """, unsafe_allow_html=True)
+    
     with col3:
         improved = len(df[df['Step'] == final_step])
-        st.metric("Final Molecules", improved)
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #AF52DE 0%, #BF5AF2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(175, 82, 222, 0.3);
+            margin-bottom: 16px;
+        ">
+            <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">{improved}</div>
+            <div style="font-size: 15px; opacity: 0.9;">Final Molecules</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     # Optimization trajectory plot
     if 'Step' in df.columns and 'Score' in df.columns:
+        st.markdown("""
+        <div style="
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 24px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        ">
+            <h3 style="
+                margin: 0 0 16px 0;
+                font-size: 20px;
+                font-weight: 600;
+                color: #1D1D1F;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            ">📈 Optimization Trajectory</h3>
+        """, unsafe_allow_html=True)
+        
         import plotly.express as px
         fig = px.line(df.groupby('Step')['Score'].mean().reset_index(), 
                      x='Step', y='Score', title="Optimization Trajectory")
         opt_key = f"opt_traj_{int(datetime.now().timestamp()*1000)}"
         st.plotly_chart(fig, use_container_width=True, key=opt_key)
+        st.markdown("</div>", unsafe_allow_html=True)
     
-    # Final results
+    # iOS-style final results section
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 16px 16px 0 0;
+        margin: 32px 0 0 0;
+        box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">🔬 Final Optimized Results</h3>
+        <p style="
+            margin: 6px 0 0 0;
+            font-size: 15px;
+            opacity: 0.9;
+        ">Best performing molecules from optimization</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Final results dataframe with iOS styling
     final_results = df[df['Step'] == df['Step'].max()]
+    st.markdown("""
+    <div style="
+        background: rgba(255, 255, 255, 0.98);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0 0 16px 16px;
+        padding: 0;
+        margin: 0 0 24px 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    ">
+    """, unsafe_allow_html=True)
+    
     st.dataframe(final_results, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
 def design_denovo_library(molecules, config):
     """Design molecular library"""
@@ -2049,29 +2808,152 @@ def show_denovo_library_results():
     results = st.session_state['denovo_library_results']
     df = results['dataframe']
     
-    st.subheader("📊 Library Results")
+    # iOS-style header
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #5856D6 0%, #7B68EE 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 32px rgba(88, 86, 214, 0.3);
+        backdrop-filter: blur(10px);
+    ">
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">� Library Results</h2>
+        <p style="
+            margin: 8px 0 0 0;
+            font-size: 17px;
+            opacity: 0.9;
+            font-weight: 400;
+        ">Curated molecular library with diverse structures</p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    # Summary
+    # iOS-style summary metrics
     col1, col2 = st.columns(2)
     with col1:
-        st.metric("Library Size", len(df))
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
+            margin-bottom: 16px;
+        ">
+            <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">{len(df)}</div>
+            <div style="font-size: 15px; opacity: 0.9;">Library Size</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col2:
-        st.metric("Library Type", results['config']['type'])
+        library_type = results['config']['type']
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(52, 199, 89, 0.3);
+            margin-bottom: 16px;
+        ">
+            <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">📖</div>
+            <div style="font-size: 15px; opacity: 0.9;">Library Type</div>
+            <div style="font-size: 13px; margin-top: 4px; opacity: 0.8;">{library_type}</div>
+        </div>
+        """, unsafe_allow_html=True)
     
-    # Library table
+    # iOS-style data table
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 16px 16px 0 0;
+        margin: 32px 0 0 0;
+        box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">🧬 Molecular Library</h3>
+        <p style="
+            margin: 6px 0 0 0;
+            font-size: 15px;
+            opacity: 0.9;
+        ">Complete library with molecular properties</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Library table in iOS container
+    st.markdown("""
+    <div style="
+        background: rgba(255, 255, 255, 0.98);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0 0 16px 16px;
+        padding: 0;
+        margin: 0 0 24px 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    ">
+    """, unsafe_allow_html=True)
+    
     st.dataframe(df, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
     
-    # Download options
+    # iOS-style download section
+    st.markdown("""
+    <div style="
+        background: rgba(248, 249, 250, 0.95);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 16px;
+        padding: 20px;
+        margin: 24px 0;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    ">
+        <h3 style="
+            margin: 0 0 16px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1D1D1F;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">💾 Download Library</h3>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Download options with iOS styling
     col1, col2 = st.columns(2)
     with col1:
         csv_data = df.to_csv(index=False)
-        st.download_button("📄 Download Library CSV", csv_data, "molecular_library.csv", "text/csv")
+        st.download_button(
+            "📄 Download Library CSV", 
+            csv_data, 
+            "molecular_library.csv", 
+            "text/csv",
+            use_container_width=True
+        )
     
     with col2:
         # Create SDF-like format
         sdf_content = "\n".join([f"{row['SMILES']}\n  Generated Library\n\nM  END\n$$$$" 
                                 for _, row in df.iterrows()])
-        st.download_button("🧪 Download Library SDF", sdf_content, "molecular_library.sdf", "chemical/x-mdl-sdfile")
+        st.download_button(
+            "🧪 Download Library SDF", 
+            sdf_content, 
+            "molecular_library.sdf", 
+            "chemical/x-mdl-sdfile",
+            use_container_width=True
+        )
 
 def generate_denovo_molecules(model_file, num_smiles, device, output_file,
                             unique_molecules, randomize_smiles, seed, batch_size,
@@ -2429,6 +3311,46 @@ def show_generation_results(results, title):
 def show_scaffold_page():
     """Scaffold hopping pipeline"""
     
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #9C27B0 0%, #673AB7 50%, #3F51B5 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin: 20px 0 30px 0;
+        box-shadow: 0 10px 30px rgba(156, 39, 176, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">🧬 Scaffold Hopping</h2>
+        <p style="
+            margin: 12px 0 0 0;
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Find alternative scaffolds while maintaining molecular properties</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
     # Pipeline steps as tabs
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "📥 Input Data", 
@@ -2455,15 +3377,68 @@ def show_scaffold_page():
 
 def show_scaffold_input_step():
     """Step 1: Scaffold input data preparation"""
-    st.subheader("📥 Step 1: Input Data")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #1ABC9C 0%, #16A085 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 32px rgba(26, 188, 156, 0.3);
+        backdrop-filter: blur(10px);
+    ">
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">🏗️ Scaffold Input Data</h2>
+        <p style="
+            margin: 8px 0 0 0;
+            font-size: 17px;
+            opacity: 0.9;
+            font-weight: 400;
+        ">Find alternative scaffolds while maintaining molecular properties</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     st.markdown("""
-    **Scaffold Hopping**: Provide scaffolds with numbered attachment points ([*:1], [*:2]) to explore alternative 
-    scaffolds while maintaining similar activity. Optional training data can be provided to fine-tune the model.
-    
-    ⚠️ **Important**: LibInvent requires scaffolds with numbered attachment points like [*:1], [*:2], etc. 
-    Simple [*] markers will not work correctly.
-    """)
+    <div style="
+        background: #f8fafc;
+        border-left: 4px solid #3b82f6;
+        padding: 16px;
+        margin: 20px 0;
+        border-radius: 8px;
+    ">
+        <p style="
+            margin: 0;
+            color: #374151;
+            font-size: 15px;
+            line-height: 1.6;
+        ">
+            <strong style="color: #1f2937;">Scaffold Hopping:</strong> Provide scaffolds with numbered attachment points ([*:1], [*:2]) to explore alternative 
+            scaffolds while maintaining similar activity. Optional training data can be provided to fine-tune the model.
+        </p>
+        <div style="
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 12px;
+            margin: 12px 0 0 0;
+            border-radius: 6px;
+        ">
+            <p style="
+                margin: 0;
+                color: #92400e;
+                font-size: 14px;
+                font-weight: 500;
+            ">
+                ⚠️ <strong>Important:</strong> LibInvent requires scaffolds with numbered attachment points like [*:1], [*:2], etc. 
+                Simple [*] markers will not work correctly.
+            </p>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Scaffold input method
     input_method = st.radio(
@@ -2680,7 +3655,45 @@ def show_scaffold_input_step():
 
 def show_scaffold_training_step():
     """Step 2: Model training/fine-tuning for scaffold hopping"""
-    st.subheader("🎓 Step 2: Model Training & Fine-tuning")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FA709A 0%, #FEE140 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(250, 112, 154, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">🎓 Model Training</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Train LibInvent for scaffold hopping tasks</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     scaffolds = st.session_state.get('scaffold_input_scaffolds', [])
     training_molecules = st.session_state.get('scaffold_training_molecules', [])
@@ -2738,7 +3751,8 @@ def show_scaffold_training_step():
             )
             
             epochs = st.number_input("Training Epochs", min_value=1, max_value=100, value=15, 
-                                   help="Number of training iterations")
+                                   help="Number of training iterations",
+                                   key="scaffold_training_epochs")
             learning_rate = st.selectbox("Learning Rate", [0.001, 0.0001, 0.00001], index=1)
         
         with col2:
@@ -2760,7 +3774,8 @@ def show_scaffold_training_step():
             
             early_stopping = st.checkbox("Early Stopping", value=True)
             if early_stopping:
-                patience = st.number_input("Patience", min_value=3, max_value=20, value=5)
+                patience = st.number_input("Patience", min_value=3, max_value=20, value=5,
+                                         key="scaffold_patience")
         
         # Training progress section
         if 'scaffold_training_in_progress' in st.session_state:
@@ -2769,7 +3784,27 @@ def show_scaffold_training_step():
         # Show latest training results if available
         if 'scaffold_training_metrics' in st.session_state and 'scaffold_training_config' in st.session_state:
             st.markdown("---")
-            st.subheader("📊 Latest Training Results")
+            st.markdown("""
+            <div style="
+                background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+                color: white;
+                padding: 16px;
+                border-radius: 12px;
+                margin: 12px 0 20px 0;
+                box-shadow: 0 6px 20px rgba(255, 179, 71, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                position: relative;
+                overflow: hidden;
+            ">
+                <h3 style="
+                    margin: 0;
+                    font-size: 22px;
+                    font-weight: 600;
+                    letter-spacing: -0.3px;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                ">📊 Latest Training Results</h3>
+            </div>
+            """, unsafe_allow_html=True)
             
             prev_metrics = st.session_state['scaffold_training_metrics']
             prev_config = st.session_state['scaffold_training_config']
@@ -2799,7 +3834,45 @@ def show_scaffold_training_step():
 
 def show_scaffold_generation_step():
     """Step 3: Scaffold generation"""
-    st.subheader("🔬 Step 3: Scaffold Generation")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #A8E6CF 0%, #7FCDCD 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(168, 230, 207, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">🔬 Generation</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Generate alternative scaffolds with AI</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     scaffolds = st.session_state.get('scaffold_input_scaffolds', [])
     if not scaffolds:
@@ -2809,7 +3882,27 @@ def show_scaffold_generation_step():
     # Show training completion results if available
     if 'scaffold_training_metrics' in st.session_state and 'scaffold_training_config' in st.session_state:
         st.markdown("---")
-        st.subheader("📊 Latest Training Results")
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 12px 0 20px 0;
+            box-shadow: 0 6px 20px rgba(255, 179, 71, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        ">
+            <h3 style="
+                margin: 0;
+                font-size: 22px;
+                font-weight: 600;
+                letter-spacing: -0.3px;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            ">📊 Latest Training Results</h3>
+        </div>
+        """, unsafe_allow_html=True)
         
         metrics = st.session_state['scaffold_training_metrics']
         config = st.session_state['scaffold_training_config']
@@ -2937,7 +4030,45 @@ def show_scaffold_generation_step():
 
 def show_scaffold_optimization_step():
     """Step 4: Scaffold optimization"""
-    st.subheader("📈 Step 4: Scaffold Optimization")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(255, 179, 71, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">📈 Optimization</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Enhance scaffold properties with advanced algorithms</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Check if we have generated scaffolds
     if 'scaffold_generation_results' not in st.session_state:
@@ -2962,7 +4093,8 @@ def show_scaffold_optimization_step():
             "Optimization Steps",
             min_value=10,
             max_value=1000,
-            value=100
+            value=100,
+            key="scaffold_optimization_steps"
         )
         
         optimization_subset = st.slider(
@@ -3005,7 +4137,45 @@ def show_scaffold_optimization_step():
 
 def show_scaffold_library_step():
     """Step 5: Scaffold library design"""
-    st.subheader("📚 Step 5: Scaffold Library Design")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #D299C2 0%, #FEF9D7 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(210, 153, 194, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">📚 Library Design</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Curate focused scaffold libraries for discovery</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Check if we have optimized scaffolds
     optimized_molecules = st.session_state.get('scaffold_optimization_results', {}).get('molecules', [])
@@ -3034,7 +4204,8 @@ def show_scaffold_library_step():
             "Target Library Size",
             min_value=10,
             max_value=1000,
-            value=50
+            value=50,
+            key="scaffold_library_size"
         )
         
         selection_method = st.selectbox(
@@ -3188,7 +4359,27 @@ def start_scaffold_training(scaffolds, training_molecules, training_type, base_m
 
 def show_scaffold_training_evaluation(metrics, config, training_type):
     """Display scaffold training evaluation"""
-    st.subheader("🎯 Scaffold Training Evaluation Results")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #A8E6CF 0%, #7FCDCD 100%);
+        color: white;
+        padding: 16px;
+        border-radius: 12px;
+        margin: 12px 0 20px 0;
+        box-shadow: 0 6px 20px rgba(168, 230, 207, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        ">🎯 Scaffold Training Evaluation Results</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Performance metrics overview
     final_metrics = {
@@ -3220,7 +4411,25 @@ def show_scaffold_training_evaluation(metrics, config, training_type):
             st.metric("Loss Improvement", f"{improvement:.1f}%")
     
     # Training visualization
-    st.subheader("📈 Training Progress Visualization")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+        color: white;
+        padding: 16px;
+        border-radius: 12px;
+        margin: 15px 0 20px 0;
+        box-shadow: 0 6px 20px rgba(255, 179, 71, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        ">📈 Training Progress Visualization</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     try:
         import plotly.graph_objects as go
@@ -3434,26 +4643,127 @@ def show_scaffold_generation_results():
     molecules = results['molecules']
     generation_mode = results['generation_mode']
     
-    st.subheader(f"🎯 {generation_mode} Results")
+    # iOS-style header
+    st.markdown(f"""
+    <div style="
+        background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 32px rgba(255, 107, 53, 0.3);
+        backdrop-filter: blur(10px);
+    ">
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">🎯 {generation_mode} Results</h2>
+        <p style="
+            margin: 8px 0 0 0;
+            font-size: 17px;
+            opacity: 0.9;
+            font-weight: 400;
+        ">AI-generated molecular scaffolds with enhanced properties</p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    # Summary metrics
+    # Summary metrics with iOS styling
     col1, col2, col3, col4 = st.columns(4)
     
     valid_molecules = [m for m in molecules if m['Valid']]
     
     with col1:
-        st.metric("Total Generated", len(molecules))
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0, 122, 255, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{len(molecules)}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Total Generated</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col2:
-        st.metric("Valid Molecules", len(valid_molecules))
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(52, 199, 89, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{len(valid_molecules)}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Valid Molecules</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col3:
         avg_similarity = sum(m['Scaffold_Similarity'] for m in molecules) / len(molecules)
-        st.metric("Avg Scaffold Similarity", f"{avg_similarity:.2f}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #FF9500 0%, #FFAD33 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(255, 149, 0, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{avg_similarity:.2f}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Avg Scaffold Similarity</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col4:
         avg_mw = sum(m['Molecular_Weight'] for m in molecules) / len(molecules)
-        st.metric("Avg Molecular Weight", f"{avg_mw:.1f}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #AF52DE 0%, #BF5AF2 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(175, 82, 222, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{avg_mw:.1f}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Avg Molecular Weight</div>
+        </div>
+        """, unsafe_allow_html=True)
     
-    # Results table
-    st.subheader("📋 Generated Scaffolds")
+    # iOS-style results table header
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 16px 16px 0 0;
+        margin: 32px 0 0 0;
+        box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">📋 Generated Scaffolds</h3>
+        <p style="
+            margin: 6px 0 0 0;
+            font-size: 15px;
+            opacity: 0.9;
+        ">Molecular scaffolds with filtering options</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     try:
         import pandas as pd
@@ -3721,21 +5031,119 @@ def show_scaffold_optimization_results():
         convergence_data = results['convergence_data']
         config = results['config']
         
-        st.subheader("📊 Optimization Results Summary")
+        # iOS-style header
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg, #1ABC9C 0%, #16A085 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(26, 188, 156, 0.3);
+            backdrop-filter: blur(10px);
+        ">
+            <h2 style="
+                margin: 0;
+                font-size: 32px;
+                font-weight: 700;
+                letter-spacing: -0.8px;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            ">🏗️ Scaffold Optimization Results</h2>
+            <p style="
+                margin: 8px 0 0 0;
+                font-size: 17px;
+                opacity: 0.9;
+                font-weight: 400;
+            ">Optimized molecular scaffolds with enhanced properties</p>
+        </div>
+        """, unsafe_allow_html=True)
         
-        # Display key metrics
+        # iOS-style key metrics
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            st.metric("Molecules Optimized", statistics['molecules_optimized'])
-        with col2:
-            st.metric("Optimization Method", statistics['method'])
-        with col3:
-            st.metric("Score Improvement", f"{statistics['improvement']:.3f}")
-        with col4:
-            st.metric("Best Score", f"{statistics['best_score']:.3f}")
+            st.markdown(f"""
+            <div style="
+                background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+                color: white;
+                padding: 18px;
+                border-radius: 14px;
+                text-align: center;
+                box-shadow: 0 3px 12px rgba(0, 122, 255, 0.3);
+                margin-bottom: 12px;
+            ">
+                <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{statistics['molecules_optimized']}</div>
+                <div style="font-size: 13px; opacity: 0.9;">Molecules Optimized</div>
+            </div>
+            """, unsafe_allow_html=True)
         
-        # Convergence plot
-        st.subheader("📈 Optimization Convergence")
+        with col2:
+            st.markdown(f"""
+            <div style="
+                background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+                color: white;
+                padding: 18px;
+                border-radius: 14px;
+                text-align: center;
+                box-shadow: 0 3px 12px rgba(52, 199, 89, 0.3);
+                margin-bottom: 12px;
+            ">
+                <div style="font-size: 20px; font-weight: 700; margin-bottom: 2px;">{statistics['method']}</div>
+                <div style="font-size: 13px; opacity: 0.9;">Optimization Method</div>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col3:
+            st.markdown(f"""
+            <div style="
+                background: linear-gradient(135deg, #FF9500 0%, #FFAD33 100%);
+                color: white;
+                padding: 18px;
+                border-radius: 14px;
+                text-align: center;
+                box-shadow: 0 3px 12px rgba(255, 149, 0, 0.3);
+                margin-bottom: 12px;
+            ">
+                <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{statistics['improvement']:.3f}</div>
+                <div style="font-size: 13px; opacity: 0.9;">Score Improvement</div>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col4:
+            st.markdown(f"""
+            <div style="
+                background: linear-gradient(135deg, #AF52DE 0%, #BF5AF2 100%);
+                color: white;
+                padding: 18px;
+                border-radius: 14px;
+                text-align: center;
+                box-shadow: 0 3px 12px rgba(175, 82, 222, 0.3);
+                margin-bottom: 12px;
+            ">
+                <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{statistics['best_score']:.3f}</div>
+                <div style="font-size: 13px; opacity: 0.9;">Best Score</div>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        # iOS-style convergence header
+        st.markdown("""
+        <div style="
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 24px 0 16px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(20px);
+        ">
+            <h3 style="
+                margin: 0;
+                font-size: 20px;
+                font-weight: 600;
+                color: #1D1D1F;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            ">📈 Optimization Convergence</h3>
+        </div>
+        """, unsafe_allow_html=True)
         
         convergence_df = pd.DataFrame(convergence_data)
         
@@ -4332,6 +5740,46 @@ Top 10 Scaffolds:
 def show_linker_page():
     """Linker design pipeline"""
     
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 50%, #FF6B9D 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin: 20px 0 30px 0;
+        box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">🔗 Linker Design</h2>
+        <p style="
+            margin: 12px 0 0 0;
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Design optimal linkers to connect molecular fragments</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
     # Pipeline steps as tabs
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "📥 Input Data", 
@@ -4358,12 +5806,65 @@ def show_linker_page():
 
 def show_linker_input_step():
     """Step 1: Linker input data preparation"""
-    st.subheader("📥 Step 1: Input Data")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 50%, #FF6B9D 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin: 20px 0 30px 0;
+        box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">🔗 Linker Input Data</h2>
+        <p style="
+            margin: 12px 0 0 0;
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Prepare input data for linker design</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     st.markdown("""
-    **Linker Design**: Provide fragment pairs (warheads) to design linkers that connect them. 
-    Optional training data can be provided to fine-tune the model for specific linker types.
-    """)
+    <div style="
+        background: #f8fafc;
+        border-left: 4px solid #3b82f6;
+        padding: 16px;
+        margin: 20px 0;
+        border-radius: 8px;
+    ">
+        <p style="
+            margin: 0;
+            color: #374151;
+            font-size: 15px;
+            line-height: 1.6;
+        ">
+            <strong style="color: #1f2937;">Linker Design:</strong> Provide fragment pairs (warheads) to design linkers that connect them. 
+            Optional training data can be provided to fine-tune the model for specific linker types.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Fragment pairs input method
     input_method = st.radio(
@@ -4613,7 +6114,45 @@ def show_linker_input_step():
 
 def show_linker_training_step():
     """Step 2: Model training/fine-tuning for linker design"""
-    st.subheader("🎓 Step 2: Model Training & Fine-tuning")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FA709A 0%, #FEE140 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(250, 112, 154, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">🎓 Model Training</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Train LinkInvent for linker design tasks</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     fragment_pairs = st.session_state.get('linker_input_fragments', [])
     training_molecules = st.session_state.get('linker_training_molecules', [])
@@ -4671,7 +6210,8 @@ def show_linker_training_step():
             )
             
             epochs = st.number_input("Training Epochs", min_value=1, max_value=100, value=12, 
-                                   help="Number of training iterations")
+                                   help="Number of training iterations",
+                                   key="linker_training_epochs")
             learning_rate = st.selectbox("Learning Rate", [0.001, 0.0001, 0.00001], index=1)
         
         with col2:
@@ -4693,7 +6233,8 @@ def show_linker_training_step():
             
             early_stopping = st.checkbox("Early Stopping", value=True)
             if early_stopping:
-                patience = st.number_input("Patience", min_value=3, max_value=20, value=5)
+                patience = st.number_input("Patience", min_value=3, max_value=20, value=5,
+                                         key="linker_patience")
         
         # Training progress section
         if 'linker_training_in_progress' in st.session_state:
@@ -4702,7 +6243,27 @@ def show_linker_training_step():
         # Show latest training results if available
         if 'linker_training_metrics' in st.session_state and 'linker_training_config' in st.session_state:
             st.markdown("---")
-            st.subheader("📊 Latest Training Results")
+            st.markdown("""
+            <div style="
+                background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+                color: white;
+                padding: 16px;
+                border-radius: 12px;
+                margin: 12px 0 20px 0;
+                box-shadow: 0 6px 20px rgba(255, 179, 71, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                position: relative;
+                overflow: hidden;
+            ">
+                <h3 style="
+                    margin: 0;
+                    font-size: 22px;
+                    font-weight: 600;
+                    letter-spacing: -0.3px;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                ">📊 Latest Training Results</h3>
+            </div>
+            """, unsafe_allow_html=True)
             
             prev_metrics = st.session_state['linker_training_metrics']
             prev_config = st.session_state['linker_training_config']
@@ -4732,7 +6293,45 @@ def show_linker_training_step():
 
 def show_linker_generation_step():
     """Step 3: Linker generation"""
-    st.subheader("🔬 Step 3: Linker Generation")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #A8E6CF 0%, #7FCDCD 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(168, 230, 207, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">🔬 Generation</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Generate optimal linkers with AI</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     fragment_pairs = st.session_state.get('linker_input_fragments', [])
     if not fragment_pairs:
@@ -4742,7 +6341,27 @@ def show_linker_generation_step():
     # Show training completion results if available
     if 'linker_training_metrics' in st.session_state and 'linker_training_config' in st.session_state:
         st.markdown("---")
-        st.subheader("📊 Latest Training Results")
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 12px 0 20px 0;
+            box-shadow: 0 6px 20px rgba(255, 179, 71, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        ">
+            <h3 style="
+                margin: 0;
+                font-size: 22px;
+                font-weight: 600;
+                letter-spacing: -0.3px;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            ">📊 Latest Training Results</h3>
+        </div>
+        """, unsafe_allow_html=True)
         
         metrics = st.session_state['linker_training_metrics']
         config = st.session_state['linker_training_config']
@@ -4892,7 +6511,45 @@ def show_linker_generation_step():
 
 def show_linker_optimization_step():
     """Step 4: Linker optimization"""
-    st.subheader("📈 Step 4: Linker Optimization")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(255, 179, 71, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">📈 Optimization</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Enhance linker properties with advanced algorithms</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Check if we have generated linkers
     if 'linker_generation_results' not in st.session_state:
@@ -4917,7 +6574,8 @@ def show_linker_optimization_step():
             "Optimization Steps",
             min_value=10,
             max_value=1000,
-            value=100
+            value=100,
+            key="linker_optimization_steps"
         )
         
         optimization_subset = st.slider(
@@ -4960,7 +6618,45 @@ def show_linker_optimization_step():
 
 def show_linker_library_step():
     """Step 5: Linker library design"""
-    st.subheader("📚 Step 5: Linker Library Design")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #D299C2 0%, #FEF9D7 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(210, 153, 194, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">📚 Library Design</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Curate focused linker libraries for discovery</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Check if we have optimized linkers
     optimized_molecules = st.session_state.get('linker_optimization_results', {}).get('molecules', [])
@@ -4989,7 +6685,8 @@ def show_linker_library_step():
             "Target Library Size",
             min_value=10,
             max_value=1000,
-            value=50
+            value=50,
+            key="linker_library_size"
         )
         
         selection_method = st.selectbox(
@@ -5144,7 +6841,27 @@ def start_linker_training(fragment_pairs, training_molecules, training_type, bas
 
 def show_linker_training_evaluation(metrics, config, training_type):
     """Display linker training evaluation"""
-    st.subheader("🎯 Linker Training Evaluation Results")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #A8E6CF 0%, #7FCDCD 100%);
+        color: white;
+        padding: 16px;
+        border-radius: 12px;
+        margin: 12px 0 20px 0;
+        box-shadow: 0 6px 20px rgba(168, 230, 207, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        ">🎯 Linker Training Evaluation Results</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Performance metrics overview
     final_metrics = {
@@ -5176,7 +6893,25 @@ def show_linker_training_evaluation(metrics, config, training_type):
             st.metric("Loss Improvement", f"{improvement:.1f}%")
     
     # Training visualization
-    st.subheader("📈 Training Progress Visualization")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+        color: white;
+        padding: 16px;
+        border-radius: 12px;
+        margin: 15px 0 20px 0;
+        box-shadow: 0 6px 20px rgba(255, 179, 71, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        ">📈 Training Progress Visualization</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     try:
         import plotly.graph_objects as go
@@ -5313,7 +7048,27 @@ def show_linker_generation_results():
     molecules = results['molecules']
     fragment_pairs = results['fragment_pairs']
     
-    st.subheader("🎯 Linker Generation Results")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #A8E6CF 0%, #7FCDCD 100%);
+        color: white;
+        padding: 16px;
+        border-radius: 12px;
+        margin: 12px 0 20px 0;
+        box-shadow: 0 6px 20px rgba(168, 230, 207, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        ">🎯 Linker Generation Results</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Summary metrics
     col1, col2, col3, col4 = st.columns(4)
@@ -5544,25 +7299,143 @@ def show_linker_optimization_results():
     metrics = results['metrics']
     config = results['config']
     
-    st.subheader("📊 Linker Optimization Results")
+    # iOS-style header
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #32D74B 0%, #30DB5B 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 32px rgba(50, 215, 75, 0.3);
+        backdrop-filter: blur(10px);
+    ">
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">� Linker Optimization Results</h2>
+        <p style="
+            margin: 8px 0 0 0;
+            font-size: 17px;
+            opacity: 0.9;
+            font-weight: 400;
+        ">Enhanced linker molecules with improved properties</p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    # Show optimization summary
+    # iOS-style optimization summary metrics
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric("Optimized Linkers", metrics['total_optimized'])
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0, 122, 255, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{metrics['total_optimized']}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Optimized Linkers</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col2:
-        st.metric("Avg Improvement", f"{metrics['avg_improvement']:.1f}x")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #FF9500 0%, #FFAD33 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(255, 149, 0, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{metrics['avg_improvement']:.1f}x</div>
+            <div style="font-size: 13px; opacity: 0.9;">Avg Improvement</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col3:
-        st.metric("Success Rate", f"{metrics['success_rate']:.1%}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(52, 199, 89, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{metrics['success_rate']:.1%}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Success Rate</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col4:
-        st.metric("Avg Binding Affinity", f"{metrics['avg_binding_affinity']:.1f}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #AF52DE 0%, #BF5AF2 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(175, 82, 222, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{metrics['avg_binding_affinity']:.1f}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Avg Binding Affinity</div>
+        </div>
+        """, unsafe_allow_html=True)
     
-    # Optimization method used
-    st.info(f"🔬 **Method Used**: {metrics['method_used']} with {metrics['optimization_steps']} steps")
+    # iOS-style method info card
+    st.markdown(f"""
+    <div style="
+        background: rgba(0, 122, 255, 0.1);
+        border: 1px solid rgba(0, 122, 255, 0.2);
+        border-radius: 12px;
+        padding: 16px;
+        margin: 20px 0;
+        backdrop-filter: blur(10px);
+    ">
+        <div style="
+            color: #007AFF;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        ">🔬 Optimization Method</div>
+        <div style="
+            color: #1D1D1F;
+            font-size: 14px;
+        ">{metrics['method_used']} with {metrics['optimization_steps']} steps</div>
+    </div>
+    """, unsafe_allow_html=True)
     
-    # Results analysis
-    st.subheader("📈 Optimization Analysis")
+    # iOS-style analysis header
+    st.markdown("""
+    <div style="
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        padding: 20px;
+        margin: 24px 0 16px 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(20px);
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #1D1D1F;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">📈 Optimization Analysis</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     try:
         import pandas as pd
@@ -5821,22 +7694,120 @@ def show_linker_library_results():
     analysis = results['analysis']
     config = results['config']
     
-    st.subheader(f"📚 {config['type']} Results")
+    # iOS-style header
+    st.markdown(f"""
+    <div style="
+        background: linear-gradient(135deg, #5856D6 0%, #AF52DE 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 32px rgba(88, 86, 214, 0.3);
+        backdrop-filter: blur(10px);
+    ">
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">📚 {config['type']} Results</h2>
+        <p style="
+            margin: 8px 0 0 0;
+            font-size: 17px;
+            opacity: 0.9;
+            font-weight: 400;
+        ">Diverse linker library with enhanced molecular properties</p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    # Library overview
+    # iOS-style library overview metrics
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric("Library Size", len(molecules))
-    with col2:
-        st.metric("Coverage", f"{metrics['coverage']:.1%}")
-    with col3:
-        st.metric("Avg Diversity", f"{metrics['avg_diversity']:.2f}")
-    with col4:
-        st.metric("Novelty Score", f"{metrics['novelty_score']:.2f}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0, 122, 255, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{len(molecules)}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Library Size</div>
+        </div>
+        """, unsafe_allow_html=True)
     
-    # Library composition
-    st.subheader("📊 Library Composition")
+    with col2:
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(52, 199, 89, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{metrics['coverage']:.1%}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Coverage</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #FF9500 0%, #FFAD33 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(255, 149, 0, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{metrics['avg_diversity']:.2f}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Avg Diversity</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col4:
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #AF52DE 0%, #BF5AF2 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(175, 82, 222, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{metrics['novelty_score']:.2f}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Novelty Score</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # iOS-style library composition header
+    st.markdown("""
+    <div style="
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        padding: 20px;
+        margin: 24px 0 16px 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(20px);
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #1D1D1F;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">📊 Library Composition</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     try:
         import pandas as pd
@@ -5879,7 +7850,25 @@ def show_linker_library_results():
                 st.write(f"**{key}:** {value}")
         
         # Library quality analysis
-        st.subheader("🔬 Library Quality Analysis")
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg, #A8E6CF 0%, #7FCDCD 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 15px 0 20px 0;
+            box-shadow: 0 6px 20px rgba(168, 230, 207, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        ">
+            <h3 style="
+                margin: 0;
+                font-size: 20px;
+                font-weight: 600;
+                letter-spacing: -0.5px;
+                text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            ">🔬 Library Quality Analysis</h3>
+        </div>
+        """, unsafe_allow_html=True)
         
         col1, col2 = st.columns(2)
         
@@ -6008,6 +7997,46 @@ Top 10 Linkers
 def show_rgroup_page():
     """R-Group replacement pipeline"""
     
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #A8E6CF 0%, #81C784 50%, #66BB6A 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin: 20px 0 30px 0;
+        box-shadow: 0 10px 30px rgba(168, 230, 207, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">⚗️ R-Group Replacement</h2>
+        <p style="
+            margin: 12px 0 0 0;
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Explore R-group variations on molecular scaffolds</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
     # Pipeline steps as tabs
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "📥 Input Data", 
@@ -6034,12 +8063,65 @@ def show_rgroup_page():
 
 def show_rgroup_input_step():
     """Step 1: R-Group input data preparation"""
-    st.subheader("📥 Step 1: Input Data")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #A8E6CF 0%, #81C784 50%, #66BB6A 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin: 20px 0 30px 0;
+        box-shadow: 0 10px 30px rgba(168, 230, 207, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">⚗️ R-Group Input Data</h2>
+        <p style="
+            margin: 12px 0 0 0;
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Prepare input data for R-group replacement</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     st.markdown("""
-    **R-Group Replacement**: Provide core scaffolds and specify R-group positions for systematic 
-    exploration. Optional training data can be provided to bias the model toward specific R-groups.
-    """)
+    <div style="
+        background: #f8fafc;
+        border-left: 4px solid #3b82f6;
+        padding: 16px;
+        margin: 20px 0;
+        border-radius: 8px;
+    ">
+        <p style="
+            margin: 0;
+            color: #374151;
+            font-size: 15px;
+            line-height: 1.6;
+        ">
+            <strong style="color: #1f2937;">R-Group Replacement:</strong> Provide core scaffolds and specify R-group positions for systematic 
+            exploration. Optional training data can be provided to bias the model toward specific R-groups.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Core scaffold input method
     input_method = st.radio(
@@ -6257,7 +8339,45 @@ def show_rgroup_input_step():
 
 def show_rgroup_training_step():
     """Step 2: Model training/fine-tuning for R-group replacement"""
-    st.subheader("🎓 Step 2: Model Training & Fine-tuning")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FA709A 0%, #FEE140 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(250, 112, 154, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">🎓 Model Training</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Train LibInvent for R-group replacement tasks</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     core_scaffolds = st.session_state.get('rgroup_input_scaffolds', [])
     training_molecules = st.session_state.get('rgroup_training_molecules', [])
@@ -6315,7 +8435,8 @@ def show_rgroup_training_step():
             )
             
             epochs = st.number_input("Training Epochs", min_value=1, max_value=100, value=15, 
-                                   help="Number of training iterations")
+                                   help="Number of training iterations",
+                                   key="rgroup_training_epochs")
             learning_rate = st.selectbox("Learning Rate", [0.001, 0.0001, 0.00001], index=1)
         
         with col2:
@@ -6337,7 +8458,8 @@ def show_rgroup_training_step():
             
             early_stopping = st.checkbox("Early Stopping", value=True)
             if early_stopping:
-                patience = st.number_input("Patience", min_value=3, max_value=20, value=5)
+                patience = st.number_input("Patience", min_value=3, max_value=20, value=5,
+                                         key="rgroup_patience")
         
         # Training progress section
         if 'rgroup_training_in_progress' in st.session_state:
@@ -6346,7 +8468,27 @@ def show_rgroup_training_step():
         # Show latest training results if available
         if 'rgroup_training_metrics' in st.session_state and 'rgroup_training_config' in st.session_state:
             st.markdown("---")
-            st.subheader("📊 Latest Training Results")
+            st.markdown("""
+            <div style="
+                background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+                color: white;
+                padding: 16px;
+                border-radius: 12px;
+                margin: 12px 0 20px 0;
+                box-shadow: 0 6px 20px rgba(255, 179, 71, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                position: relative;
+                overflow: hidden;
+            ">
+                <h3 style="
+                    margin: 0;
+                    font-size: 22px;
+                    font-weight: 600;
+                    letter-spacing: -0.3px;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                ">📊 Latest Training Results</h3>
+            </div>
+            """, unsafe_allow_html=True)
             
             prev_metrics = st.session_state['rgroup_training_metrics']
             prev_config = st.session_state['rgroup_training_config']
@@ -6376,7 +8518,45 @@ def show_rgroup_training_step():
 
 def show_rgroup_generation_step():
     """Step 3: R-group generation"""
-    st.subheader("🔬 Step 3: R-Group Generation")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #A8E6CF 0%, #7FCDCD 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(168, 230, 207, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">🔬 Generation</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Generate diverse R-group variations with AI</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     core_scaffolds = st.session_state.get('rgroup_input_scaffolds', [])
     if not core_scaffolds:
@@ -6386,7 +8566,27 @@ def show_rgroup_generation_step():
     # Show training completion results if available
     if 'rgroup_training_metrics' in st.session_state and 'rgroup_training_config' in st.session_state:
         st.markdown("---")
-        st.subheader("📊 Latest Training Results")
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 12px 0 20px 0;
+            box-shadow: 0 6px 20px rgba(255, 179, 71, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        ">
+            <h3 style="
+                margin: 0;
+                font-size: 22px;
+                font-weight: 600;
+                letter-spacing: -0.3px;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            ">📊 Latest Training Results</h3>
+        </div>
+        """, unsafe_allow_html=True)
         
         metrics = st.session_state['rgroup_training_metrics']
         config = st.session_state['rgroup_training_config']
@@ -6536,7 +8736,45 @@ def show_rgroup_generation_step():
 
 def show_rgroup_optimization_step():
     """Step 4: R-group optimization"""
-    st.subheader("📈 Step 4: R-Group Optimization")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(255, 179, 71, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">📈 Optimization</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Enhance R-group properties with advanced algorithms</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Check if we have generated R-groups
     if 'rgroup_generation_results' not in st.session_state:
@@ -6561,7 +8799,8 @@ def show_rgroup_optimization_step():
             "Optimization Steps",
             min_value=10,
             max_value=1000,
-            value=100
+            value=100,
+            key="rgroup_optimization_steps"
         )
         
         optimization_subset = st.slider(
@@ -6604,7 +8843,45 @@ def show_rgroup_optimization_step():
 
 def show_rgroup_library_step():
     """Step 5: R-group library design"""
-    st.subheader("📚 Step 5: R-Group Library Design")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #D299C2 0%, #FEF9D7 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 18px;
+        margin: 15px 0 25px 0;
+        box-shadow: 0 8px 25px rgba(210, 153, 194, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">📚 Library Design</h2>
+        <p style="
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Curate focused R-group libraries for discovery</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Check if we have optimized R-groups
     optimized_molecules = st.session_state.get('rgroup_optimization_results', {}).get('molecules', [])
@@ -6633,7 +8910,8 @@ def show_rgroup_library_step():
             "Target Library Size",
             min_value=10,
             max_value=1000,
-            value=50
+            value=50,
+            key="rgroup_library_size"
         )
         
         selection_method = st.selectbox(
@@ -6791,7 +9069,27 @@ def start_rgroup_training(core_scaffolds, training_molecules, training_type, bas
 
 def show_rgroup_training_evaluation(metrics, config, training_type):
     """Display R-group training evaluation"""
-    st.subheader("🎯 R-Group Training Evaluation Results")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #A8E6CF 0%, #7FCDCD 100%);
+        color: white;
+        padding: 16px;
+        border-radius: 12px;
+        margin: 12px 0 20px 0;
+        box-shadow: 0 6px 20px rgba(168, 230, 207, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        ">🎯 R-Group Training Evaluation Results</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Performance metrics overview
     final_metrics = {
@@ -6823,7 +9121,25 @@ def show_rgroup_training_evaluation(metrics, config, training_type):
             st.metric("Loss Improvement", f"{improvement:.1f}%")
     
     # Training visualization
-    st.subheader("📈 Training Progress Visualization")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FFB347 0%, #FFCC70 100%);
+        color: white;
+        padding: 16px;
+        border-radius: 12px;
+        margin: 15px 0 20px 0;
+        box-shadow: 0 6px 20px rgba(255, 179, 71, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        ">📈 Training Progress Visualization</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     try:
         import plotly.graph_objects as go
@@ -6960,7 +9276,27 @@ def show_rgroup_generation_results():
     molecules = results['molecules']
     core_scaffolds = results['core_scaffolds']
     
-    st.subheader("🎯 R-Group Generation Results")
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #A8E6CF 0%, #7FCDCD 100%);
+        color: white;
+        padding: 16px;
+        border-radius: 12px;
+        margin: 12px 0 20px 0;
+        box-shadow: 0 6px 20px rgba(168, 230, 207, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        ">🎯 R-Group Generation Results</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Summary metrics
     col1, col2, col3, col4 = st.columns(4)
@@ -7172,26 +9508,103 @@ def show_rgroup_optimization_results():
     molecules = results['molecules']
     config = results['config']
     
-    st.subheader("🎯 R-Group Optimization Results")
+    # iOS-style header
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FF3B30 0%, #FF6347 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 32px rgba(255, 59, 48, 0.3);
+        backdrop-filter: blur(10px);
+    ">
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">🎯 R-Group Optimization Results</h2>
+        <p style="
+            margin: 8px 0 0 0;
+            font-size: 17px;
+            opacity: 0.9;
+            font-weight: 400;
+        ">Optimized R-groups with enhanced molecular properties</p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    # Summary metrics
+    # iOS-style summary metrics
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         avg_score = sum(m.get('Optimization_Score', 0) for m in molecules) / len(molecules)
-        st.metric("Average Optimization Score", f"{avg_score:.3f}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0, 122, 255, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{avg_score:.3f}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Avg Optimization Score</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col2:
         avg_affinity = sum(m.get('Binding_Affinity', 0) for m in molecules) / len(molecules)
-        st.metric("Average Binding Affinity", f"{avg_affinity:.2f}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(52, 199, 89, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{avg_affinity:.2f}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Avg Binding Affinity</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col3:
         avg_efficiency = sum(m.get('RGroup_Efficiency', 0) for m in molecules) / len(molecules)
-        st.metric("Average R-Group Efficiency", f"{avg_efficiency:.3f}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #FF9500 0%, #FFAD33 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(255, 149, 0, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{avg_efficiency:.3f}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Avg R-Group Efficiency</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col4:
         improved_count = sum(1 for m in molecules if m.get('Improvement_Factor', 1) > 1.5)
-        st.metric("Significantly Improved", f"{improved_count}/{len(molecules)}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #AF52DE 0%, #BF5AF2 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(175, 82, 222, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{improved_count}/{len(molecules)}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Significantly Improved</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     # Results table
     try:
@@ -7429,32 +9842,184 @@ def show_rgroup_library_results():
     metrics = results['metrics']
     library_type = results['library_type']
     
-    st.subheader(f"📚 R-Group {library_type.title()} Library Results")
+    # iOS-style header
+    st.markdown(f"""
+    <div style="
+        background: linear-gradient(135deg, #FF2D92 0%, #FF6B35 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 32px rgba(255, 45, 146, 0.3);
+        backdrop-filter: blur(10px);
+    ">
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">📚 R-Group {library_type.title()} Library Results</h2>
+        <p style="
+            margin: 8px 0 0 0;
+            font-size: 17px;
+            opacity: 0.9;
+            font-weight: 400;
+        ">Curated R-group library with optimized molecular properties</p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    # Library metrics dashboard
-    st.write("**📊 Library Quality Metrics:**")
+    # iOS-style library quality metrics header
+    st.markdown("""
+    <div style="
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        padding: 20px;
+        margin: 16px 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(20px);
+    ">
+        <h3 style="
+            margin: 0 0 16px 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #1D1D1F;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">📊 Library Quality Metrics</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric("Library Size", metrics.get('library_size', 0))
-        st.metric("High Quality Molecules", 
-                 f"{metrics.get('high_quality_count', 0)}/{metrics.get('library_size', 0)}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+            margin-bottom: 8px;
+        ">
+            <div style="font-size: 20px; font-weight: 700; margin-bottom: 2px;">{metrics.get('library_size', 0)}</div>
+            <div style="font-size: 12px; opacity: 0.9;">Library Size</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        high_quality = metrics.get('high_quality_count', 0)
+        total = metrics.get('library_size', 0)
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
+            margin-bottom: 8px;
+        ">
+            <div style="font-size: 20px; font-weight: 700; margin-bottom: 2px;">{high_quality}/{total}</div>
+            <div style="font-size: 12px; opacity: 0.9;">High Quality</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col2:
-        st.metric("Avg Optimization Score", f"{metrics.get('avg_optimization_score', 0):.3f}")
-        st.metric("Avg Binding Affinity", f"{metrics.get('avg_binding_affinity', 0):.2f}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #FF9500 0%, #FFAD33 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(255, 149, 0, 0.3);
+            margin-bottom: 8px;
+        ">
+            <div style="font-size: 20px; font-weight: 700; margin-bottom: 2px;">{metrics.get('avg_optimization_score', 0):.3f}</div>
+            <div style="font-size: 12px; opacity: 0.9;">Avg Optimization Score</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #AF52DE 0%, #BF5AF2 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(175, 82, 222, 0.3);
+            margin-bottom: 8px;
+        ">
+            <div style="font-size: 20px; font-weight: 700; margin-bottom: 2px;">{metrics.get('avg_binding_affinity', 0):.2f}</div>
+            <div style="font-size: 12px; opacity: 0.9;">Avg Binding Affinity</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col3:
-        st.metric("Avg R-Group Efficiency", f"{metrics.get('avg_rgroup_efficiency', 0):.3f}")
-        st.metric("Drug-Like Count", 
-                 f"{metrics.get('drug_like_count', 0)}/{metrics.get('library_size', 0)}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+            margin-bottom: 8px;
+        ">
+            <div style="font-size: 20px; font-weight: 700; margin-bottom: 2px;">{metrics.get('avg_rgroup_efficiency', 0):.3f}</div>
+            <div style="font-size: 12px; opacity: 0.9;">Avg R-Group Efficiency</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        drug_like = metrics.get('drug_like_count', 0)
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #4ECDC4 0%, #6DDAD6 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
+            margin-bottom: 8px;
+        ">
+            <div style="font-size: 20px; font-weight: 700; margin-bottom: 2px;">{drug_like}/{total}</div>
+            <div style="font-size: 12px; opacity: 0.9;">Drug-Like</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col4:
         mw_range = metrics.get('molecular_weight_range', (0, 0))
-        st.metric("MW Range", f"{mw_range[0]:.0f}-{mw_range[1]:.0f}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #8E44AD 0%, #9B59B6 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(142, 68, 173, 0.3);
+            margin-bottom: 8px;
+        ">
+            <div style="font-size: 20px; font-weight: 700; margin-bottom: 2px;">{mw_range[0]:.0f}-{mw_range[1]:.0f}</div>
+            <div style="font-size: 12px; opacity: 0.9;">MW Range</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
         rg_range = metrics.get('rgroup_size_range', (0, 0))
-        st.metric("R-Group Size Range", f"{rg_range[0]}-{rg_range[1]}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(46, 204, 113, 0.3);
+            margin-bottom: 8px;
+        ">
+            <div style="font-size: 20px; font-weight: 700; margin-bottom: 2px;">{rg_range[0]}-{rg_range[1]}</div>
+            <div style="font-size: 12px; opacity: 0.9;">R-Group Size Range</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     # Detailed results
     try:
@@ -8057,7 +10622,45 @@ Property Statistics:
 def show_optimization_page():
     """Molecule optimization page"""
     
-    st.markdown('<div class="sub-header">📈 Molecule Optimization</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FFB347 0%, #FF8C42 50%, #FF6B35 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin: 20px 0 30px 0;
+        box-shadow: 0 10px 30px rgba(255, 179, 71, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    ">
+        <div style="
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        "></div>
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        ">📈 Molecule Optimization</h2>
+        <p style="
+            margin: 12px 0 0 0;
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        ">Enhance molecular properties using reinforcement learning</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     st.markdown("""
     <div class="info-box">
@@ -8520,7 +11123,8 @@ def show_library_page():
                 min_value=10,
                 max_value=100000,
                 value=1000,
-                help="Number of molecules in the designed library"
+                help="Number of molecules in the designed library",
+                key="optimization_library_size"
             )
             
             diversity_threshold = st.slider(
@@ -8716,7 +11320,8 @@ def show_focused_library():
                 "Target Library Size",
                 min_value=100,
                 max_value=50000,
-                value=5000
+                value=5000,
+                key="design_library_size"
             )
             
             diversity_threshold = st.slider(
@@ -9401,29 +12006,142 @@ def simulate_scoring_results(molecules):
 def show_scoring_test_results(df):
     """Display scoring test results"""
     
-    st.markdown('<div class="sub-header">📊 Scoring Results</div>', unsafe_allow_html=True)
+    # iOS-style header
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #FF3B30 0%, #FF6347 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 32px rgba(255, 59, 48, 0.3);
+        backdrop-filter: blur(10px);
+    ">
+        <h2 style="
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">📊 Scoring Results</h2>
+        <p style="
+            margin: 8px 0 0 0;
+            font-size: 17px;
+            opacity: 0.9;
+            font-weight: 400;
+        ">Comprehensive molecular scoring analysis</p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    # Summary metrics
+    # iOS-style summary metrics
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric("Molecules Scored", len(df))
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0, 122, 255, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{len(df)}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Molecules Scored</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col2:
         avg_score = df['Total_Score'].mean()
-        st.metric("Average Score", f"{avg_score:.3f}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(52, 199, 89, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{avg_score:.3f}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Average Score</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col3:
         best_score = df['Total_Score'].max()
-        st.metric("Best Score", f"{best_score:.3f}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #FF9500 0%, #FFAD33 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(255, 149, 0, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{best_score:.3f}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Best Score</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col4:
         passing_threshold = (df['Total_Score'] >= 0.5).sum()
-        st.metric("Above Threshold", f"{passing_threshold}/{len(df)}")
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, #AF52DE 0%, #BF5AF2 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(175, 82, 222, 0.3);
+            margin-bottom: 12px;
+        ">
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">{passing_threshold}/{len(df)}</div>
+            <div style="font-size: 13px; opacity: 0.9;">Above Threshold</div>
+        </div>
+        """, unsafe_allow_html=True)
     
-    # Results table
-    st.subheader("Detailed Results")
+    # iOS-style detailed results header
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 16px 16px 0 0;
+        margin: 32px 0 0 0;
+        box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+    ">
+        <h3 style="
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        ">📋 Detailed Results</h3>
+        <p style="
+            margin: 6px 0 0 0;
+            font-size: 15px;
+            opacity: 0.9;
+        ">Complete scoring breakdown for all molecules</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # iOS-style dataframe container
+    st.markdown("""
+    <div style="
+        background: rgba(255, 255, 255, 0.98);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0 0 16px 16px;
+        padding: 0;
+        margin: 0 0 24px 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    ">
+    """, unsafe_allow_html=True)
+    
     st.dataframe(df, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
     
     # Score distribution
     col1, col2 = st.columns(2)

@@ -4,7 +4,7 @@ services:
   reinvent4-app:
     build: .
     ports:
-      - "8504:8501"
+      - "8505:8501"
     volumes:
       - ./data:/app/data
       - ./logs:/app/logs
